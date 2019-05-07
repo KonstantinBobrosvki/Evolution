@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genetic_Algorith_View", "Genetic_Algorith_View\Genetic_Algorith_View.csproj", "{8DD07889-8C32-4D55-AC1C-A83F43D8E3E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modal", "Modal\Modal.csproj", "{47743ACD-672F-4475-9608-F06B95A8730A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8DD07889-8C32-4D55-AC1C-A83F43D8E3E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DD07889-8C32-4D55-AC1C-A83F43D8E3E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DD07889-8C32-4D55-AC1C-A83F43D8E3E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47743ACD-672F-4475-9608-F06B95A8730A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47743ACD-672F-4475-9608-F06B95A8730A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47743ACD-672F-4475-9608-F06B95A8730A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47743ACD-672F-4475-9608-F06B95A8730A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

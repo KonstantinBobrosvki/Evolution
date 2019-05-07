@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Modal
+{
+    /// <summary>
+    /// This class is food for creatures
+    /// </summary>
+    public class Food:WorldObject
+    {
+        public Food() : base(true, 10)
+        {
+
+        }
+    }
+}
