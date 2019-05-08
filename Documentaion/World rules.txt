@@ -4,5 +4,5 @@ Last 8 creatures  gives childrens. Each parent have mutated child.
 
 The area contains other types blocks.
 Food- when creature steps on food cell creature recives +10 health
-Poison - when creatures TRY step here it gives away 10 healt
+Poison - when creatures TRY step here it gives away 20 healt
 Wall - creature can not step here
