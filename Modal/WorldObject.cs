@@ -11,13 +11,24 @@ namespace Modal
     /// </summary>
     public abstract class WorldObject
     {
-        public readonly bool CanMoveTrought;
-        public readonly int HealthAfterInteract;
+        
+        /// <summary>
+        /// Can we move on cell with this
+        /// </summary>
+        public  bool CanMoveTrought { get => canmovetrought; }
+
+        /// <summary>
+        /// How will be changed health after interacting with this
+        /// </summary>
+        public  int HealthAfterInteract { get => healthafterinteract; }
+
+        private readonly bool canmovetrought;
+        private readonly int healthafterinteract;
 
         protected WorldObject(bool CanMoveTrought, int HealthAfterInteract)
         {
-            this.CanMoveTrought = CanMoveTrought;
-            this.HealthAfterInteract = HealthAfterInteract;
+            this.canmovetrought = CanMoveTrought;
+            this.healthafterinteract = HealthAfterInteract;
         }
     }
 }

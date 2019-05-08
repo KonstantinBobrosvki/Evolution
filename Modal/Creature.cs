@@ -12,23 +12,25 @@ namespace Modal
         /// <summary>
         /// Health of Creature
         /// <para>Max health is 100</para>
+        /// <para>Min is 0 and creature die</para>
         /// </summary>
         public int Health {
             get => health;
             set
             {
-                if (value < 0)
-                    throw new ArgumentOutOfRangeException("Value must be positive");
+                
                 health = value;
                 if (Health > 90)
                     Health = 90;
+                if (Health < 0)
+                    Health = 0;
             }
         }
         private int health;
 
 
         /// <summary>
-        /// Direction of creature (It is turned like clock , 1 is right)
+        /// Direction of creature (It is turned like clock , 1 is top)
         /// </summary>
         public int SeeDirection {
             get => seedirection;

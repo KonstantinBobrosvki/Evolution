@@ -1,0 +1,9 @@
+﻿In this document I will write every CreatureLogic code action.
+int array CreatureLogicName.Logic contains 64 cell.
+Every action have 8 variants what are changing by rotating. First value is not rotated , second is rotated by one , third ...... 
+Lets start
+0-7 go 
+8-15 caught
+16-23 see
+24-31 rotate
+32-63 just add its number to current index

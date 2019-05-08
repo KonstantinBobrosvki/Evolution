@@ -11,7 +11,7 @@ namespace Modal
     /// </summary>
     public class Poison:WorldObject
     {
-        public Poison() : base(false, -10)
+        public Poison() : base(false, -20)
         {
 
         }

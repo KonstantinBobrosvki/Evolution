@@ -1,0 +1,8 @@
+﻿All creatures live on some area.They can eat, move ,see and rotate.
+Max health of creature is 100. When health is zero creature dies.
+Last 8 creatures  gives childrens. Each parent have mutated child.
+
+The area contains other types blocks.
+Food- when creature steps on food cell creature recives +10 health
+Poison - when creatures TRY step here it gives away 10 healt
+Wall - creature can not step here
