@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Controller;
 
 namespace Genetic_Algorith_View
 {
@@ -23,6 +25,8 @@ namespace Genetic_Algorith_View
         public MainWindow()
         {
             InitializeComponent();
+            
         }
+      
     }
 }

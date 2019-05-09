@@ -21,6 +21,22 @@ namespace Controller
         /// </summary>
         public static WorldObject[,] WorldMap { get; set; }
 
+        public static void GenerateMap(int width,int height)
+        {
+            WorldMap = new WorldObject[width, height];
+        
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (x == 0 ||x == width-1 )
+                        WorldMap[x, y] =  new Wall();
+                    if( y == 0 || y == height - 1)
+                        WorldMap[x, y] = new Wall();
+
+                }
+            }
+        }
         /// <summary>
         /// Standart constructor
         /// </summary>
@@ -41,7 +57,6 @@ namespace Controller
 
         /// <summary>
         /// Causing action 
-        /// <seealso cref=""/>
         /// </summary>
         public void Think()
         {
