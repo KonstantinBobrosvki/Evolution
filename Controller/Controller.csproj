@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreaureController.cs" />
+    <Compile Include="MapController.cs" />
+    <Compile Include="MapControllerPrivate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

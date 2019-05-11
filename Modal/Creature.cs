@@ -48,14 +48,22 @@ namespace Modal
                 }
         private int seedirection;
 
+       
+
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public Creature():base(false,0)
+        public Creature(int x,int y):base(false,0)
         {
+            X = x;
+            Y = y;
             Health = 10;
             
+        }
+        public Creature():this(0,0)
+        {
+
         }
     }
 }

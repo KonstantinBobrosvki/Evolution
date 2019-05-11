@@ -13,9 +13,15 @@ namespace Modal
     public class Wall:WorldObject
     {
 
-        public Wall():base(false,0)
+        public Wall():this(0,0)
         {
 
+        }
+
+        public Wall(int x,int y):base(false,0)
+        {
+            X = x;
+            Y = y;
         }
     }
 }

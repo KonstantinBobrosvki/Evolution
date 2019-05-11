@@ -11,6 +11,13 @@ namespace Modal
     /// </summary>
     public class Poison:WorldObject
     {
+        public Poison(int x,int y):this()
+        {
+            X = x;
+            Y = y;
+
+        }
+
         public Poison() : base(false, -20)
         {
 

@@ -25,6 +25,38 @@ namespace Modal
         private readonly bool canmovetrought;
         private readonly int healthafterinteract;
 
+        /// <summary>
+        /// Position by width
+        /// </summary>
+        public int X
+        {
+            get => x;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException();
+                x = value;
+            }
+        }
+        private int x;
+
+        /// <summary>
+        /// Position on Height
+        /// </summary>
+        public int Y
+        {
+            get => y;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException();
+                y = value;
+            }
+        }
+        private int y;
+
+        
+
         protected WorldObject(bool CanMoveTrought, int HealthAfterInteract)
         {
             this.canmovetrought = CanMoveTrought;

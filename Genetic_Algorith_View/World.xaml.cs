@@ -20,31 +20,35 @@ namespace Genetic_Algorith_View
     /// </summary>
     public partial class World : Window
     {
+        MapController map;
         public World()
         {
             InitializeComponent();
-            CreatureController.GenerateMap(20,20);
+            map = new MapController(100, 50, 20);
             Drawer();
         }
         void Drawer()
         {
-            Field.Rows = CreatureController.WorldMap.GetLength(0);
-            Field.Columns = CreatureController.WorldMap.GetLength(1);
-            for (int x = 0; x < CreatureController.WorldMap.GetLength(0); x++)
+            Field.Rows=map.Width ;
+            Field.Columns =map.Height;
+            for (int x = 0; x < map.Width; x++)
             {
-                for (int y = 0; y < CreatureController.WorldMap.GetLength(1); y++)
+                for (int y = 0; y < map.Height; y++)
                 {
-                    var item = CreatureController.WorldMap[x, y];
+                    var item = map[x, y];
 
                     if (item is Modal.Wall)
                     {
-                        Field.Children.Add(new Rectangle() { Fill = new SolidColorBrush(Color.FromRgb(128, 128, 128)),Width=Height });
-                       
-                    }
-                    else
-                    {
-                        Field.Children.Add(new Rectangle() { Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255)),Width=Height});
+                        Field.Children.Add(new Rectangle() { Fill = new SolidColorBrush(Color.FromRgb(128, 128, 128)), Width = Height });
 
+                    }
+                    else if (item is Modal.Food)
+                    {
+                        Field.Children.Add(new Rectangle() { Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0)), Width = Height });
+                    }
+                    else if (item is null)
+                    {
+                        Field.Children.Add(new Rectangle() { Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255)), Width = Height });
                     }
                 }
             }

@@ -11,6 +11,11 @@ namespace Modal
     /// </summary>
     public class Food:WorldObject
     {
+        public Food(int x,int y):this()
+        {
+            X = x;
+            Y = y;
+        }
         public Food() : base(true, 10)
         {
 
