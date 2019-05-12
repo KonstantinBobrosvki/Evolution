@@ -28,7 +28,7 @@ namespace Modal
         /// <summary>
         /// Position by width
         /// </summary>
-        public int X
+        public virtual int X
         {
             get => x;
             set
@@ -43,7 +43,7 @@ namespace Modal
         /// <summary>
         /// Position on Height
         /// </summary>
-        public int Y
+        public virtual int Y
         {
             get => y;
             set

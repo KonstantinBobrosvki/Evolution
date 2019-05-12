@@ -24,8 +24,13 @@ namespace Genetic_Algorith_View
         public World()
         {
             InitializeComponent();
-            map = new MapController(100, 50, 20);
+            WorldController.Start();
+            map = WorldController.Map;
+           
+    
+         
             Drawer();
+         
         }
         void Drawer()
         {
@@ -49,6 +54,17 @@ namespace Genetic_Algorith_View
                     else if (item is null)
                     {
                         Field.Children.Add(new Rectangle() { Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255)), Width = Height });
+                    }
+                    else if(item is Modal.Poison)
+                    {
+                        Field.Children.Add(new Rectangle() { Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)), Width = Height });
+
+                    }
+                    else if(item is Modal.CreatureBody c)
+                    {
+                        var g = new Grid() { Background = new SolidColorBrush(Color.FromRgb(0, 0, 255)) };
+                        g.Children.Add(new TextBlock() { Text = c.Health.ToString(),Background= new SolidColorBrush(Color.FromRgb(0, 0, 255)) });
+                        Field.Children.Add(g);
                     }
                 }
             }

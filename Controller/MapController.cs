@@ -24,8 +24,14 @@ namespace Controller
         /// </summary>
         public int Seed { get => seed; }
         private readonly int seed;
+
+        public int EmpetyCells { get; private set; }
+
+        public List<CreatureController> Population { get; private set; }
         
         private readonly WorldObject[,] Map;
+
+
 
         /// <summary>
         /// Constructor of world map
@@ -44,28 +50,37 @@ namespace Controller
             {
                 this.seed = (int)seed;
             }
+
+            Population = new List<CreatureController>(65);
             Map = new WorldObject[width, height];
 
+
+            EmpetyCells = Width * Height;
+
+            var rnd = new Random(Seed);
+
             GenerateBorder();
-            GenerateWalls(5);
-            GenerateFood(30);
+            GenerateWalls(rnd.Next(0,EmpetyCells/20));
+            GenerateFood(rnd.Next(0,EmpetyCells/10));
+            GeneratePoison(rnd.Next(0,EmpetyCells/20));
+            GenerateCreatures(64);
         }
 
      
 
         public WorldObject this[int x, int y]
         {
+
             get
             {
                 if (x < 0 || y < 0)
                     throw new IndexOutOfRangeException();
-              
                 return Map[x, y];
             }
-            private  set
+
+            internal set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
+                
                 Map[x, y] = value;
             }
         }

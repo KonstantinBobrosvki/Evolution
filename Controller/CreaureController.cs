@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Modal;
+using BrainsTypes;
 
 namespace Controller
 {
@@ -9,7 +10,7 @@ namespace Controller
         /// <summary>
         /// Body of current creature
         /// </summary>
-        public Creature Body { get; private set; }
+        public CreatureBody Body { get; private set; }
 
         /// <summary>
         /// Logic centre 
@@ -19,49 +20,71 @@ namespace Controller
         /// <summary>
         /// The map for all living creatures
         /// </summary>
-        public static WorldObject[,] WorldMap { get; set; }
+        public static MapController WorldMap { get; set; }
 
-       
+        #region Constructors
         /// <summary>
         /// Standart constructor
         /// </summary>
         public CreatureController()
         {
-            Body = new Creature() { Health = 20, SeeDirection = 1 };
-            Brain = new CreatureLogic();
+            Body = new CreatureBody() { Health = 20, SeeDirection = 1 };
+           
 
-
-            #region Setting random brain
-            Random rnd = new Random(DateTime.Now.Millisecond);
-            for (int i = 0; i < Brain.Logic.Length; i++)
-            {
-                Brain.Logic.SetValue(rnd.Next(0, 64), i);
-            }
-            #endregion
+            Brain= NewBrain();
         }
 
-        /// <summary>
-        /// Causing action 
-        /// </summary>
-        public void Think()
+        public CreatureController(CreatureBody body,CreatureLogic brain)
         {
+            if (body is null || brain is null)
+                throw new ArgumentNullException();
 
+            Body = body;
+            Brain = brain;
         }
 
+        public CreatureController(CreatureBody body)
+        {
+            Body = body;
+            Brain=  NewBrain();
+
+        }
+        #endregion
         public CreatureController Clone()
         {
             var clone = new CreatureController();
             clone.Body.Health = this.Body.Health;
             clone.Body.SeeDirection =this.Body.SeeDirection;
 
-            for (int i = 0; i < this.Brain.Logic.Length; i++)
-            {
-                clone.Brain.Logic.SetValue(this.Brain.Logic[i], i);
-            }
-            clone.Brain.Current = this.Brain.Current;
+            clone.Brain = this.Brain.Clone();
 
 
             return clone;
+        }
+
+        public void Do()
+        {
+            var act = Brain.Think();
+
+            switch (act.actions)
+            {
+                case Doing.Actions.Catch:
+
+                    break;
+            }
+
+        }
+
+        private static CreatureLogic NewBrain()
+        {
+            var Brain = new StandartBrain();
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < Brain.Logic.Length; i++)
+            {
+                Brain.Logic.SetValue(rnd.Next(0, 64), i);
+            }
+            return Brain;
+           
         }
     }
 }

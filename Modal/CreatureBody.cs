@@ -7,12 +7,13 @@ namespace Modal
     /// <summary>
     /// Life thing for evolution
     /// </summary>
-    public class Creature :WorldObject
+    public class CreatureBody :WorldObject
     {
+        
         /// <summary>
         /// Health of Creature
         /// <para>Max health is 100</para>
-        /// <para>Min is 0 and creature die</para>
+        /// <para>Min is 0 when creature die</para>
         /// </summary>
         public int Health {
             get => health;
@@ -48,20 +49,46 @@ namespace Modal
                 }
         private int seedirection;
 
-       
+        public event EventHandler Moved;
+
+        public override int X {
+            get => base.X;
+            set
+            {
+                if (value == X)
+                    return;
+                base.X = value;
+
+                if (Moved != null)
+                    Moved(this, new EventArgs());
+            }
+        }
+
+        public override int Y {
+            get => base.Y;
+            set {
+                if (value == Y)
+                    return;
+
+                base.Y = value;
+
+                Moved?.Invoke(this, new EventArgs());
+
+            }
+        }
 
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public Creature(int x,int y):base(false,0)
+        public CreatureBody(int x,int y):base(false,0)
         {
             X = x;
             Y = y;
             Health = 10;
             
         }
-        public Creature():this(0,0)
+        public CreatureBody():this(0,0)
         {
 
         }

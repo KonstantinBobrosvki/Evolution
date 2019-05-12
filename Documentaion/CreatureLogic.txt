@@ -1,4 +1,4 @@
-﻿In this document I will write every CreatureLogic code action.
+﻿In this document I will write every CreatureLogic code action.(Only for StandartBrain)
 int array CreatureLogicName.Logic contains 64 cell.
 Every action have 8 variants what are changing by rotating. First value is not rotated , second is rotated by one , third ...... 
 Lets start
