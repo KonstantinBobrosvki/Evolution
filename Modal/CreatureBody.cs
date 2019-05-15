@@ -22,34 +22,47 @@ namespace Modal
                 
                 health = value;
                 if (Health > 90)
-                    Health = 90;
-                if (Health < 0)
-                    Health = 0;
+                    health = 90;
+                if (Health <= 0)
+                {
+                    health = 0;
+                    DieEvent?.Invoke(this, new EventArgs());
+                }
             }
         }
         private int health;
 
 
         /// <summary>
-        /// Direction of creature (It is turned like clock , 1 is top)
+        /// Direction of creature sight
         /// </summary>
-        public int SeeDirection {
-            get => seedirection;
-
-            set
-            {
-                if (value < 1 )
-                    throw new ArgumentOutOfRangeException("Value must be more than 1 ");
-                //Max value is 8 . If it is bigger we set it smaller
-                 while (value > 8)
-                    value -= 8;
-                seedirection = value;
+        public SeeDirection Sight {
+            get =>sight;
+            set {
+                sight = value;
+                TurnedEvent?.Invoke(this, new EventArgs());
             }
-                
-                }
-        private int seedirection;
+        }
+        private SeeDirection sight;
 
-        public event EventHandler Moved;
+        public enum SeeDirection
+        {
+            Top,
+            TopRight,
+            Right,
+            DownRight,
+            Down,
+            DownLeft,
+            Left,
+            TopLeft
+        }
+
+        public event EventHandler TurnedEvent;
+
+        public event EventHandler MovedEvent;
+
+        public event EventHandler DieEvent;
+
 
         public override int X {
             get => base.X;
@@ -59,8 +72,8 @@ namespace Modal
                     return;
                 base.X = value;
 
-                if (Moved != null)
-                    Moved(this, new EventArgs());
+                if (MovedEvent != null)
+                    MovedEvent(this, new EventArgs());
             }
         }
 
@@ -72,11 +85,25 @@ namespace Modal
 
                 base.Y = value;
 
-                Moved?.Invoke(this, new EventArgs());
+                MovedEvent?.Invoke(this, new EventArgs());
 
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if(obj==null || !(obj is CreatureBody))
+            {
+                return false;
+            }
+            if(obj is CreatureBody temp)
+            {
+                if (temp.X == this.X & temp.Y == Y)
+                    return true;
+               
+            }
+            return false;
+        }
 
         /// <summary>
         /// Constructor

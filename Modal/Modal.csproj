@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions.cs" />
     <Compile Include="CreatureBody.cs" />
     <Compile Include="Food.cs" />
     <Compile Include="Poison.cs" />

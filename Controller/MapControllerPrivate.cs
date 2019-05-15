@@ -27,7 +27,7 @@ namespace Controller
                 for (int y = 0; y < height; y++)
                 {
                     if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
-                        Map[x, y] = new Wall();
+                        Map[x, y] = new Wall(x,y);
                     
 
                 }
@@ -133,7 +133,7 @@ namespace Controller
             }
         }
 
-        private void GenerateCreatures(int count,CreatureLogic[]Brains=null)
+        private void GenerateCreatures(int count,CreatureBrain[]Brains=null)
         {
             if (count < 0)
                 throw new ArgumentOutOfRangeException();

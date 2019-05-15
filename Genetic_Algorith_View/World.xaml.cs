@@ -34,6 +34,7 @@ namespace Genetic_Algorith_View
         }
         void Drawer()
         {
+            Field.Children.Clear();
             Field.Rows=map.Width ;
             Field.Columns =map.Height;
             for (int x = 0; x < map.Width; x++)
@@ -70,6 +71,12 @@ namespace Genetic_Algorith_View
             }
                 
             
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            WorldController.NextTurn();
+            Drawer();
         }
     }
 }

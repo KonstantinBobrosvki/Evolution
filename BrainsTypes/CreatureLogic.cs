@@ -6,75 +6,59 @@ using System.Threading.Tasks;
 using Modal;
 namespace BrainsTypes
 {
+    
     /// <summary>
     /// Base class for all types creature logic
     /// </summary>
-    public abstract class CreatureLogic
+    public abstract class CreatureBrain
     {
-       /// <summary>
-       /// Check next action
-       /// </summary>
-       /// <returns>What is next action</returns>
-        public abstract Doing Think();
-
         /// <summary>
-        /// We see that we have type of recived after Doing cell
+        /// Do next action
         /// </summary>
-        public abstract void ReciveResult(WorldObject typeobject);
-
-        protected bool RecivedResult;
-
-        /// <summary>
-        /// Shows is it ready
-        /// </summary>
-        public bool Ready { get; protected set; }
+        public abstract Modal.Action Think(WorldObject[] near,CreatureBody.SeeDirection direction);
 
         /// <summary>
         /// Clone current brain
         /// </summary>
         /// <returns>this</returns>
-        public abstract CreatureLogic Clone();
+        public abstract CreatureBrain Clone();
 
-        public CreatureLogic()
+        /// <summary>
+        /// Returns type of worldobjects what was interacted
+        /// </summary>
+        /// <param name="near">All near elements</param>
+        /// <param name="direction"></param>
+        /// <param name="rotateTimes"></param>
+        /// <returns></returns>
+        protected static WorldObject WhatInCell(WorldObject[] near, CreatureBody.SeeDirection direction, Modal.Action.RotateTimes rotateTimes)
         {
+            if (near.Length != 8)
+                throw new Exception("Must be 8 near");
 
-        }
+            int temp = (int)direction + (int)rotateTimes;
 
-    }
+            while (temp >= 8)
+                temp -= 8;
 
-    public class Doing
-    {
-        public enum Actions
-        {
-            See,
-            Rotate,
-            Catch,
-            Go,
-            Nothing
+            if (temp >= near.Length)
+                throw new Exception("WTF");
 
-        }
-        public enum Rotate
-        {
-            Zero,
-            One,
-            Two,
-            Three,
-            Four,
-            Five,
-            Six,
-            Seven,
-            Eight
+            WorldObject forret = near[temp];
 
-        }
-
-        public readonly Actions actions;
-        public readonly Rotate rotate;
-        public Doing(Actions act,Rotate rot)
-        {
            
-            actions = act;
-            rotate=rot;
+            
+
+            return forret;
+        }
+
+        public CreatureBrain()
+        {
+
         }
 
     }
+   
+
+
+   
 }

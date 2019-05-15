@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ using Modal;
 
 namespace BrainsTypes
 {
-    public class StandartBrain : CreatureLogic
+    public class StandartBrain : CreatureBrain
     {
 
         private int current;
@@ -22,7 +22,7 @@ namespace BrainsTypes
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException();
+                    throw new System.ArgumentOutOfRangeException();
                 current = value;
 
                 //Max value for current is 63(Logic.Leght is 64)
@@ -42,10 +42,10 @@ namespace BrainsTypes
             {
 
                 if (value == null)
-                    throw new ArgumentNullException();
+                    throw new System.ArgumentNullException();
 
                 if (value.Length != 64)
-                    throw new ArgumentException();
+                    throw new System.ArgumentException();
 
                 logic = value;
             }
@@ -57,7 +57,20 @@ namespace BrainsTypes
         public StandartBrain()
         {
             CurrentIndex = 0;
-            Logic = new int[64];
+            Logic = RandomBrain();
+        }
+
+
+
+        private static int[] RandomBrain()
+        {
+            var temp = new int[64];
+            System.Random random = new System.Random();
+            for (int i = 0; i < 64; i++)
+            {
+                temp[i] = random.Next(0, 63);
+            }
+            return temp;
         }
 
         /// <summary>
@@ -68,84 +81,86 @@ namespace BrainsTypes
         /// <summary>
         /// Check next action
         /// </summary>
+        /// <param name="near">Near objects</param>
         /// <returns>What is next action</returns>
-        public override Doing Think()
+        public override Action Think(WorldObject[] near,CreatureBody.SeeDirection direction)
         {
-            if (!RecivedResult)
-                throw new Exception("You cant do it while u have not give the result from last try");
+            
 
             var cur = Logic[CurrentIndex];
 
             if(trys==10)
             {
-                Ready = true;
-                RecivedResult = true;
                 trys = 0;
-                return new Doing(Doing.Actions.Nothing, Doing.Rotate.Zero);
+                return new Action(Action.ActionType.Nothing, Action.RotateTimes.Zero);
             }
             trys++;
-
+            
            
             if (cur >= 0 && cur < 8)
             {
-                RecivedResult = false;
-                Ready = true;
-                return new Doing(Doing.Actions.Go, (Doing.Rotate)cur);
+                CurrentIndex += AddToIndex(WhatInCell(near,direction,(Action.RotateTimes)cur));
+                trys = 0;
+                return new Action(Action.ActionType.Move, (Action.RotateTimes)cur);
             }
             else if (cur >= 8 && cur < 16)
             {
-                RecivedResult = false;
-                Ready = true;
-                return new Doing(Doing.Actions.Catch, (Doing.Rotate)(cur - 8));
+                CurrentIndex += AddToIndex(WhatInCell(near,direction,(Action.RotateTimes)(cur-8)));
+                trys = 0;
+
+                return new Action(Action.ActionType.Catch, (Action.RotateTimes)(cur - 8));
             }
             else if (cur >= 16 && cur < 24)
             {
-                RecivedResult = false;
-                return new Doing(Doing.Actions.See, (Doing.Rotate)(cur - 16));
+                CurrentIndex += AddToIndex(WhatInCell(near,direction,(Action.RotateTimes)(cur-16)));
+              
+
+                return Think(near,direction);
             }
             else if (cur >= 24 && cur < 32)
             {
                 CurrentIndex += 1;
                
-                return new Doing(Doing.Actions.Rotate, (Doing.Rotate)(cur - 24));
+
+                return Think(near,direction);
             }
             else
             {
                 CurrentIndex += cur;
-                return new Doing(Doing.Actions.Nothing, Doing.Rotate.Zero);
+                Think(near, direction);
             }
-           
+            return new Action();
         }
 
-        public override void ReciveResult(WorldObject typeobject)
+        /// <summary>
+        /// This method controls input from the world
+        /// </summary>
+        /// <param name="worldObject">object for checking</param>
+        /// <returns>What we must add to index</returns>
+        private static int AddToIndex(WorldObject worldObject)
         {
-            RecivedResult = true;
-            
-            if (typeobject is Poison)
-                CurrentIndex++;
-            else if (typeobject is Wall)
-                CurrentIndex += 2;
-            else if (typeobject is CreatureBody)
-                CurrentIndex += 3;
-            else if (typeobject is Food)
-                CurrentIndex += 4;
-            else if (typeobject is null)
-                CurrentIndex += 5;
+            if (worldObject is Poison)
+                return 1;
+            else if (worldObject is Wall)
+                return 2;
+            else if (worldObject is CreatureBody)
+                return 3;
+            else if (worldObject is Food)
+                return 4;
+            else if (worldObject is null)
+                return 5;
             else
-            {
-                throw new Exception("WTF what type is it");
-            }
-
+                throw new System.Exception();
         }
 
-        public override CreatureLogic Clone()
+        public override CreatureBrain Clone()
         {
             var z = new StandartBrain();
-            z.CurrentIndex = this.CurrentIndex;
+            z.CurrentIndex = 0;
             z.Logic = new int[64];
             for (int i = 0; i < logic.Length; i++)
             {
-                z.Logic[i] = logic[i];
+                z.Logic[i] = Logic[i];
             }
             return z;
         }

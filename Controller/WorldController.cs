@@ -17,13 +17,25 @@ namespace Controller
             Map = new MapController(100, 50);
             CreatureController.WorldMap = Map;
 
+           
+           
         }
         public static void NextTurn()
         {
-            foreach (var item in Population)
+            for (int i = 0; i < Population.Count; i++)
             {
-                item.Do();
+                var item = Population[i];
+                if (item.Body == null)
+                {
+                    Population.Remove(item);
+                    i--;
+                    continue;
+                }
+                item.Live();
             }
+            
         }
+
+       
     }
 }

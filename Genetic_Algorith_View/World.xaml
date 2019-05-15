@@ -7,15 +7,16 @@
         mc:Ignorable="d"
         Title="World" Height="450" Width="800">
     <Grid x:Name="All">
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="344*"/>
             <RowDefinition Height="75*"/>
         </Grid.RowDefinitions>
-       
+
         <UniformGrid x:Name="Field" Grid.Row="0">
-            
+
         </UniformGrid>
-        
+        <Button Click="Button_Click" Content="Button" HorizontalAlignment="Left" Margin="29,21,0,0" Grid.Row="1" VerticalAlignment="Top" Width="164" Height="36"/>
+
     </Grid>
 </Window>
