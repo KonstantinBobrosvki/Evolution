@@ -109,6 +109,7 @@ namespace Controller
                     break;
                     
             }
+            if(Body!=null)
             Body.Health--;
         }
 
