@@ -31,7 +31,7 @@ namespace Controller
         
         private readonly WorldObject[,] Map;
 
-
+      
 
         /// <summary>
         /// Constructor of world map
@@ -66,7 +66,29 @@ namespace Controller
             GenerateCreatures(64);
         }
 
-     
+        public void Reset(BrainsTypes.CreatureBrain[] brains)
+        {
+            if (brains == null || brains.Length != 64)
+                throw new ArgumentException();
+
+            var rnd = new Random(Seed);
+
+            EmpetyCells = Height * Width;
+
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    Map[x, y] = null;
+                }
+            }
+
+            GenerateBorder();
+            GenerateWalls(rnd.Next(0, EmpetyCells / 20));
+            GenerateFood(rnd.Next(0, EmpetyCells / 10));
+            GeneratePoison(rnd.Next(0, EmpetyCells / 20));
+            GenerateCreatures(64,brains);
+        }
 
         public WorldObject this[int x, int y]
         {
@@ -75,6 +97,8 @@ namespace Controller
             {
                 if (x < 0 || y < 0)
                     throw new IndexOutOfRangeException();
+
+             
                 return Map[x, y];
             }
 

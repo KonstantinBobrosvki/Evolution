@@ -24,6 +24,12 @@ namespace BrainsTypes
         public abstract CreatureBrain Clone();
 
         /// <summary>
+        /// Changing random thing in brain
+        /// </summary>
+        public abstract void Mutate();
+
+
+        /// <summary>
         /// Returns type of worldobjects what was interacted
         /// </summary>
         /// <param name="near">All near elements</param>

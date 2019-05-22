@@ -60,7 +60,11 @@ namespace BrainsTypes
             Logic = RandomBrain();
         }
 
-
+        public StandartBrain(int[] Logic)
+        {
+            CurrentIndex = 0;
+            this.Logic = Logic;
+        }
 
         private static int[] RandomBrain()
         {
@@ -68,7 +72,7 @@ namespace BrainsTypes
             System.Random random = new System.Random();
             for (int i = 0; i < 64; i++)
             {
-                temp[i] = random.Next(0, 63);
+                temp[i] = random.Next(0, 64);
             }
             return temp;
         }
@@ -163,6 +167,12 @@ namespace BrainsTypes
                 z.Logic[i] = Logic[i];
             }
             return z;
+        }
+
+        public override void Mutate()
+        {
+            System.Random rnd = new System.Random(System.DateTime.Now.Millisecond);
+            Logic[rnd.Next(0, logic.Length)] = rnd.Next(0, 64);
         }
     }
 }

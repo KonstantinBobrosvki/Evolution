@@ -11,6 +11,8 @@ namespace Controller
     {
         public static MapController Map { get;private set; }
         public static List<CreatureController> Population { get => Map.Population; }
+
+       
         public static void Start()
         {
 
@@ -32,10 +34,44 @@ namespace Controller
                     continue;
                 }
                 item.Live();
+                if (item.Body == null)
+                {
+                    Population.Remove(item);
+                    i--;
+                   
+                }
+            }
+
+            if(Population.Count<=8)
+            {
+                Reset();
             }
             
+        }
+        private static void Reset()
+        {
+            BrainsTypes.CreatureBrain[] creatureBrains = new BrainsTypes.CreatureBrain[64];
+            int i = 0;
+            foreach (var item in Population)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    creatureBrains.SetValue(item.Brain.Clone(), i++);
+
+                }
+                creatureBrains[i - 1].Mutate();
+            }
+            while(i<64)
+            { Random r = new Random();
+                var te = Population[r.Next(0, Population.Count)].Brain.Clone();
+                te.Mutate();
+                creatureBrains.SetValue(te, i++);
+            }
+            Map.Reset(creatureBrains);
         }
 
        
     }
+
+   
 }
