@@ -143,7 +143,7 @@ namespace Controller
                 throw new ArgumentOutOfRangeException("Not enoght space");
             EmpetyCells -= count;
 
-           
+            Population.Clear();
 
             Random rnd = new Random(Seed);
             for (int i = 0; i < count; i++)

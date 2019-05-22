@@ -16,7 +16,9 @@
         <UniformGrid x:Name="Field" Grid.Row="0">
 
         </UniformGrid>
-        <Button Click="Button_Click" Content="Button" HorizontalAlignment="Left" Margin="29,21,0,0" Grid.Row="1" VerticalAlignment="Top" Width="164" Height="36"/>
+        <Button Click="Button_Click" Content="Draw" HorizontalAlignment="Left" Margin="29,21,0,0" Grid.Row="1" VerticalAlignment="Top" Width="164" Height="36"/>
+
+        <Button Content="Start/Stop " Click="StartStop" HorizontalAlignment="Left" Margin="508,21,0,0" Grid.Row="1" VerticalAlignment="Top" Width="223" Height="32"/>
 
     </Grid>
 </Window>

@@ -40,7 +40,7 @@ namespace Modal
             get =>sight;
             set {
                 sight = value;
-                TurnedEvent?.Invoke(this, new EventArgs());
+                
             }
         }
         private SeeDirection sight;
@@ -57,8 +57,7 @@ namespace Modal
             TopLeft
         }
 
-        public event EventHandler TurnedEvent;
-
+      
         public event EventHandler MovedEvent;
 
         public event EventHandler DieEvent;
@@ -103,6 +102,11 @@ namespace Modal
                
             }
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return X*Y+Health;
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace Modal
     /// </summary>
     public abstract class WorldObject
     {
-        
+       
         /// <summary>
         /// Can we move on cell with this
         /// </summary>

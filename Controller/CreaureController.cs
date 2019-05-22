@@ -22,6 +22,8 @@ namespace Controller
         /// </summary>
         public static MapController WorldMap { get; set; }
 
+        public List<(int,int)> LastInteractedCells { get; private set; } = new List<(int,int)>(2);
+
         private WorldObject[] Near {
 
             get
@@ -92,8 +94,8 @@ namespace Controller
         /// </summary>
         public void Live()
         {
-            
 
+            LastInteractedCells.Clear();
           var act=  Brain.Think(Near,Body.Sight);
             
             switch (act.Act)
@@ -120,6 +122,9 @@ namespace Controller
             while (temp >= 8)
                 temp -= 8;
 
+            //Start X Y
+            LastInteractedCells.Add((this.Body.X, Body.Y));
+
             var cell = Near[temp];
             if(cell==null)
             {
@@ -128,6 +133,9 @@ namespace Controller
                 var tempo = GetPosition(temp);
                 Body.X = tempo.Item1;
                 Body.Y = tempo.Item2;
+
+                //This is updated X Y
+                LastInteractedCells.Add((this.Body.X, Body.Y));
 
                 WorldMap[Body.X,Body.Y] = this.Body;
                 return;
@@ -139,6 +147,9 @@ namespace Controller
 
                 Body.X = cell.X;
                 Body.Y = cell.Y;
+
+                //This is updated X Y
+                LastInteractedCells.Add((this.Body.X, Body.Y));
 
                 WorldMap[cell.X, cell.Y] = this.Body;
             }
@@ -157,10 +168,23 @@ namespace Controller
             if(cell is Poison)
             {
                 WorldMap[cell.X, cell.Y] = new Food(cell.X, cell.Y);
+                LastInteractedCells.Add((cell.X, cell.Y));
+
+                return;
             }
-            else if(cell!=null)
+            else if(cell is Food)
             {
+                LastInteractedCells.Add((cell.X, cell.Y));
+
                 Body.Health += cell.HealthAfterInteract;
+
+                WorldMap[cell.X, cell.Y] = null;
+
+                return;
+            }
+            else if(!(cell is null))
+            {
+
             }
         }
 

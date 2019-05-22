@@ -20,63 +20,90 @@ namespace Genetic_Algorith_View
     /// </summary>
     public partial class World : Window
     {
-        MapController map;
+        System.Windows.Threading.DispatcherTimer timer;
         public World()
         {
             InitializeComponent();
             WorldController.Start();
-            map = WorldController.Map;
+
+            timer = new System.Windows.Threading.DispatcherTimer();
+
+            timer.Tick += new EventHandler(timer_Tick);
+
+            timer.Interval = new TimeSpan(0,0,0,2);
+
            
-    
-         
-            Drawer();
+
+            FullDrawer();
          
         }
-        void Drawer()
+        void FullDrawer()
         {
             Field.Children.Clear();
-            Field.Rows=map.Width ;
-            Field.Columns =map.Height;
-            for (int x = 0; x < map.Width; x++)
-            {
-                for (int y = 0; y < map.Height; y++)
-                {
-                    var item = map[x, y];
-
-                    if (item is Modal.Wall)
-                    {
-                        Field.Children.Add(new Rectangle() { Fill = new SolidColorBrush(Color.FromRgb(128, 128, 128)), Width = Height });
-
-                    }
-                    else if (item is Modal.Food)
-                    {
-                        Field.Children.Add(new Rectangle() { Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0)), Width = Height });
-                    }
-                    else if (item is null)
-                    {
-                        Field.Children.Add(new Rectangle() { Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255)), Width = Height });
-                    }
-                    else if(item is Modal.Poison)
-                    {
-                        Field.Children.Add(new Rectangle() { Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0)), Width = Height });
-
-                    }
-                    else if(item is Modal.CreatureBody c)
-                    {
-                        var g = new Grid() { Background = new SolidColorBrush(Color.FromRgb(0, 0, 255)) };
-                        g.Children.Add(new TextBlock() { Text = c.Health.ToString(),Background= new SolidColorBrush(Color.FromRgb(0, 0, 255)) });
-                        Field.Children.Add(g);
-                    }
-                }
-            }
-                
+          
+            Field.Rows=WorldController.Map.Width ;
+            Field.Columns =WorldController.Map.Height;
             
-        }
+                for (int x = 0; x < WorldController.Map.Width; x++)
+                {
+                  for (int y = 0; y < WorldController.Map.Height; y++)
+                  {
+                    var item = WorldController.Map[x, y];
+                    int index = y * WorldController.Map.Width + x;
 
+
+                    var foradd = new WorldBlock(x, y);
+                    Field.Children.Add(foradd);
+                    
+                    
+                  
+                  }
+                }
+          
+
+
+        }
+        /// <summary>
+        /// Optimized version of full drawer
+        /// </summary>
+        void ParticialDrawer()
+        {
+
+          
+        }
+       
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             WorldController.NextTurn();
-            Drawer();
+
+            foreach (var creature in WorldController.Population)
+            {
+                foreach (var incteracted in creature.LastInteractedCells)
+                {
+                    int index = incteracted.Item2 * WorldController.Map.Width + incteracted.Item1;
+                    ((WorldBlock)Field.Children[index]).Reset();
+                }
+            }
+        }
+      
+
+
+
+ 
+
+    private void timer_Tick(object sender, EventArgs e)
+    {
+
+            ParticialDrawer();
+         
+    }
+
+        private void StartStop(object sender, RoutedEventArgs e)
+        {
+            if (timer.IsEnabled)
+                timer.Stop();
+            else
+                timer.Start();
         }
     }
 }
