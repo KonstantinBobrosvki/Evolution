@@ -13,7 +13,7 @@ namespace Modal
     public class Wall:WorldObject
     {
 
-        public Wall():this(0,0)
+        public Wall() : base(false, 0)
         {
 
         }

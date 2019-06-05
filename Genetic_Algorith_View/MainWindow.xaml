@@ -7,6 +7,32 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <UniformGrid x:Name="Map" HorizontalAlignment="Left" Width="792" Height="419" VerticalAlignment="Top"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="113*"/>
+            <RowDefinition Height="306*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Label x:Name="TitleLabel" Content="Evolution" Background="Blue" FontSize="52" 
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  >
+
+            </Label>
+        </Grid>
+        <Grid  Background="Green" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="53*"/>
+                <RowDefinition Height="74*"/>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="72*"/>
+                <RowDefinition Height="57*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="265*"/>
+                <ColumnDefinition Width="250*"/>
+                <ColumnDefinition Width="277*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="LoadButton" Content="Load world" Click="LoadButton_Click" Grid.Column="1" Grid.Row="3"/>
+            <Button x:Name="NewButton" Click="NewButton_Click" Content="New world" Grid.Column="1" Grid.Row="1" />
+        </Grid>
+
     </Grid>
 </Window>

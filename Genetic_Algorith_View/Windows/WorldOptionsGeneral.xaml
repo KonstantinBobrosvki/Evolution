@@ -1,0 +1,78 @@
+﻿<Window x:Class="Genetic_Algorith_View.WorldOptions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Genetic_Algorith_View"
+        mc:Ignorable="d"
+        Title="WorldOptions" Height="900" Width="1600">
+    <Grid x:Name="All">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+
+
+
+
+        <Grid x:Name="ForWidth"  Grid.Row="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="47*"/>
+                <RowDefinition Height="45*"/>
+                <RowDefinition Height="46*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="193*"/>
+                <ColumnDefinition Width="599*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="1" FontSize="60"  TextWrapping="Wrap" Text="Width" Grid.Row="1"/>
+            <Label Content="Width" FontSize="60" Grid.Row="1"/>
+
+        </Grid>
+
+        <Grid x:Name="ForHeight" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="47*"/>
+                <RowDefinition Height="45*"/>
+                <RowDefinition Height="46*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="193*"/>
+                <ColumnDefinition Width="599*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="1" FontSize="60"  TextWrapping="Wrap" Text="Height" Grid.Row="1"/>
+            <Label Content="Height" FontSize="60" Grid.Row="1"/>
+
+        </Grid>
+
+        <Grid x:Name="ForSeed" Grid.Row="2" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="47*"/>
+                <RowDefinition Height="45*"/>
+                <RowDefinition Height="46*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="193*"/>
+                <ColumnDefinition Width="599*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="1" FontSize="60"  TextWrapping="Wrap" Text="Seed" Grid.Row="1"
+                     ToolTip="Special number for randomazing.Do not change it for random result/"/>
+
+
+
+            <Label Content="Seed" FontSize="60" Grid.Row="1"/>
+
+        </Grid>
+
+        <Grid x:Name="Buttons" Grid.Row="3">
+            <Button Content="Advanced setting" FontSize="40" Background="Red" Margin="174,0,1134,0" />
+            <Button Content="Start"  FontSize="40" Background="LawnGreen" Margin="987,0,246,0" Click="NewWorld_Click" />
+        </Grid>
+      
+
+
+    </Grid>
+</Window>
