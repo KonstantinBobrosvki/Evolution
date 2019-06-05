@@ -13,5 +13,6 @@ namespace Genetic_Algorith_View
     /// </summary>
     public partial class App : Application
     {
+        Controller.MapController Map=null;
     }
 }

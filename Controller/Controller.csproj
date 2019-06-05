@@ -41,17 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreaureController.cs" />
     <Compile Include="MapController.cs" />
     <Compile Include="MapControllerPrivate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorldController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BrainsTypes\BrainsTypes.csproj">
-      <Project>{dbf962b9-11b6-44ac-84ec-f7d78c12a293}</Project>
-      <Name>BrainsTypes</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Modal\Modal.csproj">
       <Project>{47743acd-672f-4475-9608-f06b95a8730a}</Project>
       <Name>Modal</Name>
