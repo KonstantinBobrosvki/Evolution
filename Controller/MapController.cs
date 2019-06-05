@@ -22,16 +22,16 @@ namespace Controller
         /// <summary>
         /// Seed of Map
         /// </summary>
-        public int Seed { get => seed; }
-        private readonly int seed;
+        private readonly Random Seed;
 
+        /// <summary>
+        /// Count of empety cells
+        /// </summary>
         public int EmpetyCells { get; private set; }
-
-        public List<CreatureController> Population { get; private set; }
         
         private readonly WorldObject[,] Map;
 
-      
+       
 
         /// <summary>
         /// Constructor of world map
@@ -39,55 +39,83 @@ namespace Controller
         /// <param name="width">Width</param>
         /// <param name="height">Height</param>
         /// <param name="seed">Seed for randomazing </param>
-        public MapController(int width, int height,int? seed=null)
+        public MapController(int width, int height,int? seed)
         {
             if(seed==null)
             {
                 Random random = new Random();
-                this.seed = random.Next();
+                this.Seed =new Random();
             }
             else
             {
-                this.seed = (int)seed;
+                this.Seed = new Random((int)seed);
             }
 
-            Population = new List<CreatureController>(65);
+            
+            Map = new WorldObject[width, height];
+
+
+            EmpetyCells = Width * Height ;
+
+
+           
+           
+
+            GenerateBorder();
+            GenerateFood(Seed.Next(0, EmpetyCells / 10));
+            GeneratePoison(Seed.Next(0, EmpetyCells / 20));
+            GenerateWalls(Seed.Next(0,EmpetyCells/20));
+            
+           
+
+          
+        }
+
+      
+
+        public MapController(int width,int height,int? seed,int FoodCount,int PoisonCount,int WallCount)
+        {
+            if (seed == null)
+            {
+              
+                this.Seed = new Random();
+            }
+            else
+            {
+                this.Seed =new Random( (int)seed);
+            }
+
+
             Map = new WorldObject[width, height];
 
 
             EmpetyCells = Width * Height;
 
-            var rnd = new Random(Seed);
+            
 
             GenerateBorder();
-            GenerateWalls(rnd.Next(0,EmpetyCells/20));
-            GenerateFood(rnd.Next(0,EmpetyCells/10));
-            GeneratePoison(rnd.Next(0,EmpetyCells/20));
-            GenerateCreatures(64);
+            GenerateWalls(WallCount);
+            GenerateFood(FoodCount);
+            GeneratePoison(PoisonCount);
+
         }
 
-        public void Reset(BrainsTypes.CreatureBrain[] brains)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="map">Map</param>
+        /// <param name="rnd">Random for randomazing</param>
+        public MapController(WorldObject[,]map,Random rnd)
         {
-            if (brains == null || brains.Length != 64)
-                throw new ArgumentException();
+            if (map is null)
+                throw new ArgumentNullException();    
+                   Map=(WorldObject[,])map.Clone();
+            Seed =rnd;
+        }
 
-            var rnd = new Random(Seed);
-
-            EmpetyCells = Height * Width;
-
-            for (int y = 0; y < Height; y++)
-            {
-                for (int x = 0; x < Width; x++)
-                {
-                    Map[x, y] = null;
-                }
-            }
-
-            GenerateBorder();
-            GenerateWalls(rnd.Next(0, EmpetyCells / 20));
-            GenerateFood(rnd.Next(0, EmpetyCells / 10));
-            GeneratePoison(rnd.Next(0, EmpetyCells / 20));
-            GenerateCreatures(64,brains);
+        public MapController Clone()
+        {
+            return new MapController(Map, Seed); ;
         }
 
         public WorldObject this[int x, int y]
@@ -97,14 +125,44 @@ namespace Controller
             {
                 if (x < 0 || y < 0)
                     throw new IndexOutOfRangeException();
+                if(x>=Width||y>=Height)
+                    throw new IndexOutOfRangeException();
 
-             
                 return Map[x, y];
             }
 
-            internal set
+            set
             {
-                
+                //Если до етого пустая
+                if(value is null)
+                {
+                    EmpetyCells++;
+                }
+                else
+                {
+                    if (Map[x, y] is null)
+                    {
+                        EmpetyCells--;
+                    }
+                    //если просто меняем содержимое
+                    else
+                    {
+                        if (Map[x, y] is Food)
+                        {
+                            if(value.GetType()!=typeof(Food))
+                            FoodOnMap--;
+                        }
+                        else if (Map[x, y] is Poison)
+                        {
+                            if (value.GetType() != typeof(Poison))
+                                PoisonOnMap--;
+                        }
+                    }
+                   
+                   
+                   
+                }
+
                 Map[x, y] = value;
             }
         }

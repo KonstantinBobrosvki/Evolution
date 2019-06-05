@@ -9,7 +9,11 @@ namespace Modal
     /// </summary>
     public class CreatureBody :WorldObject
     {
-        
+
+        /// <summary>
+        /// Event for diying creature
+        /// </summary>
+        public event Action<object, EventArgs> DieEvent;
         /// <summary>
         /// Health of Creature
         /// <para>Max health is 100</para>
@@ -36,14 +40,7 @@ namespace Modal
         /// <summary>
         /// Direction of creature sight
         /// </summary>
-        public SeeDirection Sight {
-            get =>sight;
-            set {
-                sight = value;
-                
-            }
-        }
-        private SeeDirection sight;
+        public SeeDirection Sight { get; set; }
 
         public enum SeeDirection
         {
@@ -55,46 +52,11 @@ namespace Modal
             DownLeft,
             Left,
             TopLeft
-        }
-
-      
-        public event EventHandler MovedEvent;
-
-        public event EventHandler DieEvent;
-
-
-        public override int X {
-            get => base.X;
-            set
-            {
-                if (value == X)
-                    return;
-                base.X = value;
-
-                if (MovedEvent != null)
-                    MovedEvent(this, new EventArgs());
-            }
-        }
-
-        public override int Y {
-            get => base.Y;
-            set {
-                if (value == Y)
-                    return;
-
-                base.Y = value;
-
-                MovedEvent?.Invoke(this, new EventArgs());
-
-            }
-        }
+        }  
 
         public override bool Equals(object obj)
         {
-            if(obj==null || !(obj is CreatureBody))
-            {
-                return false;
-            }
+            
             if(obj is CreatureBody temp)
             {
                 if (temp.X == this.X & temp.Y == Y)
@@ -117,9 +79,10 @@ namespace Modal
             X = x;
             Y = y;
             Health = 10;
-            
+            Sight = SeeDirection.Top;
         }
-        public CreatureBody():this(0,0)
+
+        public CreatureBody(): base(false, 0)
         {
 
         }
