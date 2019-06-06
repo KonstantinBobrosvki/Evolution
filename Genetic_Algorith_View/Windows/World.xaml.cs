@@ -29,11 +29,20 @@ namespace Genetic_Algorith_View.Windows
         {
             MapField.Columns = Map.Width;
             MapField.Rows = Map.Height;
-            for (int y = 0; y < Map.Width; y++)
+            for (int y = 0; y < Map.Height; y++)
             {
-                for (int x = 0; x < Map.Height; x++)
+                for (int x = 0; x < Map.Width; x++)
                 {
-                    var element = Map[x, y];
+                    WorldObject element=null;
+                    try
+                    {
+                       element = Map[x, y];
+                    }
+                    catch (Exception)
+                    {
+
+                        MessageBox.Show(x + " " + y);
+                    }
                     Grid rect = new Grid();
                    
 
