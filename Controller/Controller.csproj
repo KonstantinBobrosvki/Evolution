@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreatureController.cs" />
+    <Compile Include="CreatureControllerPrivate.cs" />
     <Compile Include="MapController.cs" />
     <Compile Include="MapControllerPrivate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
