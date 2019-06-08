@@ -29,12 +29,12 @@ namespace Controller
                 for (int y = 0; y < height; y++)
                 {
                     if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
-                        Map[x, y] = new Wall(x,y);
+                       Map[x, y] = new Wall(x,y);
                     
 
                 }
             }
-          
+            EmpetyCells -= width * 2 + height * 2 - 4;
         }
 
         /// <summary>
@@ -48,16 +48,16 @@ namespace Controller
 
             if (EmpetyCells < count)
                 throw new ArgumentOutOfRangeException("Not enoght space");
-
+            EmpetyCells -= count;
 
            
             for (int i = 0; i < count; i++)
             {
                 int x = Seed.Next(1, Width - 1);
                 int y = Seed.Next(1, Height - 1);
-                if(this[x,y]==null)
+                if(Map[x,y]==null)
                 {
-                    this[x, y] = new Wall(x, y);
+                    Map[x, y] = new Wall(x, y);
                 }
                 else
                 {
@@ -82,15 +82,15 @@ namespace Controller
                 throw new ArgumentOutOfRangeException("Not enoght space");
 
             FoodOnMap += count;
-
+            EmpetyCells -= count;
            
             for (int i = 0; i < count; i++)
             {
                 int x = Seed.Next(0, Width - 1);
                 int y = Seed.Next(0, Height - 1);
-                if (this[x, y] == null)
+                if (Map[x, y] == null)
                 {
-                    this[x, y] = new Food(x, y);
+                    Map[x, y] = new Food(x, y);
                 }
                 else
                 {
@@ -115,15 +115,15 @@ namespace Controller
                 throw new ArgumentOutOfRangeException("Not enoght space");
 
             PoisonOnMap += count;
-           
+            EmpetyCells -= count;
            
             for (int i = 0; i < count; i++)
             {
                 int x = Seed.Next(0, Width - 1);
                 int y = Seed.Next(0, Height - 1);
-                if (this[x, y] == null)
+                if (Map[x, y] == null)
                 {
-                    this[x, y] = new Poison(x, y);
+                    Map[x, y] = new Poison(x, y);
                 }
                 else
                 {

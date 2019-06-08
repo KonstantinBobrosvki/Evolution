@@ -6,6 +6,7 @@ using System.Windows.Shapes;
 using Controller;
 using Modal;
 using System.Windows.Media;
+
 namespace Genetic_Algorith_View.Windows
 {
     /// <summary>
@@ -14,16 +15,18 @@ namespace Genetic_Algorith_View.Windows
     public partial class World : Window
     {
         public readonly MapController Map;
-        public World():this(new MapController(20,20,null))
+        public World()
         {
             
-        }
-        public World(MapController map)
-        {
-
             InitializeComponent();
-            Map = map;
+
+            //Close all app when closes this
+            this.Closed += (sender, e) => App.MainScreen?.Close();
+
+            Map = App.Map;
+
             StartDraw();
+
         }
         private void StartDraw()
         {
