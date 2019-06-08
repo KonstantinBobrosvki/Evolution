@@ -31,8 +31,8 @@ namespace Controller
         
         private readonly WorldObject[,] Map;
 
-       
 
+        #region Constructors
         /// <summary>
         /// Constructor of world map
         /// </summary>
@@ -41,6 +41,9 @@ namespace Controller
         /// <param name="seed">Seed for randomazing </param>
         public MapController(int width, int height,int? seed)
         {
+            if (width < 3 || height < 3)
+                throw new ArgumentOutOfRangeException();
+
             if(seed==null)
             {
                 Random random = new Random();
@@ -71,13 +74,13 @@ namespace Controller
           
         }
 
-      
-
         public MapController(int width,int height,int? seed,int FoodCount,int PoisonCount,int WallCount)
         {
+            if (width < 3 || height < 3)
+                throw new ArgumentOutOfRangeException();
+
             if (seed == null)
             {
-              
                 this.Seed = new Random();
             }
             else
@@ -107,11 +110,15 @@ namespace Controller
         /// <param name="rnd">Random for randomazing</param>
         public MapController(WorldObject[,]map,Random rnd)
         {
+            if (map.GetLength(0) < 3 || map.GetLength(1) < 3)
+                throw new ArgumentOutOfRangeException();
+
             if (map is null)
                 throw new ArgumentNullException();    
                    Map=(WorldObject[,])map.Clone();
             Seed =rnd;
         }
+        #endregion
 
         public MapController Clone()
         {
@@ -136,6 +143,7 @@ namespace Controller
                 //Если до етого пустая
                 if(value is null)
                 {
+                    if(this[x,y] is null)
                     EmpetyCells++;
                 }
                 else
@@ -162,7 +170,6 @@ namespace Controller
                    
                    
                 }
-
                 Map[x, y] = value;
             }
         }

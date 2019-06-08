@@ -51,7 +51,7 @@ namespace Genetic_Algorith_View
             else
             {
                 MessageBox.Show("This block contains only integers");
-                WidthInput.Text = WidthInput.Text.Remove(HeightInput.Text.Length - 1);
+               HeightInput.Text = HeightInput.Text.Remove(HeightInput.Text.Length - 1);
             }
         }
 
@@ -104,8 +104,11 @@ namespace Genetic_Algorith_View
             {
                 Seed = new Random(DateTime.Now.Day * DateTime.Now.Millisecond).Next();
             }
-            var z = new World(new Controller.MapController(Width,Height,Seed));
-            z.Show();
+            App.Map = new Controller.MapController(Width, Height, Seed);
+            Seed = null;
+            App.WorldScreen = new World();
+            App.WorldScreen.Show();
+            this.Close();
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Genetic_Algorith_View
             InitializeComponent();
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
+            App.MainScreen = this;
         }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
