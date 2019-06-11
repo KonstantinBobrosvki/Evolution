@@ -13,6 +13,7 @@ namespace Controller
         public CreatureController(int x,int y):this()
         {
             Map[x, y] = new CreatureBody(x,y);
+            Body =(CreatureBody) Map[x, y];
         }
 
         /// <summary>
@@ -35,30 +36,33 @@ namespace Controller
         /// <param name="y">Y</param>
         public void Move(int x,int y)
         {
-            if(Map[x,y]==null)
+            Body.Health--;
+
+            if (Map[x,y]==null)
             {
                 Map[Body.X, Body.Y] = null;
                 Map[x, y] = Body;
-                Body.X = x;
-                Body.Y = y;
                 return;
             }
-            Body.Health += Map[x, y].HealthAfterInteract;
 
+
+            Body.Health += Map[x, y].HealthAfterInteract;
             if (Map[x, y].CanMoveTrought)
             {
+                
                 Map[Body.X, Body.Y] = null;
                 Map[x, y] = Body;
-                Body.X = x;
-                Body.Y = y;
+
+
             }
-           
+
 
         }
 
-        protected void Catch(int x,int y)
+        public void Catch(int x,int y)
         {
-            if(Map[x,y] is Poison)
+            Body.Health--;
+            if (Map[x,y] is Poison)
             {
                 Map[x, y] = new Food(x, y);
                 return;
@@ -68,6 +72,8 @@ namespace Controller
                 Body.Health += Map[x, y].HealthAfterInteract;
                 Map[x, y] = null;
             }
+
+           
         }
     }
 }
