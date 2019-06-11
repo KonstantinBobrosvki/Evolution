@@ -143,7 +143,7 @@ namespace Controller
                 //Если до етого пустая
                 if(value is null)
                 {
-                    if(this[x,y] is null)
+                    if(!(this[x,y] is null))
                     EmpetyCells++;
                 }
                 else
@@ -166,15 +166,34 @@ namespace Controller
                                 PoisonOnMap--;
                         }
                     }
-                   
-                   
-                   
+                    value.X = x;
+                    value.Y = y;
+
                 }
                 Map[x, y] = value;
             }
+
         }
 
-        
+        /// <summary>
+        /// Get random empety place
+        /// </summary>
+        /// <returns>Position of empety cell</returns>
+        public Tuple<int,int> FreePosition()
+        {
+            if (EmpetyCells == 0)
+                throw new Exception();
+
+            Random rnd = new Random();
+            while(true)
+            {
+                var x = rnd.Next(0, Width);
+                var y = rnd.Next(0, Height);
+                var element = this[x, y];
+                if (element is null)
+                    return new Tuple<int, int>(x, y);
+            }
+        }
 
     }
 }
