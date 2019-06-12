@@ -114,8 +114,9 @@ namespace Controller
                 throw new ArgumentOutOfRangeException();
 
             if (map is null)
-                throw new ArgumentNullException();    
-                   Map=(WorldObject[,])map.Clone();
+                throw new ArgumentNullException();  
+            
+            Map=(WorldObject[,])map.Clone();
             Seed =rnd;
         }
         #endregion

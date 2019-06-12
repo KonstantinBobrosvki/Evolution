@@ -18,7 +18,7 @@ namespace Modal
 
         }
 
-        public Poison() : base(false, -20)
+        public Poison() : base(false, -90)
         {
 
         }
