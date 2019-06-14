@@ -23,6 +23,7 @@ namespace Controller
         {
             var width = Map.GetLength(0);
             var height = Map.GetLength(1);
+            EmpetyCells -= Width * 2 + Height * 2 - 4;
 
             for (int x = 0; x < width; x++)
             {
@@ -34,7 +35,6 @@ namespace Controller
 
                 }
             }
-            EmpetyCells -= width * 2 + height * 2 - 4;
         }
 
         /// <summary>
@@ -48,6 +48,7 @@ namespace Controller
 
             if (EmpetyCells < count)
                 throw new ArgumentOutOfRangeException("Not enoght space");
+
             EmpetyCells -= count;
 
            
@@ -71,7 +72,7 @@ namespace Controller
         /// <summary>
         /// Create random food on map
         /// </summary>
-        /// <param name="count">Count of food</param>
+        /// <param name="count">Count of food</param> 
         public void GenerateFood(int count)
         {
             if (count < 0)

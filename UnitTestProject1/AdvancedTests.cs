@@ -11,7 +11,7 @@ namespace Tests
     [TestClass]
     public class AdvancedTests
     {
-       
+
         [TestMethod()]
         public void MoveTest()
         {
@@ -61,6 +61,8 @@ namespace Tests
                     {
                         if (i == 1 && j == 1)
                             world[i, j] = new Food(i, j);
+                        else if (i == 2 && j == 1)
+                            continue;
                         else
                             world[i, j] = new Wall(i, j);
                     }
@@ -92,6 +94,8 @@ namespace Tests
                     {
                         if (i == 2 && j == 1)
                             world[i, j] = new Poison(i, j);
+                        else if (i == 1 && j == 1)
+                            continue;
                         else
                             world[i, j] = new Wall(i, j);
                     }
@@ -123,7 +127,7 @@ namespace Tests
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        if (i == 1 && j == 1)
+                        if ((i == 1 && j == 1) || (i==2 && j==1))
                             world[i, j] = new Food(i, j);
                         else
                             world[i, j] = new Wall(i, j);
@@ -140,8 +144,8 @@ namespace Tests
                 Assert.AreEqual(1, controller.Body.Y);
                 Assert.AreEqual(19, controller.Body.Health);
                 Assert.AreEqual(null, CreatureController.Map[1, 1]);
-              
-               
+
+
             }
             #endregion
 
@@ -152,7 +156,7 @@ namespace Tests
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        if (i == 2 && j == 1)
+                        if ((i == 2 && j == 1)||(i==1 &&j==1))
                             world[i, j] = new Poison(i, j);
                         else
                             world[i, j] = new Wall(i, j);
@@ -162,14 +166,14 @@ namespace Tests
 
 
                 var controller = new CreatureController(1, 1);
-               
+
                 //Go on Poison cell cell
                 controller.Catch(2, 1);
                 Assert.AreEqual(1, controller.Body.X);
                 Assert.AreEqual(1, controller.Body.Y);
                 Assert.AreEqual(typeof(Food), CreatureController.Map[2, 1].GetType());
                 Assert.AreEqual(9, controller.Body.Health);
-               
+
             }
             #endregion
 
@@ -180,8 +184,8 @@ namespace Tests
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        if (i == 2 && j == 1)
-                            world[i, j] =null;
+                        if ((i == 2 && j == 1 )||((i == 1 && j == 1)))
+                            world[i, j] = null;
                         else
                             world[i, j] = new Wall(i, j);
                     }
@@ -200,6 +204,94 @@ namespace Tests
 
             }
             #endregion
+        }
+
+        [TestMethod]
+        public void CounterTest()
+        {
+            MapController map = new MapController(100, 100, null);
+            int startfoodcount = map.FoodOnMap;
+            int startposioncount = map.PoisonOnMap;
+            int startfreecount = map.EmpetyCells;
+            //startcheck
+            {
+                int currfood=0;
+                int currpoison=0;
+                int currfree=0;
+
+                foreach (var item in map)
+                {
+                    if (item is Food)
+                        currfood++;
+                    if (item is Poison)
+                        currpoison++;
+                    if (item is null)
+                        currfree++;
+                }
+                Assert.AreEqual(startfoodcount, currfood);
+                Assert.AreEqual(startposioncount, currpoison);
+                Assert.AreEqual(startfreecount, currfree);
+                
+            }
+
+            //Randomazing
+            {
+                Random rnd = new Random();
+                var forfod = rnd.Next(1, 20);
+                var forPoison = rnd.Next(1, 20);
+                var fornull = rnd.Next(1, 20);
+                for (int i = 0; i < forfod; i++)
+                {
+                    var t = map.FreePosition();
+                    map[t.Item1, t.Item2] = new Food();
+                    if (i % 2 == 0)
+                        map[t.Item1, t.Item2] = null;
+                }
+                for (int i = 0; i < forPoison; i++)
+                {
+                    var t = map.FreePosition();
+                    map[t.Item1, t.Item2] = new Poison();
+                    if (i % 2 == 0)
+                        map[t.Item1, t.Item2] = null;
+                }
+                for (int i = 0; i <fornull; i++)
+                {
+                    var t = map.FreePosition();
+                    map[t.Item1, t.Item2] =null;
+                }
+
+            }
+            //Finish check
+            {
+                int currfood = 0;
+                int currpoison = 0;
+                int currfree = 0;
+                for (int x = 0; x < map.Width; x++)
+                {
+                    for (int y = 0; y < map.Height; y++)
+                    {
+                        var item = map[x, y];
+
+                        
+
+                        if (item is Food)
+                            currfood++;
+                        if (item is Poison)
+                            currpoison++;
+                        if (item is null)
+                            currfree++;
+                        if (item != null)
+                        {
+                            Assert.AreEqual(item.X, x);
+                            Assert.AreEqual(item.Y, y);
+                        }
+                    }
+                }
+               
+                Assert.AreEqual(map.FoodOnMap, currfood);
+                Assert.AreEqual(map.PoisonOnMap, currpoison);
+                Assert.AreEqual(map.EmpetyCells, currfree);
+            }
         }
 
 

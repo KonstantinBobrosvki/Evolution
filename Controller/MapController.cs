@@ -1,16 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Modal;
 
 namespace Controller
 {
-    public partial class MapController
+    public partial class MapController:IEnumerable
     {
+        #region Properties
         /// <summary>
-        /// Weidth of Map
+        /// Width of Map
         /// </summary>
         public int Width { get => Map.GetLength(0); }
 
@@ -28,7 +31,8 @@ namespace Controller
         /// Count of empety cells
         /// </summary>
         public int EmpetyCells { get; private set; }
-        
+
+        #endregion
         private readonly WorldObject[,] Map;
 
 
@@ -141,36 +145,66 @@ namespace Controller
 
             set
             {
-                //Если до етого пустая
+                if (this[x, y] is Wall)
+                    throw new Exception("U cant change wall cell");
+
+                //Если делаем пустой
                 if(value is null)
                 {
                     if(!(this[x,y] is null))
-                    EmpetyCells++;
-                }
-                else
-                {
-                    if (Map[x, y] is null)
                     {
-                        EmpetyCells--;
-                    }
-                    //если просто меняем содержимое
-                    else
-                    {
-                        if (Map[x, y] is Food)
-                        {
-                            if(value.GetType()!=typeof(Food))
+                        if (this[x, y] is Food)
                             FoodOnMap--;
-                        }
-                        else if (Map[x, y] is Poison)
-                        {
-                            if (value.GetType() != typeof(Poison))
-                                PoisonOnMap--;
-                        }
+                        else if (this[x,y] is Poison)
+                            PoisonOnMap--;
+
+                        if(!(this[x,y] is null))
+                        EmpetyCells++;
+
                     }
+                }
+        
+                    
+                if(value is Food)
+                {
+                        if (this[x, y] is null)
+                            EmpetyCells--;
+                        else if (this[x, y] is Poison)
+                            PoisonOnMap--;
+
+                        if(!(this[x,y] is Food))
+                        FoodOnMap++;
+                }
+
+                 if (value is Poison)
+                 {
+                        if (Map[x, y] is null)
+                            EmpetyCells--;
+                        else if (this[x, y] is Food)
+                            FoodOnMap--;
+
+                        if (!(this[x, y] is Poison))
+                            PoisonOnMap++;
+                 }
+
+                 if(value is CreatureBody)
+                 {
+                    if (Map[x, y] is null)
+                        EmpetyCells--;
+
+                    else if (this[x, y] is Food)
+                        FoodOnMap--;
+
+                    else if (this[x, y] is Poison)
+                        PoisonOnMap--;
+                 }
+
+                if (!(value is null))
+                {
                     value.X = x;
                     value.Y = y;
-
                 }
+                
                 Map[x, y] = value;
             }
 
@@ -195,6 +229,15 @@ namespace Controller
                     return new Tuple<int, int>(x, y);
             }
         }
+
+        public IEnumerator GetEnumerator()
+        {
+           return Map.GetEnumerator();
+        }
+
+     
+
+       
 
     }
 }
