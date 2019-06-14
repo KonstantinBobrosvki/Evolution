@@ -21,13 +21,13 @@ namespace Tests
             public void Intialize()
             {
            
-                Map = new MapController(100, 100, null);
+                Map = new MapController(100, 100, 10);
                 CreatureController.Map = Map;
               
                 Random d = new Random();
                 var temp = Map.EmpetyCells;
                
-                for (int i = 0; i < temp / 10; i++)
+                for (int i = 0; i < temp / 100; i++)
                 {
 
                     var x = d.Next(0, Map.Width);
@@ -74,16 +74,17 @@ namespace Tests
             public void NullCountCheckerTest()
             {
                 var ForCheckCount = 0;
-                for (int x = 0; x < Map.Width; x++)
-                {
-                    for (int y = 0; y < Map.Height; y++)
-                    {
+                 for (int y = 0; y < Map.Height; y++)
+                 {
+                    for (int x = 0; x < Map.Width; x++)
+                    {   
+                    
                         var element = Map[x, y];
 
-                        if (element is null)
+                        if (element == null)
                             ForCheckCount++;
                     }
-                }
+                 }
                 Assert.AreEqual(Map.EmpetyCells, ForCheckCount);
             }
 
