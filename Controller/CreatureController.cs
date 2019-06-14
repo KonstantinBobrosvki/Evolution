@@ -9,11 +9,12 @@ namespace Controller
         public static MapController Map { get; set; }
 
         public CreatureBody Body { get; set; }
-        
-        public CreatureController(int x,int y):this()
+
+        public CreatureController(int x,int y)
         {
             Map[x, y] = new CreatureBody(x,y);
             Body =(CreatureBody) Map[x, y];
+           
         }
 
         /// <summary>
@@ -24,7 +25,7 @@ namespace Controller
         {
             List<(int, int)> InteractedCells = new List<(int, int)>(2) { (Body.X, Body.Y) };
 
-            InteractedCells.Add(PrivateThink());
+          
 
             return InteractedCells;
         }
