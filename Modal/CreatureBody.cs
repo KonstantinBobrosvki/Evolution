@@ -13,7 +13,7 @@ namespace Modal
         /// <summary>
         /// Event for diying creature
         /// </summary>
-        public event Action<object, EventArgs> DieEvent;
+        public event EventHandler DieEvent;
         /// <summary>
         /// Health of Creature
         /// <para>Max health is 100</para>

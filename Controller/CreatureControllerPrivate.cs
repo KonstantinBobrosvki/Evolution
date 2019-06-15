@@ -8,8 +8,11 @@ namespace Controller
 {
    public partial class CreatureController
     {
-       
-       
+       private List<(int,int)> ThinkPrivate()
+        {
+            return null;
+        }
+
 
     }
 }
