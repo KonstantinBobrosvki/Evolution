@@ -145,7 +145,7 @@ namespace Controller
 
             set
             {
-                if (this[x, y] is Wall)
+                if (this[x, y] is Wall && !(value is Wall))
                     throw new Exception("U cant change wall cell");
 
                 //Если делаем пустой
