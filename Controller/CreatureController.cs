@@ -6,29 +6,76 @@ namespace Controller
 {
     public partial class CreatureController
     {
+        #region properties
         public static MapController Map { get; set; }
 
-        public CreatureBody Body { get; set; }
+        public CreatureBody Body {
+            get => body;
+            set {
+               
+                body = value;
+            }
+        }
+        private CreatureBody body;
 
         public int X { get => Body.X; }
         public int Y { get => Body.Y; }
-
-        public CreatureController(int x,int y)
+        public int Health { get => Body.Health; }
+        public CreatureBody.SeeDirection Sight { get => Body.Sight; }
+        #endregion
+        public CreatureController(int x,int y):this()
         {
             Map[x, y] = new CreatureBody(x,y);
             Body =(CreatureBody) Map[x, y];
-           
+
+            //For optimization
+            if (this.GetType().ToString() != typeof(CreatureController).ToString())
+                LogicBlocks = null;
         }
 
+        private CreatureController()
+        {
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+            for (int i = 0; i < LogicBlocks.Length; i++)
+            {
+                LogicBlocks[i] = random.Next(0, 64);
+            }
+        }
+
+        #region Methods for evolving
+
         /// <summary>
-        /// Method for interacting with world
+        /// Using AI
         /// </summary>
         /// <returns>Interacted cells</returns>
         public virtual List<(int X,int Y)> Think()
         {
-            
             return ThinkPrivate();
         }
+
+        /// <summary>
+        /// Some random change in AI
+        /// </summary>
+        public virtual void Evolve()
+        {
+            EvolvePrivate();
+        }
+
+        /// <summary>
+        /// Returns copies
+        /// </summary>
+        /// <param name="count">Copies count</param>
+        /// <param name="mutatescount">Changed copies</param>
+        /// <returns>Copies</returns>
+        public virtual List<CreatureController>GetChildrens(int count,int mutatescount)
+        {
+            return GetChilds(count, mutatescount);
+        }
+
+        #endregion
+
+        #region Methods for interacting with world
+    
 
         /// <summary>
         /// Move on other cell
@@ -37,8 +84,8 @@ namespace Controller
         /// <param name="y">Y</param>
         public void Move(int x,int y)
         {
-            Body.Health--;
 
+            Body.Health--;
             if (Map[x,y]==null)
             {
                 Map[Body.X, Body.Y] = null;
@@ -60,9 +107,15 @@ namespace Controller
 
         }
 
+        /// <summary>
+        /// Get something on another cell without moving
+        /// </summary>
+        /// <param name="x">X</param>
+        /// <param name="y">Y</param>
         public void Catch(int x,int y)
         {
             Body.Health--;
+
             if (Map[x,y] is Poison)
             {
                 Map[x, y] = new Food(x, y);
@@ -79,11 +132,11 @@ namespace Controller
 
         public void Rotate(int times)
         {
-            if (times > 8 || times < 1)
+            if (times > 7 || times < 0)
                 throw new ArgumentOutOfRangeException();
 
-            int temp =(int) Body.Sight;
-            while (temp + times >= 8)
+            int temp =(int) Body.Sight + times;
+            while (temp  >= 8)
                 temp -= 8;
             Body.Sight = (CreatureBody.SeeDirection)temp;
         }
@@ -95,7 +148,7 @@ namespace Controller
         /// <returns>X,Y</returns>
         public Tuple<int,int> IndexOfCell(int rotate)
         {
-            if (rotate < 1 || rotate > 8)
+            if (rotate < 0|| rotate > 7)
                 throw new ArgumentOutOfRangeException();
 
             int temp =(int)Body.Sight + rotate;
@@ -125,5 +178,13 @@ namespace Controller
 
             
         }
+
+        public WorldObject See(int rotate)
+        {
+            var temp = IndexOfCell(rotate);
+            return Map[temp.Item1, temp.Item2];
+        }
+
+        #endregion
     }
 }

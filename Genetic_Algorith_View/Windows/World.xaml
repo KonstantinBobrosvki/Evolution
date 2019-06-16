@@ -19,6 +19,10 @@
         <UniformGrid Grid.Row="0" Grid.Column="0" x:Name="MapField">
 
         </UniformGrid>
+        <Grid Grid.Column="1">
+            <Button x:Name="NextMoveButton" Content="Next Move" Click="NextMoveButton_Click" Margin="0,555,0,10" />
+
+        </Grid>
 
     </Grid>
 </Window>
