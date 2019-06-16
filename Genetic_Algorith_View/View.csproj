@@ -55,8 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="World.xaml.cs">
+    <Compile Include="Windows\World.xaml.cs">
       <DependentUpon>World.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\WorldOptionsGeneral.xaml.cs">
+      <DependentUpon>WorldOptionsGeneral.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -70,7 +73,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="World.xaml">
+    <Page Include="Windows\World.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\WorldOptionsGeneral.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

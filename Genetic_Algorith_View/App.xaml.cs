@@ -13,5 +13,8 @@ namespace Genetic_Algorith_View
     /// </summary>
     public partial class App : Application
     {
+       public static Controller.MapController Map;
+       public static MainWindow MainScreen;
+       public static Windows.World WorldScreen;
     }
 }

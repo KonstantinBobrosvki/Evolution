@@ -3,17 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF_View", "Genetic_Algorith_View\WPF_View.csproj", "{8DD07889-8C32-4D55-AC1C-A83F43D8E3E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "View", "Genetic_Algorith_View\View.csproj", "{8DD07889-8C32-4D55-AC1C-A83F43D8E3E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modal", "Modal\Modal.csproj", "{47743ACD-672F-4475-9608-F06B95A8730A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "Controller\Controller.csproj", "{8AA9063B-4374-4BBE-B020-06DDC66852BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "Documentaion\Documentation.csproj", "{2557D5B1-A61C-44D6-A737-39F8418DAF5B}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Instalator", "Instalator\Instalator.vdproj", "{B76326B1-F7B0-4519-BFE0-D6B73A0EA9EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainsTypes", "BrainsTypes\BrainsTypes.csproj", "{DBF962B9-11B6-44AC-84EC-F7D78C12A293}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupV0.8", "SetupV0.8\SetupV0.8.vdproj", "{966D3AB6-056E-4389-9D39-6413AE451D91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "UnitTestProject1\Tests.csproj", "{99CEAE86-F95B-4D6D-B5A3-738263D844F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,16 +31,12 @@ Global
 		{8AA9063B-4374-4BBE-B020-06DDC66852BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AA9063B-4374-4BBE-B020-06DDC66852BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AA9063B-4374-4BBE-B020-06DDC66852BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2557D5B1-A61C-44D6-A737-39F8418DAF5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2557D5B1-A61C-44D6-A737-39F8418DAF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2557D5B1-A61C-44D6-A737-39F8418DAF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2557D5B1-A61C-44D6-A737-39F8418DAF5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBF962B9-11B6-44AC-84EC-F7D78C12A293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBF962B9-11B6-44AC-84EC-F7D78C12A293}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBF962B9-11B6-44AC-84EC-F7D78C12A293}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBF962B9-11B6-44AC-84EC-F7D78C12A293}.Release|Any CPU.Build.0 = Release|Any CPU
-		{966D3AB6-056E-4389-9D39-6413AE451D91}.Debug|Any CPU.ActiveCfg = Debug
-		{966D3AB6-056E-4389-9D39-6413AE451D91}.Release|Any CPU.ActiveCfg = Release
+		{B76326B1-F7B0-4519-BFE0-D6B73A0EA9EC}.Debug|Any CPU.ActiveCfg = Debug
+		{B76326B1-F7B0-4519-BFE0-D6B73A0EA9EC}.Release|Any CPU.ActiveCfg = Release
+		{99CEAE86-F95B-4D6D-B5A3-738263D844F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99CEAE86-F95B-4D6D-B5A3-738263D844F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99CEAE86-F95B-4D6D-B5A3-738263D844F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99CEAE86-F95B-4D6D-B5A3-738263D844F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

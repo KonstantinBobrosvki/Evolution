@@ -25,8 +25,21 @@ namespace Genetic_Algorith_View
         public MainWindow()
         {
             InitializeComponent();
-            
+            WindowState = WindowState.Maximized;
+            WindowStyle = WindowStyle.None;
+            App.MainScreen = this;
         }
-      
+
+        private void NewButton_Click(object sender, RoutedEventArgs e)
+        {
+            WorldOptions worldOptions = new WorldOptions();
+            worldOptions.Show();
+            this.Hide();
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
