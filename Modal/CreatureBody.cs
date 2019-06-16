@@ -74,17 +74,18 @@ namespace Modal
         /// <summary>
         /// Constructor
         /// </summary>
-        public CreatureBody(int x,int y):base(false,0)
+        public CreatureBody(int x,int y):this()
         {
             X = x;
             Y = y;
-            Health = 10;
-            Sight = SeeDirection.Top;
+           
         }
 
         public CreatureBody(): base(false, 0)
         {
-
+           
+            Health = 10;
+            Sight = SeeDirection.Top;
         }
     }
 }

@@ -127,7 +127,7 @@ namespace Tests
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        if ((i == 1 && j == 1) || (i==2 && j==1))
+                        if ((i == 1 && j == 1) || (i == 2 && j == 1))
                             world[i, j] = new Food(i, j);
                         else
                             world[i, j] = new Wall(i, j);
@@ -156,7 +156,7 @@ namespace Tests
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        if ((i == 2 && j == 1)||(i==1 &&j==1))
+                        if ((i == 2 && j == 1) || (i == 1 && j == 1))
                             world[i, j] = new Poison(i, j);
                         else
                             world[i, j] = new Wall(i, j);
@@ -184,7 +184,7 @@ namespace Tests
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        if ((i == 2 && j == 1 )||((i == 1 && j == 1)))
+                        if ((i == 2 && j == 1) || ((i == 1 && j == 1)))
                             world[i, j] = null;
                         else
                             world[i, j] = new Wall(i, j);
@@ -215,9 +215,9 @@ namespace Tests
             int startfreecount = map.EmpetyCells;
             //startcheck
             {
-                int currfood=0;
-                int currpoison=0;
-                int currfree=0;
+                int currfood = 0;
+                int currpoison = 0;
+                int currfree = 0;
 
                 foreach (var item in map)
                 {
@@ -231,7 +231,7 @@ namespace Tests
                 Assert.AreEqual(startfoodcount, currfood);
                 Assert.AreEqual(startposioncount, currpoison);
                 Assert.AreEqual(startfreecount, currfree);
-                
+
             }
 
             //Randomazing
@@ -254,10 +254,10 @@ namespace Tests
                     if (i % 2 == 0)
                         map[t.Item1, t.Item2] = null;
                 }
-                for (int i = 0; i <fornull; i++)
+                for (int i = 0; i < fornull; i++)
                 {
                     var t = map.FreePosition();
-                    map[t.Item1, t.Item2] =null;
+                    map[t.Item1, t.Item2] = null;
                 }
 
             }
@@ -272,7 +272,7 @@ namespace Tests
                     {
                         var item = map[x, y];
 
-                        
+
 
                         if (item is Food)
                             currfood++;
@@ -287,11 +287,65 @@ namespace Tests
                         }
                     }
                 }
-               
+
                 Assert.AreEqual(map.FoodOnMap, currfood);
                 Assert.AreEqual(map.PoisonOnMap, currpoison);
                 Assert.AreEqual(map.EmpetyCells, currfree);
             }
+        }
+
+        [TestMethod]
+        public void RotateTest()
+        {
+            MapController mapController = new MapController(20, 20, null);
+            CreatureController.Map = mapController;
+            var temp = mapController.FreePosition();
+            var controller = new CreatureController(temp.Item1, temp.Item2);
+
+            for (int i = 1; i < 8; i++)
+            {
+                controller.Rotate(1);
+                Assert.AreEqual(i, (int)controller.Body.Sight);
+            }
+            controller.Rotate(1);
+            Assert.AreEqual(0, (int)controller.Body.Sight);
+            for (int i = 0; i < 16; i+=2)
+            {
+                
+                if(i<8)
+                Assert.AreEqual(i, (int)controller.Body.Sight);
+                if (i == 8)
+                    Assert.AreEqual(0, (int)controller.Body.Sight);
+                if(i>8)
+                 Assert.AreEqual(i-8, (int)controller.Body.Sight);
+
+                controller.Rotate(2);
+            }
+            Assert.AreEqual(0, (int)controller.Body.Sight);
+            controller.Rotate(7);
+            Assert.AreEqual(7, (int)controller.Body.Sight);
+            controller.Rotate(2);
+            Assert.AreEqual(1, (int)controller.Body.Sight);
+
+        }
+
+        [TestMethod]
+        public void IndexOfCellTest()
+        {
+            MapController mapController = new MapController(20, 20, null);
+            CreatureController.Map = mapController;
+            var temp = mapController.FreePosition();
+            var controller = new CreatureController(temp.Item1, temp.Item2);
+
+
+            Assert.AreEqual(controller.IndexOfCell(0), new Tuple<int, int>(controller.X, controller.Y - 1));
+            controller.Rotate(1);
+            Assert.AreEqual(controller.IndexOfCell(0), new Tuple<int, int>(controller.X+1, controller.Y - 1));
+            controller.Rotate(7);
+            Assert.AreEqual(controller.IndexOfCell(0), new Tuple<int, int>(controller.X, controller.Y - 1));
+            controller.Rotate(7);
+            Assert.AreEqual(controller.IndexOfCell(2), new Tuple<int, int>(controller.X+1, controller.Y - 1));
+
         }
 
 

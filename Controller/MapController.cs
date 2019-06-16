@@ -122,6 +122,17 @@ namespace Controller
             
             Map=(WorldObject[,])map.Clone();
             Seed =rnd;
+
+            //New values for things
+            foreach (var item in this)
+            {
+                if (item is null)
+                    EmpetyCells++;
+                else if (item is Food)
+                    FoodOnMap++;
+                else if (item is Poison)
+                    PoisonOnMap++;
+            }
         }
         #endregion
 
@@ -217,7 +228,7 @@ namespace Controller
         public Tuple<int,int> FreePosition()
         {
             if (EmpetyCells == 0)
-                throw new Exception();
+                return null;
 
             Random rnd = new Random();
             while(true)
@@ -234,10 +245,6 @@ namespace Controller
         {
            return Map.GetEnumerator();
         }
-
-     
-
-       
 
     }
 }
