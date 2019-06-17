@@ -22,6 +22,9 @@ namespace Controller
         public int Y { get => Body.Y; }
         public int Health { get => Body.Health; }
         public CreatureBody.SeeDirection Sight { get => Body.Sight; }
+
+        public int GenerationsWithoutEvolution { get; private set; }
+
         #endregion
         public CreatureController(int x,int y):this()
         {
@@ -85,7 +88,7 @@ namespace Controller
         public void Move(int x,int y)
         {
 
-            Body.Health--;
+           
             if (Map[x,y]==null)
             {
                 Map[Body.X, Body.Y] = null;
@@ -114,7 +117,7 @@ namespace Controller
         /// <param name="y">Y</param>
         public void Catch(int x,int y)
         {
-            Body.Health--;
+           
 
             if (Map[x,y] is Poison)
             {

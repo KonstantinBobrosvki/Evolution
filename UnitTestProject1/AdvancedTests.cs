@@ -48,7 +48,7 @@ namespace Tests
                         }
                     }
                 }
-                Assert.AreEqual(controller.Body.Health, 2);
+                Assert.AreEqual(controller.Body.Health, 10);
             }
             #endregion
 
@@ -76,12 +76,12 @@ namespace Tests
                 controller.Move(1, 1);
                 Assert.AreEqual(1, controller.Body.X);
                 Assert.AreEqual(1, controller.Body.Y);
-                Assert.AreEqual(19, controller.Body.Health);
+                Assert.AreEqual(20, controller.Body.Health);
                 //Return on start
                 controller.Move(2, 1);
                 Assert.AreEqual(2, controller.Body.X);
                 Assert.AreEqual(1, controller.Body.Y);
-                Assert.AreEqual(18, controller.Body.Health);
+                Assert.AreEqual(20, controller.Body.Health);
             }
             #endregion
 
@@ -142,7 +142,7 @@ namespace Tests
                 controller.Catch(1, 1);
                 Assert.AreEqual(2, controller.Body.X);
                 Assert.AreEqual(1, controller.Body.Y);
-                Assert.AreEqual(19, controller.Body.Health);
+                Assert.AreEqual(20, controller.Body.Health);
                 Assert.AreEqual(null, CreatureController.Map[1, 1]);
 
 
@@ -172,7 +172,7 @@ namespace Tests
                 Assert.AreEqual(1, controller.Body.X);
                 Assert.AreEqual(1, controller.Body.Y);
                 Assert.AreEqual(typeof(Food), CreatureController.Map[2, 1].GetType());
-                Assert.AreEqual(9, controller.Body.Health);
+                Assert.AreEqual(10, controller.Body.Health);
 
             }
             #endregion
@@ -200,7 +200,7 @@ namespace Tests
                 Assert.AreEqual(1, controller.Body.X);
                 Assert.AreEqual(1, controller.Body.Y);
                 Assert.AreEqual(null, CreatureController.Map[2, 1]);
-                Assert.AreEqual(9, controller.Body.Health);
+                Assert.AreEqual(10, controller.Body.Health);
 
             }
             #endregion
@@ -259,6 +259,8 @@ namespace Tests
                     var t = map.FreePosition();
                     map[t.Item1, t.Item2] = null;
                 }
+                map.GenerateFood(10);
+                map.GeneratePoison(10);
 
             }
             //Finish check

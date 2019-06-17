@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="599*"/>
             </Grid.ColumnDefinitions>
             <TextBox x:Name="WidthInput" Grid.Column="1" FontSize="60"  TextWrapping="Wrap"  Grid.Row="1"/>
-            <Label Content="Width" FontSize="60" Grid.Row="1"/>
+            <Label Content="Width" VerticalContentAlignment="Center" FontSize="60" Grid.Row="0" Grid.RowSpan="3"/>
 
         </Grid>
 
@@ -43,7 +43,7 @@
                 <ColumnDefinition Width="599*"/>
             </Grid.ColumnDefinitions>
             <TextBox x:Name="HeightInput" Grid.Column="1" FontSize="60"  TextWrapping="Wrap"  Grid.Row="1"/>
-            <Label Content="Height" FontSize="60" Grid.Row="1"/>
+            <Label Content="Height" VerticalContentAlignment="Center" FontSize="60" Grid.Row="0" Grid.RowSpan="3"/>
 
         </Grid>
 
@@ -63,7 +63,7 @@
 
 
 
-            <Label Content="Seed" FontSize="60" Grid.Row="1"/>
+            <Label Content="Seed" VerticalContentAlignment="Center" FontSize="60" Grid.Row="0" Grid.RowSpan="3"/>
 
         </Grid>
 

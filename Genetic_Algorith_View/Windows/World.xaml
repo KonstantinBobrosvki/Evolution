@@ -18,10 +18,50 @@
 
         <UniformGrid Grid.Row="0" Grid.Column="0" x:Name="MapField">
 
-        </UniformGrid>
-        <Grid Grid.Column="1">
-            <Button x:Name="NextMoveButton" Content="Next Move" Click="NextMoveButton_Click" Margin="0,555,0,10" />
 
+        </UniformGrid>
+        <Grid x:Name="Controlls_Grid" Grid.Column="1">
+            <Button x:Name="NextMoveButton" MaxHeight="100" Content="Next Move" Click="NextMoveButton_Click" Margin="0,565,0,0" />
+            <Button x:Name="TimerButton" Content="Start" Margin="0,240,0,326" Click="TimerButton_Click"  MaxHeight="100"/>
+            <TextBox x:Name="TimerInput" TextChanged="TimerInput_TextChanged" Margin="0,181,0,393" TextWrapping="Wrap" MaxHeight="100"/>
+
+
+
+        </Grid>
+
+        <Grid x:Name="InformationGrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="109*"/>
+                <ColumnDefinition Width="163*"/>
+                <ColumnDefinition Width="237*"/>
+                <ColumnDefinition Width="223*"/>
+            </Grid.ColumnDefinitions>
+
+            <UniformGrid x:Name="Best8" Columns="8" Rows="2"  Grid.Column="2" Margin="0,0,0,0">
+
+            </UniformGrid>
+            <Grid x:Name="LabelsGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label x:Name="MaxLive" Content="Max turns  time" BorderThickness="4" BorderBrush="Black" Grid.Row="1"/>
+                <Label x:Name="CurrentLive"  Content="Current turns " BorderThickness="4" BorderBrush="Black"/>
+                <Label x:Name="Genretaions" Content="Generations Count"  BorderThickness="4" BorderBrush="Black" Grid.Row="2"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Label x:Name="ElapsedTimeLabel" Content="Elapsed real time" BorderThickness="4" BorderBrush="Black" Grid.Row="1"/>
+                <Label x:Name="AvarangeLiveLabel"  Content="Avarange turns" BorderThickness="4" BorderBrush="Black"/>
+                <Label x:Name="LiveCreaturesCountLabel" Content="Live creatures count"  BorderThickness="4" BorderBrush="Black" Grid.Row="2"/>
+                
+            </Grid>
         </Grid>
 
     </Grid>

@@ -100,12 +100,21 @@ namespace Genetic_Algorith_View
 
         private void NewWorld_Click(object sender, RoutedEventArgs e)
         {
-           if(Seed==0)
-            {
-                Seed = new Random(DateTime.Now.Day * DateTime.Now.Millisecond).Next();
+           
+           if(Seed==null)
+           {
+                if (Width == 0)
+                    Width = new Random().Next(50, 150);
+                if (Height == 0)
+                    Height = new Random(Guid.NewGuid().GetHashCode()).Next(50, 150);
+
+
+                App.Height = Height;
+                App.Width = Width;
             }
+           else
             App.Map = new Controller.MapController(Width, Height, Seed);
-            Seed = null;
+            
             App.WorldScreen = new World();
             App.WorldScreen.Show();
             this.Close();

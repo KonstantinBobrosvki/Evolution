@@ -9,7 +9,7 @@ namespace Controller
 {
    public partial class CreatureController
     {
-       
+
         #region Some things for AI
         /// <summary>
         /// Main Brain
@@ -47,7 +47,7 @@ namespace Controller
                     Rotate(actioncode);
                     Current++;
                 }
-                //For seeing
+                //For ONLY seeing
                 else if (actioncode < 16)
                 {
                     var type = See(actioncode - 8);
@@ -69,6 +69,18 @@ namespace Controller
                 //For Move
                 else if (actioncode < 24)
                 {
+                    var type = See(actioncode - 16);
+                    if (type is null)
+                        Current++;
+                    else if (type is CreatureBody)
+                        Current += 2;
+                    else if (type is Food)
+                        Current += 3;
+                    else if (type is Poison)
+                        Current += 4;
+                    else if (type is Wall)
+                        Current += 5;
+
                     var where = IndexOfCell(actioncode - 16);
                     Move(where.Item1, where.Item2);
                     result.Add((where.Item1, where.Item2));
@@ -77,6 +89,18 @@ namespace Controller
                 //For Catch
                 else if (actioncode < 32)
                 {
+                    var type = See(actioncode - 24);
+                    if (type is null)
+                        Current++;
+                    else if (type is CreatureBody)
+                        Current += 2;
+                    else if (type is Food)
+                        Current += 3;
+                    else if (type is Poison)
+                        Current += 4;
+                    else if (type is Wall)
+                        Current += 5;
+
                     var where = IndexOfCell(actioncode - 24);
                     Catch(where.Item1, where.Item2);
                     result.Add((where.Item1, where.Item2));
@@ -100,6 +124,7 @@ namespace Controller
         private void EvolvePrivate()
         {
             Random rnd = new Random(Guid.NewGuid().GetHashCode());
+            GenerationsWithoutEvolution = 0;
             LogicBlocks[rnd.Next(0, 64)] = rnd.Next(0, 64);
         }
 
@@ -112,9 +137,11 @@ namespace Controller
             {
                 CreatureController c = new CreatureController();
                 c.LogicBlocks =(int[]) LogicBlocks.Clone();
+                c.GenerationsWithoutEvolution++;
                 if (mutatecount-- > 0)
                     c.Evolve();
                 c.Current = 0;
+
                 result.Add(c);
             }
             return result;
