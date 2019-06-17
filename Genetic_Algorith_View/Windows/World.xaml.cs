@@ -15,7 +15,7 @@ namespace Genetic_Algorith_View.Windows
     /// </summary>
     public partial class World : Window
     {
-       
+        #region
         List<CreatureController> Creatures;
 
         public MapController Map { get => CreatureController.Map; }
@@ -34,7 +34,7 @@ namespace Genetic_Algorith_View.Windows
 
         DateTime start = DateTime.Now;
 
-       
+          #endregion
 
         public World()
         {
@@ -42,6 +42,7 @@ namespace Genetic_Algorith_View.Windows
 
             InitializeComponent();
 
+            
             
           
 
@@ -58,6 +59,15 @@ namespace Genetic_Algorith_View.Windows
             else
             CreatureController.Map = App.Map;
 
+            if (App.Map is null)
+            {
+                if (App.MinFood == -1)
+                    App.MinFood = Map.Square / 10;
+                if (App.MinPoison==-1)
+                    App.MinPoison = Map.Square / 30;
+
+            }
+
             StartMap = Map.Clone();
 
             Creatures = new List<CreatureController>(64);
@@ -73,6 +83,25 @@ namespace Genetic_Algorith_View.Windows
 
             StartDraw();
 
+            LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
+
+            PosionOnMapLabel.Content = Map.PoisonOnMap;
+
+            FoodOnMapLabel.Content= Map.FoodOnMap;
+
+            for (int i = 0; i < 8; i++)
+            {
+                
+                    Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 3, 3, 0.5), ToolTip = "Health of creature in moment of creating childs", FontSize = 20 });
+
+
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 0.5, 3, 3), ToolTip = "Generations without evolution of creature", FontSize = 20 });
+
+            }
+            CheckMinimum();
         }
 
         #region Methods
@@ -126,9 +155,27 @@ namespace Genetic_Algorith_View.Windows
             }
         }
 
-        private int GetOneRankIndex(int x, int y)
+        private static int GetOneRankIndex(int x, int y)
         {
             return CreatureController.Map.Width * y + x;
+        }
+
+        private void CheckMinimum()
+        {
+            if(Map.FoodOnMap<App.MinFood*3/4)
+            {
+                for (int i = 0; i < App.MinFood - Map.FoodOnMap; i++)
+                {
+                    var temp = Map.FreePosition();
+                    if (temp is null)
+                        break;
+                    else
+                    {
+                        Map[temp.Item1, temp.Item2] = new Food();
+                        ReDraw(temp.Item1, temp.Item2);
+                    }
+                }
+            }
         }
 
 
@@ -142,12 +189,17 @@ namespace Genetic_Algorith_View.Windows
 
 
             var newpopulation = new List<CreatureController>(64);
-            foreach (var item in Creatures)
+            for (int i = 0; i < Creatures.Count; i++)
             {
+                var item = Creatures[i];
                 newpopulation.AddRange(item.GetChildrens(8, 2));
+                ((Label)Best8.Children[i]).Content = item.Health;
+                ((Label)Best8.Children[i+8]).Content = item.GenerationsWithoutEvolution;
+
             }
 
-            if(App.Map!=null)
+
+            if (App.Map!=null)
             CreatureController.Map = StartMap.Clone();
             else
             CreatureController.Map = new MapController(App.Width, App.Height, null);
@@ -172,7 +224,12 @@ namespace Genetic_Algorith_View.Windows
                     ReDraw(x, y);
                 }
             }
-                   
+            LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
+
+            FoodOnMapLabel.Content = "Food on map: " + Map.FoodOnMap;
+            PosionOnMapLabel.Content = "Poison on map: " + Map.PoisonOnMap;
+
+            CheckMinimum();
         }
 
         private void ReDraw(int x, int y)
@@ -225,6 +282,9 @@ namespace Genetic_Algorith_View.Windows
 
             }
 
+            if (App.MinFood - 3 / 4 * App.MinFood > Map.FoodOnMap)
+                Map.GenerateFood((int)App.MinFood - Map.FoodOnMap);
+
             for (int i = 0; i < Creatures.Count; i++)
             {
                 var item = Creatures[i];
@@ -249,36 +309,15 @@ namespace Genetic_Algorith_View.Windows
                     break;
                 }
             }
-        }
+            CheckMinimum();
 
-        private void Best8Output()
-        {
-            List<CreatureController> creatureControllers = new List<CreatureController>(10) { Creatures[0] };
-            foreach (var item in Creatures)
-            {
-                foreach (var item1 in creatureControllers)
-                {
-                    if(item.Health>item1.Health)
-                    {
-                        creatureControllers.Add(item);
-                        if(creatureControllers.Count==9)
-                        creatureControllers.Remove(item1);
-                        break;
-                    }
-                }
-            }
-           
 
-           
-            for (int i = 0; i < 8; i++)
-            {
-                var item = creatureControllers[i];
-                Best8.Children[i]=new Label() { Content = item.Health };
-                Best8.Children[i+8] = new Label() { Content = item.GenerationsWithoutEvolution };
-
-            }
+            FoodOnMapLabel.Content =  Map.FoodOnMap;
+            PosionOnMapLabel.Content = Map.PoisonOnMap;
 
         }
+
+       
         #endregion
 
         #region Events
@@ -325,6 +364,46 @@ namespace Genetic_Algorith_View.Windows
             Timer.Interval = new TimeSpan(0, 0, 0, 0, c);
         }
 
-        #endregion
+
+        private void AddFoodButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var t = Map.FreePosition();
+                Map[t.Item1, t.Item2] = new Food();
+                ReDraw(t.Item1, t.Item2);
+            }
+            catch (NullReferenceException)
+            {
+
+                MessageBox.Show("Not enough space");
+            }
+            FoodOnMapLabel.Content = Map.FoodOnMap;
+        }
+
+        private void PosionFoodButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var t = Map.FreePosition();
+                Map[t.Item1, t.Item2] = new Poison();
+                ReDraw(t.Item1, t.Item2);
+            }
+            catch (NullReferenceException)
+            {
+
+                MessageBox.Show("Not enough space");
+            }
+           PosionOnMapLabel.Content= Map.PoisonOnMap;
+        }
+
+        private void SaveAndExitButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
+
+        #endregion
+
+   
 }

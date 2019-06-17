@@ -32,6 +32,8 @@ namespace Controller
         /// </summary>
         public int EmpetyCells { get; private set; }
 
+        public int Square { get => (Width - 1) * (Height - 1); }
+
         #endregion
         private readonly WorldObject[,] Map;
 

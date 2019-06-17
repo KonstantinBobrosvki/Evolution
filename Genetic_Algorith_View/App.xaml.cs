@@ -16,6 +16,8 @@ namespace Genetic_Algorith_View
        public static Controller.MapController Map;
         public static int Height;
         public static int Width;
+        public static int MinFood=-1;
+        public static int MinPoison=-1;
        public static MainWindow MainScreen;
        public static Windows.World WorldScreen;
     }
