@@ -4,6 +4,7 @@ using Modal;
 
 namespace Controller
 {
+    [Serializable]
     public partial class CreatureController
     {
         #region properties
@@ -189,5 +190,7 @@ namespace Controller
         }
 
         #endregion
+
+       
     }
 }

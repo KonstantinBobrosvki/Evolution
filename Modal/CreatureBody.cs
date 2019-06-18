@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Modal
 {
+    [Serializable]
     /// <summary>
     /// Life thing for evolution
     /// </summary>

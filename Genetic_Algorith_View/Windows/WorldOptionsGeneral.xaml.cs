@@ -111,10 +111,14 @@ namespace Genetic_Algorith_View
 
                 App.Height = Height;
                 App.Width = Width;
+                App.ChangeMap = true;
             }
            else
-            App.Map = new Controller.MapController(Width, Height, Seed);
-            
+            {
+                App.Map = new Controller.MapController(Width, Height, Seed);
+                App.ChangeMap = false;
+            }
+
             App.WorldScreen = new World();
             App.WorldScreen.Show();
             this.Close();

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modal
 {
+    [Serializable]
     /// <summary>
     /// This class is food for creatures
     /// </summary>

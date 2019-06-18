@@ -9,6 +9,8 @@ using Modal;
 
 namespace Controller
 {
+
+    [Serializable]
     public partial class MapController:IEnumerable
     {
         #region Properties

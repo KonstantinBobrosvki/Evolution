@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modal
 {
+    [Serializable]
     /// <summary>
     /// This is parent class for all game types in this application
     /// </summary>

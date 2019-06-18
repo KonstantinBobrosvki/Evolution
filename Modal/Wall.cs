@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modal
 {
-
+    [Serializable]
     /// <summary>
     /// Creature can not walk trought wall
     /// </summary>
