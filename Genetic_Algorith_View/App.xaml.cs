@@ -13,7 +13,7 @@ namespace Genetic_Algorith_View
     /// </summary>
     public partial class App : Application
     {
-       public static Controller.MapController Map;
+        public static Controller.MapController Map;
 
         public static int Height;
 
@@ -30,9 +30,9 @@ namespace Genetic_Algorith_View
         //How many creatures will create childs
         public static int MinimumForNewGeneration = 8;
 
-       public static MainWindow MainScreen;
+        public static MainWindow MainScreen;
 
-       public static Windows.World WorldScreen;
+        public static Windows.World WorldScreen;
 
         public static readonly string PathToFolder = AppDomain.CurrentDomain.BaseDirectory;
     }

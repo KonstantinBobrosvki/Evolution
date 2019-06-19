@@ -104,6 +104,52 @@ namespace Genetic_Algorith_View.Windows
             CheckMinimum();
         }
 
+        public World(List<CreatureController> creatures)
+        {
+            InitializeComponent();
+
+            //Close all app when closes this
+            this.Closed += (sender, e) => App.MainScreen?.Close();
+
+            Timer.Tick += Timer_Tick;
+
+            if (App.Map == null)
+            {
+                App.Map = new MapController(App.Width, App.Height, null);
+                CreatureController.Map = App.Map.Clone();
+
+            }
+            else
+            {
+                CreatureController.Map = App.Map.Clone();
+            }
+
+            Creatures = creatures;
+
+
+            StartDraw();
+
+            LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
+
+            PosionOnMapLabel.Content = Map.PoisonOnMap;
+
+            FoodOnMapLabel.Content = Map.FoodOnMap;
+
+            for (int i = 0; i < 8; i++)
+            {
+
+                Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 3, 3, 0.5), ToolTip = "Health of creature in moment of creating childs", FontSize = 20 });
+
+
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 0.5, 3, 3), ToolTip = "Generations without evolution of creature", FontSize = 20 });
+
+            }
+            CheckMinimum();
+        }
+
         #region Methods
 
         private void StartDraw()
@@ -409,28 +455,41 @@ namespace Genetic_Algorith_View.Windows
                     Directory.CreateDirectory(App.PathToFolder + @"\Saves");
                 }
                 var temp = DateTime.Now.ToString();
-                string  path = App.PathToFolder + @"\Saves\" + "A"; //temp.Replace(':','-');
+                string  path = App.PathToFolder + @"\Saves\" + temp.Replace(':','-');
                
                 Directory.CreateDirectory(path);
 
                
 
                
-                using (FileStream stream = new FileStream(path+@"\Creatures.dat", FileMode.CreateNew))
+                using (FileStream stream = new FileStream(path+@"\Creatures.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
                 {
                     binaryFormatter.Serialize(stream, Creatures);
                 }
-                using (FileStream stream = new FileStream(path + @"\Map.dat", FileMode.CreateNew))
+
+                using (FileStream stream = new FileStream(path + @"\Map.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
                 {
                     binaryFormatter.Serialize(stream, Map);
                 }
 
-                MessageBox.Show("The save is in folder ''"+temp+"'' ");
+                using (StreamWriter writer = new StreamWriter(new FileStream(path + @"\App.txt", FileMode.CreateNew,FileAccess.Write, FileShare.ReadWrite)))
+                {
+                    writer.WriteLine(App.Height);
+                    writer.WriteLine(App.Width);
+                    writer.WriteLine(App.MinFood);
+                    writer.WriteLine(App.MinPoison);
+                    writer.WriteLine(App.ChangeMap);
+                    writer.WriteLine(App.CreaturesCount);
+                    writer.WriteLine(App.MinimumForNewGeneration);
+                    writer.Flush();
+                }
 
                 
-             
+                MessageBox.Show("The save is in folder ''"+temp+"'' .You can rename it if you want ");
+
 
                
+
             }
         }
 
