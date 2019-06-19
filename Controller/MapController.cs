@@ -250,5 +250,39 @@ namespace Controller
            return Map.GetEnumerator();
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is MapController controller)
+            {
+                if(Width!=controller.Width||Height!=controller.Height)
+                {
+                    return false;
+                }
+
+                for (int x = 0; x < Width; x++)
+                {
+                    for (int y = 0; y < Height; y++)
+                    {
+                        var item1 = this[x, y];
+                        var item2 = controller[x, y];
+
+                        if (item1 == null)
+                        {
+                            if (item2 != null)
+                                return false;
+                            else
+                                continue;
+                        }
+                        if (!item1.Equals(item2))
+                            return false;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

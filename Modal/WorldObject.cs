@@ -63,5 +63,15 @@ namespace Modal
             this.canmovetrought = CanMoveTrought;
             this.healthafterinteract = HealthAfterInteract;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is WorldObject worldObject)
+            {
+                return X == worldObject.X && Y == worldObject.Y;
+            }
+            else
+                return false;
+        }
     }
 }

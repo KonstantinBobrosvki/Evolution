@@ -350,6 +350,25 @@ namespace Tests
 
         }
 
+        [TestMethod]
+        public void EqualsTest()
+        {
+            var world = new WorldObject[3, 3];
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (i == 1 && j == 1)
+                        continue;
+                    else
+                        world[i, j] = new Wall(i, j);
+                }
+            }
+            MapController map1 = new MapController(world, new Random());
+
+            if (!map1.Equals(new MapController(world, new Random())))
+                Assert.Fail();
+        }
 
     }
 

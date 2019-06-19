@@ -80,7 +80,8 @@
 
             </Grid>
             <UniformGrid x:Name="Best8" Grid.Column="3" Columns="8" Rows="2" ToolTip="Information about best 8 creatures from previous generation">
-                
+               
+
             </UniformGrid>
         </Grid>
 

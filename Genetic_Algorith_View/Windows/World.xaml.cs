@@ -16,6 +16,8 @@ namespace Genetic_Algorith_View.Windows
     /// </summary>
     public partial class World : Window
     {
+        
+
         #region
         List<CreatureController> Creatures;
 
@@ -407,29 +409,39 @@ namespace Genetic_Algorith_View.Windows
                     Directory.CreateDirectory(App.PathToFolder + @"\Saves");
                 }
                 var temp = DateTime.Now.ToString();
-                string path = App.PathToFolder + @"\Saves\"+temp.Replace(':','-');
+                string  path = App.PathToFolder + @"\Saves\" + "A"; //temp.Replace(':','-');
                
                 Directory.CreateDirectory(path);
 
                
 
                
-                using (FileStream stream = new FileStream(path+@"/Creatures", FileMode.CreateNew))
+                using (FileStream stream = new FileStream(path+@"\Creatures.dat", FileMode.CreateNew))
                 {
                     binaryFormatter.Serialize(stream, Creatures);
                 }
-                using (FileStream stream = new FileStream(path + @"/Map", FileMode.CreateNew))
+                using (FileStream stream = new FileStream(path + @"\Map.dat", FileMode.CreateNew))
                 {
                     binaryFormatter.Serialize(stream, Map);
                 }
 
                 MessageBox.Show("The save is in folder ''"+temp+"'' ");
-                Close();
+
+                
+             
+
+               
             }
         }
-    }
+
 
         #endregion
 
-   
+     
+    }
+
+
+
+
+
 }
