@@ -25,17 +25,42 @@ namespace Genetic_Algorith_View.Windows
 
         
 
-        private long MaxTurns = 0;
+        public long MaxTurns {
+            get => maxturns;
+            set {
+                maxturns = value;
+                MaxLive.Content = "Max time of life: " + MaxTurns;
+            }
+        }
+        private long maxturns;
 
-        private long CurrentTurns = 0;
+        public long CurrentTurns { 
+            get => currentTurns;
+            set {
+                currentTurns = value;
+                CurrentLive.Content = "Current life: " + CurrentTurns;
+            }
+        }
+        private long currentTurns;
 
-        private long GenerationsCount = 0;
+        public long GenerationsCount {
+            get => generationsCount;
+            set
+            {
+                Genretaions.Content = "Generations count: " + GenerationsCount;
+                AvarangeLiveLabel.Content = "Avarange turns: " + AllTurns / GenerationsCount;
+                generationsCount = value;
+            }
+        }
+        private long generationsCount=1;
 
-        private long AllTurns = 0;
+        public long AllTurns = 0;
 
         DispatcherTimer Timer = new DispatcherTimer();
 
         DateTime start = DateTime.Now;
+
+        public TimeSpan Elapsed;
 
           #endregion
 
@@ -104,7 +129,7 @@ namespace Genetic_Algorith_View.Windows
             CheckMinimum();
         }
 
-        public World(List<CreatureController> creatures)
+        public World(List<CreatureController> creatures,MapController map)
         {
             InitializeComponent();
 
@@ -113,23 +138,19 @@ namespace Genetic_Algorith_View.Windows
 
             Timer.Tick += Timer_Tick;
 
-            if (App.Map == null)
-            {
-                App.Map = new MapController(App.Width, App.Height, null);
-                CreatureController.Map = App.Map.Clone();
-
-            }
-            else
-            {
-                CreatureController.Map = App.Map.Clone();
-            }
+           
 
             Creatures = creatures;
+
+            CreatureController.Map = map;
 
 
             StartDraw();
 
             LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
+
+            CheckMinimum();
+
 
             PosionOnMapLabel.Content = Map.PoisonOnMap;
 
@@ -147,7 +168,8 @@ namespace Genetic_Algorith_View.Windows
                 Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 0.5, 3, 3), ToolTip = "Generations without evolution of creature", FontSize = 20 });
 
             }
-            CheckMinimum();
+
+           
         }
 
         #region Methods
@@ -260,8 +282,7 @@ namespace Genetic_Algorith_View.Windows
             }
             Creatures = newpopulation;
 
-            Genretaions.Content = "Generations count: " + GenerationsCount;
-            AvarangeLiveLabel.Content = "Avarange turns: " + AllTurns / GenerationsCount;
+           
 
             for (int y = 1; y < Map.Height-1; y++)
             {
@@ -321,11 +342,10 @@ namespace Genetic_Algorith_View.Windows
         private void WorldLive()
         {
             CurrentTurns++;
-            CurrentLive.Content = "Current life: " + CurrentTurns;
+           
             if(MaxTurns<CurrentTurns)
             {
                 MaxTurns = CurrentTurns;
-                MaxLive.Content = "Max time of life: " + MaxTurns;
 
             }
 
@@ -371,7 +391,8 @@ namespace Genetic_Algorith_View.Windows
         private void Timer_Tick(object sender, EventArgs e)
         {
             WorldLive();
-            ElapsedTimeLabel.Content = "Elapsed real time: " + (DateTime.Now - start).ToString();
+            Elapsed = (DateTime.Now - start);
+            ElapsedTimeLabel.Content = "Elapsed real time: " + Elapsed.ToString();
         }
 
         private void NextMoveButton_Click(object sender, RoutedEventArgs e)
@@ -484,11 +505,22 @@ namespace Genetic_Algorith_View.Windows
                     writer.Flush();
                 }
 
+                using (StreamWriter writer = new StreamWriter(new FileStream(path + @"\WorldDatas.txt", FileMode.CreateNew,FileAccess.Write, FileShare.ReadWrite)))
+                {
+                    writer.WriteLine(MaxTurns);
+                    writer.WriteLine(CurrentTurns);
+                    writer.WriteLine(GenerationsCount);
+                    writer.WriteLine(AllTurns);
+                    writer.WriteLine(Elapsed);
+                   
+                    writer.Flush();
+                }
                 
+
                 MessageBox.Show("The save is in folder ''"+temp+"'' .You can rename it if you want ");
 
 
-               
+                this.Close();
 
             }
         }

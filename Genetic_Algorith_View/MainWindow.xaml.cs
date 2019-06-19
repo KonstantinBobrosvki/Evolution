@@ -34,37 +34,68 @@ namespace Genetic_Algorith_View
 
             string path = dialog.SelectedPath;
             BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-            if(dialogresult== System.Windows.Forms.DialogResult.OK)
+            try
             {
-                using (StreamReader reader = new StreamReader(new FileStream(path + @"\App.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                if (dialogresult == System.Windows.Forms.DialogResult.OK)
                 {
-                 App.Height=  int.Parse(reader.ReadLine());
-                 App.Width=int.Parse( reader.ReadLine());
-                 App.MinFood= int.Parse(reader.ReadLine());
-                 App.MinPoison= int.Parse(reader.ReadLine());
-                 App.ChangeMap=bool.Parse( reader.ReadLine());
-                 App.CreaturesCount=int.Parse(  reader.ReadLine());
-                 App.MinimumForNewGeneration=int.Parse(reader.ReadLine());
-                 
-                }
+                    //For APP
+                    using (StreamReader reader = new StreamReader(new FileStream(path + @"\App.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                    {
+                        App.Height = int.Parse(reader.ReadLine());
+                        App.Width = int.Parse(reader.ReadLine());
+                        App.MinFood = int.Parse(reader.ReadLine());
+                        App.MinPoison = int.Parse(reader.ReadLine());
+                        App.ChangeMap = bool.Parse(reader.ReadLine());
+                        App.CreaturesCount = int.Parse(reader.ReadLine());
+                        App.MinimumForNewGeneration = int.Parse(reader.ReadLine());
 
-                List<CreatureController> creatures = new List<CreatureController>(App.CreaturesCount);
-                using (FileStream stream = new FileStream(path + @"\Creatures.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                {
-                  creatures=(List<CreatureController>)  binaryFormatter.Deserialize(stream);
-                }
+                    }
 
-                using (FileStream stream = new FileStream(path + @"\Map.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                {
-                   CreatureController.Map=(MapController) binaryFormatter.Deserialize(stream);
-                }
-                App.Map = CreatureController.Map;
-                App.WorldScreen = new Windows.World(creatures);
-                App.WorldScreen.Show();
+                    //For cratures
+                    List<CreatureController> creatures = new List<CreatureController>(App.CreaturesCount);
+                    using (FileStream stream = new FileStream(path + @"\Creatures.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                        creatures = (List<CreatureController>)binaryFormatter.Deserialize(stream);
+                    }
 
-                this.Hide();
+
+                    //For map
+                    using (FileStream stream = new FileStream(path + @"\Map.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                        CreatureController.Map = (MapController)binaryFormatter.Deserialize(stream);
+                    }
+
+                    App.Map = CreatureController.Map;
+
+                    App.WorldScreen = new Windows.World(creatures, App.Map);
+
+                    using (StreamReader reader = new StreamReader(new FileStream(path + @"\WorldDatas.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                    {
+                        App.WorldScreen.MaxTurns = int.Parse(reader.ReadLine());
+                        App.WorldScreen.CurrentTurns = int.Parse(reader.ReadLine());
+                        App.WorldScreen.GenerationsCount = int.Parse(reader.ReadLine());
+                        App.WorldScreen.AllTurns = int.Parse(reader.ReadLine());
+                        App.WorldScreen.Elapsed= TimeSpan.Parse(reader.ReadLine());
+
+                        
+
+                    }
+
+                   
+
+                    App.WorldScreen.Show();
+
+
+
+                    this.Hide();
+                }
             }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show("File "+ex.FileName +" not found.Maybe you deleted it");
+                throw;
+            }
+            
 
         }
     }
