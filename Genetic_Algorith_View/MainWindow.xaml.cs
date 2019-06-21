@@ -29,7 +29,9 @@ namespace Genetic_Algorith_View
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            dialog.SelectedPath = App.PathToFolder;
+            
             System.Windows.Forms.DialogResult dialogresult = dialog.ShowDialog();
 
             string path = dialog.SelectedPath;
@@ -75,7 +77,7 @@ namespace Genetic_Algorith_View
                         App.WorldScreen.CurrentTurns = int.Parse(reader.ReadLine());
                         App.WorldScreen.GenerationsCount = int.Parse(reader.ReadLine());
                         App.WorldScreen.AllTurns = int.Parse(reader.ReadLine());
-                        App.WorldScreen.Elapsed= TimeSpan.Parse(reader.ReadLine());
+                        App.WorldScreen.StartTime=DateTime.Now- TimeSpan.Parse(reader.ReadLine());
 
                         
 
@@ -93,9 +95,23 @@ namespace Genetic_Algorith_View
             catch (FileNotFoundException ex)
             {
                 MessageBox.Show("File "+ex.FileName +" not found.Maybe you deleted it");
-                throw;
+                return;
             }
-            
+            catch(System.Runtime.Serialization.SerializationException)
+            {
+                MessageBox.Show("Some files were changed.You musn't do it.");
+                return;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("This is strange error");
+                MessageBox.Show(ex.Message);
+                return;
+
+            }
+
+            this.Hide();
 
         }
     }

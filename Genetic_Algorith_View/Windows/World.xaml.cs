@@ -47,26 +47,33 @@ namespace Genetic_Algorith_View.Windows
             get => generationsCount;
             set
             {
+                generationsCount = value;
                 Genretaions.Content = "Generations count: " + GenerationsCount;
                 AvarangeLiveLabel.Content = "Avarange turns: " + AllTurns / GenerationsCount;
-                generationsCount = value;
+               
             }
         }
-        private long generationsCount=1;
+        private long generationsCount;
 
         public long AllTurns = 0;
 
-        DispatcherTimer Timer = new DispatcherTimer();
+        DispatcherTimer Timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 100) };
 
-        DateTime start = DateTime.Now;
+        public DateTime StartTime = DateTime.Now;
 
-        public TimeSpan Elapsed;
+        
 
           #endregion
 
+       
+
         public World()
         {
+            
 
+            App.MainScreen.Hide();
+            WindowState = WindowState.Maximized;
+            WindowStyle = WindowStyle.None;
 
             InitializeComponent();
 
@@ -131,6 +138,9 @@ namespace Genetic_Algorith_View.Windows
 
         public World(List<CreatureController> creatures,MapController map)
         {
+            WindowState = WindowState.Maximized;
+            WindowStyle = WindowStyle.None;
+
             InitializeComponent();
 
             //Close all app when closes this
@@ -356,9 +366,9 @@ namespace Genetic_Algorith_View.Windows
                 var item = Creatures[i];
 
                 var Interacted = item.Think();
-                foreach (var position in Interacted)
+                foreach (var (X, Y) in Interacted)
                 {
-                    ReDraw(position.X, position.Y);
+                    ReDraw(X, Y);
                 }
                 if (item.Health == 0)
                 {
@@ -391,8 +401,8 @@ namespace Genetic_Algorith_View.Windows
         private void Timer_Tick(object sender, EventArgs e)
         {
             WorldLive();
-            Elapsed = (DateTime.Now - start);
-            ElapsedTimeLabel.Content = "Elapsed real time: " + Elapsed.ToString();
+           
+            ElapsedTimeLabel.Content = "Elapsed real time: " + (DateTime.Now - StartTime).ToString();
         }
 
         private void NextMoveButton_Click(object sender, RoutedEventArgs e)
@@ -464,11 +474,10 @@ namespace Genetic_Algorith_View.Windows
            PosionOnMapLabel.Content= Map.PoisonOnMap;
         }
 
-        private void SaveAndExitButton_Click(object sender, RoutedEventArgs e)
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("Do you want to save world","",MessageBoxButton.YesNoCancel);
-            if (result == MessageBoxResult.Yes)
-            {
+            
+                Timer.Stop();
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
 
                 if (!Directory.Exists(App.PathToFolder + @"\Saves"))
@@ -511,7 +520,7 @@ namespace Genetic_Algorith_View.Windows
                     writer.WriteLine(CurrentTurns);
                     writer.WriteLine(GenerationsCount);
                     writer.WriteLine(AllTurns);
-                    writer.WriteLine(Elapsed);
+                    writer.WriteLine((DateTime.Now - StartTime));
                    
                     writer.Flush();
                 }
@@ -520,12 +529,28 @@ namespace Genetic_Algorith_View.Windows
                 MessageBox.Show("The save is in folder ''"+temp+"'' .You can rename it if you want ");
 
 
-                this.Close();
+              
 
-            }
+           
         }
 
+        private void Exit()
+        {
+           var answer= MessageBox.Show("Are you sure?", "Exit Window", MessageBoxButton.YesNo);
+            if(answer==MessageBoxResult.Yes)
+            {
+                var answer2 =  MessageBox.Show("Do you want to save?", "Save Window", MessageBoxButton.YesNo);
 
+                if (answer2 == MessageBoxResult.Yes)
+                    SaveButton_Click(null, null);
+               
+                  this.Close();
+            }
+            else if(answer==MessageBoxResult.No)
+            {
+                MessageBox.Show("Good choice");
+            }
+        }
         #endregion
 
      

@@ -34,11 +34,11 @@
                 <RowDefinition Height="24*"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="NextMoveButton" MaxHeight="100" Content="Next Move" Click="NextMoveButton_Click" Grid.Row="6" />
+            <Button x:Name="NextMoveButton"  Content="Next Move" Click="NextMoveButton_Click" Grid.Row="6" />
 
-            <Button x:Name="TimerButton" Content="Start" ToolTip="Start or stop automatic clicking of Next Move" Click="TimerButton_Click"  MaxHeight="100" Grid.Row="4"/>
+            <Button x:Name="TimerButton" Content="Start" ToolTip="Start or stop automatic clicking of Next Move" Click="TimerButton_Click"   Grid.Row="4"/>
 
-            <TextBox x:Name="TimerInput" ToolTip="Time for automatic clicking of Next Move in MS " TextChanged="TimerInput_TextChanged" Margin="0,0,0,0" TextWrapping="Wrap" MaxHeight="100" Grid.Row="3"/>
+            <TextBox x:Name="TimerInput" ToolTip="Time for automatic clicking of Next Move in MS " TextChanged="TimerInput_TextChanged"  TextWrapping="Wrap"  Grid.Row="3"/>
 
             <UniformGrid Columns="2" Rows="2" Grid.Row="1">
                 <Label x:Name="FoodOnMapLabel"  Content="Food on map" AllowDrop="True" ToolTip="Food on map" ></Label>
@@ -74,7 +74,7 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <Label x:Name="ElapsedTimeLabel" Content="Elapsed real time" BorderThickness="4" BorderBrush="Black" Grid.Row="1"/>
+                <Label x:Name="ElapsedTimeLabel" Content="Elapsed real time" ToolTip="Elapsed real time including pauses." BorderThickness="4" BorderBrush="Black" Grid.Row="1"/>
                 <Label x:Name="AvarangeLiveLabel"  Content="Avarange turns" BorderThickness="4" BorderBrush="Black"/>
                 <Label x:Name="LiveCreaturesCountLabel" Content="Live creatures count"  BorderThickness="4" BorderBrush="Black" Grid.Row="2"/>
 
@@ -85,7 +85,7 @@
             </UniformGrid>
         </Grid>
 
-        <Button x:Name="SaveAndExitButton" Click="SaveAndExitButton_Click" Content="Save and exit" Grid.Column="1" Grid.Row="1"/>
+        <Button x:Name="SaveButton" Click="SaveButton_Click" Content="Save" Grid.Column="1" Grid.Row="1"/>
 
     </Grid>
 </Window>
