@@ -409,7 +409,7 @@ namespace Genetic_Algorith_View.Windows
                     Directory.CreateDirectory(App.PathToFolder + @"\Saves");
                 }
                 var temp = DateTime.Now.ToString();
-                string  path = App.PathToFolder + @"\Saves\" + "A"; //temp.Replace(':','-');
+                string  path = App.PathToFolder + @"\Saves\" + temp.Replace(':','-');
                
                 Directory.CreateDirectory(path);
 
