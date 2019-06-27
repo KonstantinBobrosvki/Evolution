@@ -23,8 +23,6 @@ namespace Genetic_Algorith_View.Windows
 
         public MapController Map { get => CreatureController.Map; }
 
-        
-
         private long MaxTurns = 0;
 
         private long CurrentTurns = 0;
@@ -52,7 +50,7 @@ namespace Genetic_Algorith_View.Windows
 
             if (App.Map == null)
             {
-                App.Map = new MapController(App.Width, App.Height, null);
+                App.Map = new MapController(App.Width, App.Height, DateTime.Now.Millisecond);
                 CreatureController.Map = App.Map.Clone();
 
             }
@@ -103,6 +101,8 @@ namespace Genetic_Algorith_View.Windows
             }
             CheckMinimum();
         }
+
+        
 
         #region Methods
 
@@ -202,7 +202,7 @@ namespace Genetic_Algorith_View.Windows
             if (!App.ChangeMap)
             CreatureController.Map = App.Map.Clone();
             else
-            CreatureController.Map = new MapController(App.Width, App.Height, null);
+            CreatureController.Map = new MapController(App.Width, App.Height, DateTime.Now.Millisecond);
 
 
             foreach (var item in newpopulation)

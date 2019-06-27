@@ -25,16 +25,20 @@ namespace Controller
             var height = Map.GetLength(1);
             EmpetyCells -= Width * 2 + Height * 2 - 4;
 
-            for (int x = 0; x < width; x++)
+            for (int i = 0; i < Width; i++)
             {
-                for (int y = 0; y < height; y++)
-                {
-                    if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
-                       Map[x, y] = new Wall(x,y);
-                    
+                Map[i, 0] = new Wall(i, 0);
+                Map[i, height - 1] = new Wall(i, height - 1);
 
-                }
             }
+            for (int y = 1; y < height-1; y++)
+            {
+
+                Map[0, y] = new Wall(0, y);
+                Map[width-1,y] = new Wall(width - 1, y);
+
+            }
+           
         }
 
         /// <summary>
@@ -51,11 +55,12 @@ namespace Controller
 
             EmpetyCells -= count;
 
+            Random rnd = new Random(Seed+1);
            
             for (int i = 0; i < count; i++)
             {
-                int x = Seed.Next(1, Width - 1);
-                int y = Seed.Next(1, Height - 1);
+                int x = rnd.Next(1, Width - 1);
+                int y = rnd.Next(1, Height - 1);
                 if(Map[x,y]==null)
                 {
                     Map[x, y] = new Wall(x, y);
@@ -84,11 +89,12 @@ namespace Controller
 
             FoodOnMap += count;
             EmpetyCells -= count;
-           
+
+            Random rnd = new Random(Seed + 2);
             for (int i = 0; i < count; i++)
             {
-                int x = Seed.Next(0, Width - 1);
-                int y = Seed.Next(0, Height - 1);
+                int x = rnd.Next(0, Width - 1);
+                int y = rnd.Next(0, Height - 1);
                 if (Map[x, y] == null)
                 {
                     Map[x, y] = new Food(x, y);
@@ -117,11 +123,12 @@ namespace Controller
 
             PoisonOnMap += count;
             EmpetyCells -= count;
-           
+
+            Random rnd = new Random(Seed + 3);
             for (int i = 0; i < count; i++)
             {
-                int x = Seed.Next(0, Width - 1);
-                int y = Seed.Next(0, Height - 1);
+                int x = rnd.Next(0, Width - 1);
+                int y = rnd.Next(0, Height - 1);
                 if (Map[x, y] == null)
                 {
                     Map[x, y] = new Poison(x, y);

@@ -28,7 +28,7 @@ namespace Tests
                             world[i, j] = new Wall(i, j);
                     }
                 }
-                CreatureController.Map = new MapController(world, new Random());
+                CreatureController.Map = new MapController(world, new Random().Next());
 
 
                 var controller = new CreatureController(1, 1);
@@ -67,7 +67,7 @@ namespace Tests
                             world[i, j] = new Wall(i, j);
                     }
                 }
-                CreatureController.Map = new MapController(world, new Random());
+                CreatureController.Map = new MapController(world, new Random().Next());
 
 
                 var controller = new CreatureController(2, 1);
@@ -100,7 +100,7 @@ namespace Tests
                             world[i, j] = new Wall(i, j);
                     }
                 }
-                CreatureController.Map = new MapController(world, new Random());
+                CreatureController.Map = new MapController(world, new Random().Next());
 
 
                 var controller = new CreatureController(1, 1);
@@ -133,7 +133,7 @@ namespace Tests
                             world[i, j] = new Wall(i, j);
                     }
                 }
-                CreatureController.Map = new MapController(world, new Random());
+                CreatureController.Map = new MapController(world, new Random().Next());
 
 
                 var controller = new CreatureController(2, 1);
@@ -162,7 +162,7 @@ namespace Tests
                             world[i, j] = new Wall(i, j);
                     }
                 }
-                CreatureController.Map = new MapController(world, new Random());
+                CreatureController.Map = new MapController(world, new Random().Next());
 
 
                 var controller = new CreatureController(1, 1);
@@ -190,7 +190,7 @@ namespace Tests
                             world[i, j] = new Wall(i, j);
                     }
                 }
-                CreatureController.Map = new MapController(world, new Random());
+                CreatureController.Map = new MapController(world, new Random().Next());
 
 
                 var controller = new CreatureController(1, 1);
@@ -209,7 +209,7 @@ namespace Tests
         [TestMethod]
         public void CounterTest()
         {
-            MapController map = new MapController(100, 100, null);
+            MapController map = new MapController(100, 100, DateTime.Now.Millisecond);
             int startfoodcount = map.FoodOnMap;
             int startposioncount = map.PoisonOnMap;
             int startfreecount = map.EmpetyCells;
@@ -299,7 +299,7 @@ namespace Tests
         [TestMethod]
         public void RotateTest()
         {
-            MapController mapController = new MapController(20, 20, null);
+            MapController mapController = new MapController(20, 20, DateTime.Now.Millisecond);
             CreatureController.Map = mapController;
             var temp = mapController.FreePosition();
             var controller = new CreatureController(temp.Item1, temp.Item2);
@@ -334,7 +334,7 @@ namespace Tests
         [TestMethod]
         public void IndexOfCellTest()
         {
-            MapController mapController = new MapController(20, 20, null);
+            MapController mapController = new MapController(20, 20, DateTime.Now.Millisecond);
             CreatureController.Map = mapController;
             var temp = mapController.FreePosition();
             var controller = new CreatureController(temp.Item1, temp.Item2);
@@ -364,10 +364,52 @@ namespace Tests
                         world[i, j] = new Wall(i, j);
                 }
             }
-            MapController map1 = new MapController(world, new Random());
+            MapController map1 = new MapController(world, new Random().Next());
 
-            if (!map1.Equals(new MapController(world, new Random())))
+            if (!map1.Equals(new MapController(world, new Random().Next())))
                 Assert.Fail();
+        }
+
+        [TestMethod]
+        public void MapControllerConstructorTest()
+        {
+            Random random = new Random();
+            MapController map = new MapController(random.Next(60, 120), random.Next(70, 130), random.Next());
+            for (int x = 0; x < map.Width; x++)
+            {
+                for (int y = 0; y < map.Height; y++)
+                {
+                    var element = map[x, y];
+                    if(x==0||y==0||x==map.Width-1||y==map.Height-1)
+                    {
+                        if (element is Wall)
+                        {
+                            Assert.AreEqual(x, element.X);
+                            Assert.AreEqual(y, element.Y);
+                        }
+                        else
+                            Assert.Fail();
+                    }
+                    else
+                    {
+                        if(!(element is null))
+                        {
+                            Assert.AreEqual(x, element.X);
+                            Assert.AreEqual(y, element.Y);
+                        }
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
+        public void SeedTest()
+        {
+            var seed = new Random().Next();
+            var width = new Random().Next(70, 140);
+            var heigh = new Random().Next(60, 120);
+            MapController map1 = new MapController(width, heigh, seed);
+            Assert.AreEqual(map1, new MapController(width, heigh, seed));
         }
 
     }

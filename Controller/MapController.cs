@@ -27,7 +27,7 @@ namespace Controller
         /// <summary>
         /// Seed of Map
         /// </summary>
-        private readonly Random Seed;
+        public int Seed { get; }
 
         /// <summary>
         /// Count of empety cells
@@ -47,20 +47,14 @@ namespace Controller
         /// <param name="width">Width</param>
         /// <param name="height">Height</param>
         /// <param name="seed">Seed for randomazing </param>
-        public MapController(int width, int height,int? seed)
+        public MapController(int width, int height,int seed)
         {
             if (width < 3 || height < 3)
                 throw new ArgumentOutOfRangeException();
 
-            if(seed==null)
-            {
-                Random random = new Random();
-                this.Seed =new Random();
-            }
-            else
-            {
-                this.Seed = new Random((int)seed);
-            }
+           
+            this.Seed = seed;
+            
 
             
             Map = new WorldObject[width, height];
@@ -69,32 +63,27 @@ namespace Controller
             EmpetyCells = Width * Height ;
 
 
-           
-           
 
+
+            Random rnd = new Random(Seed);
             GenerateBorder();
-            GenerateFood(Seed.Next(0, EmpetyCells / 10));
-            GeneratePoison(Seed.Next(0, EmpetyCells / 20));
-            GenerateWalls(Seed.Next(0,EmpetyCells/20));
+            GenerateFood(rnd.Next(0, EmpetyCells / 10));
+            GeneratePoison(rnd.Next(0, EmpetyCells / 20));
+            GenerateWalls(rnd.Next(0,EmpetyCells/20));
             
            
 
           
         }
 
-        public MapController(int width,int height,int? seed,int FoodCount,int PoisonCount,int WallCount)
+        public MapController(int width,int height,int seed,int FoodCount,int PoisonCount,int WallCount)
         {
             if (width < 3 || height < 3)
                 throw new ArgumentOutOfRangeException();
 
-            if (seed == null)
-            {
-                this.Seed = new Random();
-            }
-            else
-            {
-                this.Seed =new Random( (int)seed);
-            }
+           
+            this.Seed =seed;
+           
 
 
             Map = new WorldObject[width, height];
@@ -116,7 +105,7 @@ namespace Controller
         /// </summary>
         /// <param name="map">Map</param>
         /// <param name="rnd">Random for randomazing</param>
-        public MapController(WorldObject[,]map,Random rnd)
+        public MapController(WorldObject[,]map,int seed)
         {
             if (map.GetLength(0) < 3 || map.GetLength(1) < 3)
                 throw new ArgumentOutOfRangeException();
@@ -125,7 +114,7 @@ namespace Controller
                 throw new ArgumentNullException();  
             
             Map=(WorldObject[,])map.Clone();
-            Seed =rnd;
+            Seed =seed;
 
             //New values for things
             foreach (var item in this)
@@ -283,6 +272,11 @@ namespace Controller
             {
                 return false;
             }
+        }
+
+        public override int GetHashCode()
+        {
+            return Width*Height;
         }
     }
 }
