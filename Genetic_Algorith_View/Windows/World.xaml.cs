@@ -23,23 +23,57 @@ namespace Genetic_Algorith_View.Windows
 
         public MapController Map { get => CreatureController.Map; }
 
-        private long MaxTurns = 0;
+        
 
-        private long CurrentTurns = 0;
+        public long MaxTurns {
+            get => maxturns;
+            set {
+                maxturns = value;
+                MaxLive.Content = "Max time of life: " + MaxTurns;
+            }
+        }
+        private long maxturns;
 
-        private long GenerationsCount = 0;
+        public long CurrentTurns { 
+            get => currentTurns;
+            set {
+                currentTurns = value;
+                CurrentLive.Content = "Current life: " + CurrentTurns;
+            }
+        }
+        private long currentTurns;
 
-        private long AllTurns = 0;
+        public long GenerationsCount {
+            get => generationsCount;
+            set
+            {
+                generationsCount = value;
+                Genretaions.Content = "Generations count: " + GenerationsCount;
+                AvarangeLiveLabel.Content = "Avarange turns: " + AllTurns / GenerationsCount;
+               
+            }
+        }
+        private long generationsCount;
 
-        DispatcherTimer Timer = new DispatcherTimer();
+        public long AllTurns = 0;
 
-        DateTime start = DateTime.Now;
+        DispatcherTimer Timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 100) };
+
+        public DateTime StartTime = DateTime.Now;
+
+        
 
           #endregion
 
+       
+
         public World()
         {
+            
 
+            App.MainScreen.Hide();
+            WindowState = WindowState.Maximized;
+            WindowStyle = WindowStyle.None;
 
             InitializeComponent();
 
@@ -50,7 +84,7 @@ namespace Genetic_Algorith_View.Windows
 
             if (App.Map == null)
             {
-                App.Map = new MapController(App.Width, App.Height, DateTime.Now.Millisecond);
+                App.Map = new MapController(App.Width, App.Height, null);
                 CreatureController.Map = App.Map.Clone();
 
             }
@@ -102,7 +136,51 @@ namespace Genetic_Algorith_View.Windows
             CheckMinimum();
         }
 
-        
+        public World(List<CreatureController> creatures,MapController map)
+        {
+            WindowState = WindowState.Maximized;
+            WindowStyle = WindowStyle.None;
+
+            InitializeComponent();
+
+            //Close all app when closes this
+            this.Closed += (sender, e) => App.MainScreen?.Close();
+
+            Timer.Tick += Timer_Tick;
+
+           
+
+            Creatures = creatures;
+
+            CreatureController.Map = map;
+
+
+            StartDraw();
+
+            LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
+
+            CheckMinimum();
+
+
+            PosionOnMapLabel.Content = Map.PoisonOnMap;
+
+            FoodOnMapLabel.Content = Map.FoodOnMap;
+
+            for (int i = 0; i < 8; i++)
+            {
+
+                Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 3, 3, 0.5), ToolTip = "Health of creature in moment of creating childs", FontSize = 20 });
+
+
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 0.5, 3, 3), ToolTip = "Generations without evolution of creature", FontSize = 20 });
+
+            }
+
+           
+        }
 
         #region Methods
 
@@ -202,7 +280,7 @@ namespace Genetic_Algorith_View.Windows
             if (!App.ChangeMap)
             CreatureController.Map = App.Map.Clone();
             else
-            CreatureController.Map = new MapController(App.Width, App.Height, DateTime.Now.Millisecond);
+            CreatureController.Map = new MapController(App.Width, App.Height, null);
 
 
             foreach (var item in newpopulation)
@@ -214,8 +292,7 @@ namespace Genetic_Algorith_View.Windows
             }
             Creatures = newpopulation;
 
-            Genretaions.Content = "Generations count: " + GenerationsCount;
-            AvarangeLiveLabel.Content = "Avarange turns: " + AllTurns / GenerationsCount;
+           
 
             for (int y = 1; y < Map.Height-1; y++)
             {
@@ -275,11 +352,10 @@ namespace Genetic_Algorith_View.Windows
         private void WorldLive()
         {
             CurrentTurns++;
-            CurrentLive.Content = "Current life: " + CurrentTurns;
+           
             if(MaxTurns<CurrentTurns)
             {
                 MaxTurns = CurrentTurns;
-                MaxLive.Content = "Max time of life: " + MaxTurns;
 
             }
 
@@ -290,9 +366,9 @@ namespace Genetic_Algorith_View.Windows
                 var item = Creatures[i];
 
                 var Interacted = item.Think();
-                foreach (var position in Interacted)
+                foreach (var (X, Y) in Interacted)
                 {
-                    ReDraw(position.X, position.Y);
+                    ReDraw(X, Y);
                 }
                 if (item.Health == 0)
                 {
@@ -325,7 +401,8 @@ namespace Genetic_Algorith_View.Windows
         private void Timer_Tick(object sender, EventArgs e)
         {
             WorldLive();
-            ElapsedTimeLabel.Content = "Elapsed real time: " + (DateTime.Now - start).ToString();
+           
+            ElapsedTimeLabel.Content = "Elapsed real time: " + (DateTime.Now - StartTime).ToString();
         }
 
         private void NextMoveButton_Click(object sender, RoutedEventArgs e)
@@ -397,11 +474,10 @@ namespace Genetic_Algorith_View.Windows
            PosionOnMapLabel.Content= Map.PoisonOnMap;
         }
 
-        private void SaveAndExitButton_Click(object sender, RoutedEventArgs e)
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("Do you want to save world","",MessageBoxButton.YesNoCancel);
-            if (result == MessageBoxResult.Yes)
-            {
+            
+                Timer.Stop();
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
 
                 if (!Directory.Exists(App.PathToFolder + @"\Saves"))
@@ -416,25 +492,65 @@ namespace Genetic_Algorith_View.Windows
                
 
                
-                using (FileStream stream = new FileStream(path+@"\Creatures.dat", FileMode.CreateNew))
+                using (FileStream stream = new FileStream(path+@"\Creatures.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
                 {
                     binaryFormatter.Serialize(stream, Creatures);
                 }
-                using (FileStream stream = new FileStream(path + @"\Map.dat", FileMode.CreateNew))
+
+                using (FileStream stream = new FileStream(path + @"\Map.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
                 {
                     binaryFormatter.Serialize(stream, Map);
                 }
 
-                MessageBox.Show("The save is in folder ''"+temp+"'' ");
+                using (StreamWriter writer = new StreamWriter(new FileStream(path + @"\App.txt", FileMode.CreateNew,FileAccess.Write, FileShare.ReadWrite)))
+                {
+                    writer.WriteLine(App.Height);
+                    writer.WriteLine(App.Width);
+                    writer.WriteLine(App.MinFood);
+                    writer.WriteLine(App.MinPoison);
+                    writer.WriteLine(App.ChangeMap);
+                    writer.WriteLine(App.CreaturesCount);
+                    writer.WriteLine(App.MinimumForNewGeneration);
+                    writer.Flush();
+                }
 
+                using (StreamWriter writer = new StreamWriter(new FileStream(path + @"\WorldDatas.txt", FileMode.CreateNew,FileAccess.Write, FileShare.ReadWrite)))
+                {
+                    writer.WriteLine(MaxTurns);
+                    writer.WriteLine(CurrentTurns);
+                    writer.WriteLine(GenerationsCount);
+                    writer.WriteLine(AllTurns);
+                    writer.WriteLine((DateTime.Now - StartTime));
+                   
+                    writer.Flush();
+                }
                 
-             
 
-               
-            }
+                MessageBox.Show("The save is in folder ''"+temp+"'' .You can rename it if you want ");
+
+
+              
+
+           
         }
 
+        private void Exit()
+        {
+           var answer= MessageBox.Show("Are you sure?", "Exit Window", MessageBoxButton.YesNo);
+            if(answer==MessageBoxResult.Yes)
+            {
+                var answer2 =  MessageBox.Show("Do you want to save?", "Save Window", MessageBoxButton.YesNo);
 
+                if (answer2 == MessageBoxResult.Yes)
+                    SaveButton_Click(null, null);
+               
+                  this.Close();
+            }
+            else if(answer==MessageBoxResult.No)
+            {
+                MessageBox.Show("Good choice");
+            }
+        }
         #endregion
 
      

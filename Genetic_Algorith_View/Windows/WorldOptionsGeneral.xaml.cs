@@ -121,6 +121,7 @@ namespace Genetic_Algorith_View
 
             App.WorldScreen = new World();
             App.WorldScreen.Show();
+            App.MainScreen.Hide();
             this.Close();
         }
     }
