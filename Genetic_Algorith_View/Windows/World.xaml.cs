@@ -84,7 +84,7 @@ namespace Genetic_Algorith_View.Windows
 
             if (App.Map == null)
             {
-                App.Map = new MapController(App.Width, App.Height, null);
+                App.Map = new MapController(App.Width, App.Height,DateTime.Now.Millisecond);
                 CreatureController.Map = App.Map.Clone();
 
             }
@@ -102,11 +102,20 @@ namespace Genetic_Algorith_View.Windows
 
            
 
-            Creatures = new List<CreatureController>(64);
+            Creatures = new List<CreatureController>(App.CreaturesCount);
 
             for (int i = 0; i < App.CreaturesCount; i++)
             {
+                
                 var position = Map.FreePosition();
+                if(position is null)
+                {
+                    MessageBox.Show("Not enought space for all creatures.Reducing their count.");
+                    App.CreaturesCount = i;
+                    if (App.MinimumForNewGeneration > App.CreaturesCount)
+                        App.MinimumForNewGeneration = App.CreaturesCount / 2;
+                    break;
+                }
                 var c = new CreatureController(position.Item1, position.Item2);
 
                 Creatures.Add(c);
@@ -181,6 +190,8 @@ namespace Genetic_Algorith_View.Windows
 
            
         }
+
+
 
         #region Methods
 
@@ -280,7 +291,7 @@ namespace Genetic_Algorith_View.Windows
             if (!App.ChangeMap)
             CreatureController.Map = App.Map.Clone();
             else
-            CreatureController.Map = new MapController(App.Width, App.Height, null);
+            CreatureController.Map = new MapController(App.Width, App.Height, DateTime.Now.Millisecond);
 
 
             foreach (var item in newpopulation)

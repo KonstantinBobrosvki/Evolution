@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Genetic_Algorith_View.Windows;
+
 namespace Genetic_Algorith_View
 {
     /// <summary>
@@ -41,9 +42,10 @@ namespace Genetic_Algorith_View
                 {
                     MessageBox.Show("This value must be greater than 3");
                     Height = 3;
+                    HeightInput.Text = 3.ToString();
                 }
             }
-            else if (String.IsNullOrWhiteSpace(HeightInput.Text))
+            else if (String.IsNullOrWhiteSpace(HeightInput.Text)||String.IsNullOrEmpty(HeightInput.Text))
             {
 
 
@@ -66,9 +68,10 @@ namespace Genetic_Algorith_View
                 {
                     MessageBox.Show("This value must be greater than 3");
                     Width = 3;
+                    WidthInput.Text = "3";
                 }
             }
-            else if(String.IsNullOrWhiteSpace(WidthInput.Text))
+            else if(String.IsNullOrWhiteSpace(WidthInput.Text)||String.IsNullOrEmpty(WidthInput.Text))
             {
                 
               
@@ -112,8 +115,16 @@ namespace Genetic_Algorith_View
                 App.Height = Height;
                 App.Width = Width;
                 App.ChangeMap = true;
-            }
-           else
+
+                if (Width * Height < App.CreaturesCount + App.MinFood + App.MinPoison)
+                {
+                    MessageBox.Show("World generated with this options will contains bugs");
+                  
+                }
+
+           }
+
+            else
             {
                 App.Map = new Controller.MapController(Width, Height, (int)Seed);
                 App.ChangeMap = false;
