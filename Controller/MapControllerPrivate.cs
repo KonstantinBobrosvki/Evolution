@@ -78,9 +78,10 @@ namespace Controller
         /// Create random food on map
         /// </summary>
         /// <param name="count">Count of food</param> 
-        public void GenerateFood(int count)
+        /// <returns>Cell with new food</returns>
+        public List<(int ,int)> GenerateFood(int count)
         {
-            if (count < 0)
+            if (count <= 0)
                 throw new ArgumentOutOfRangeException();
 
 
@@ -91,13 +92,16 @@ namespace Controller
             EmpetyCells -= count;
 
             Random rnd = new Random(Seed + 2);
+
+            var result = new List<(int, int)>(count);
             for (int i = 0; i < count; i++)
             {
-                int x = rnd.Next(0, Width - 1);
-                int y = rnd.Next(0, Height - 1);
+                int x = rnd.Next(1, Width - 1);
+                int y = rnd.Next(1, Height - 1);
                 if (Map[x, y] == null)
                 {
                     Map[x, y] = new Food(x, y);
+                    result.Add((x, y));
                 }
                 else
                 {
@@ -106,13 +110,15 @@ namespace Controller
                 }
             }
 
+            return result;
         }
 
         /// <summary>
         /// Create random poison on map
         /// </summary>
         /// <param name="count">Count of poison</param>
-        public void GeneratePoison(int count)
+        /// <returns>Cell index with new food</returns>
+        public List<(int, int)> GeneratePoison(int count)
         {
             if (count < 0)
                 throw new ArgumentOutOfRangeException();
@@ -120,6 +126,8 @@ namespace Controller
 
             if (EmpetyCells < count)
                 throw new ArgumentOutOfRangeException("Not enoght space");
+
+            var result = new List<(int, int)>(count);
 
             PoisonOnMap += count;
             EmpetyCells -= count;
@@ -132,6 +140,8 @@ namespace Controller
                 if (Map[x, y] == null)
                 {
                     Map[x, y] = new Poison(x, y);
+                    result.Add((x, y));
+
                 }
                 else
                 {
@@ -139,6 +149,8 @@ namespace Controller
                     continue;
                 }
             }
+
+            return result;
         }
         #endregion
 

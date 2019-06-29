@@ -19,7 +19,7 @@ namespace Genetic_Algorith_View.Windows
         
 
         #region
-        List<CreatureController> Creatures;
+        List<CreatureController> Creatures = new List<CreatureController>(App.CreaturesCount);
 
         public MapController Map { get => CreatureController.Map; }
 
@@ -67,128 +67,87 @@ namespace Genetic_Algorith_View.Windows
 
        
 
-        public World()
+        public World():this(App.Map ?? new MapController(App.Width, App.Height, DateTime.Now.Millisecond))
         {
-            
-
-            App.MainScreen.Hide();
-            WindowState = WindowState.Maximized;
-            WindowStyle = WindowStyle.None;
-
-            InitializeComponent();
-
-            //Close all app when closes this
-            this.Closed += (sender, e) => App.MainScreen?.Close();
-
-            Timer.Tick += Timer_Tick;
-
-            if (App.Map == null)
-            {
-                App.Map = new MapController(App.Width, App.Height,DateTime.Now.Millisecond);
-                CreatureController.Map = App.Map.Clone();
-
-            }
-            else
-            {
-                CreatureController.Map = App.Map.Clone();
-            }
-            //If Min is non defined
-                if (App.MinFood == -1)
-                    App.MinFood = Map.Square / 10;
-                if (App.MinPoison==-1)
-                    App.MinPoison = Map.Square / 30;
-
-            
 
            
 
-            Creatures = new List<CreatureController>(App.CreaturesCount);
-
-            for (int i = 0; i < App.CreaturesCount; i++)
+            for (int i = 0; i < Creatures.Capacity; i++)
             {
-                
-                var position = Map.FreePosition();
-                if(position is null)
-                {
-                    MessageBox.Show("Not enought space for all creatures.Reducing their count.");
-                    App.CreaturesCount = i;
-                    if (App.MinimumForNewGeneration > App.CreaturesCount)
-                        App.MinimumForNewGeneration = App.CreaturesCount / 2;
+                var temp = Map.FreePosition();
+                if (temp is null)
                     break;
-                }
-                var c = new CreatureController(position.Item1, position.Item2);
-
-                Creatures.Add(c);
+                Creatures.Add(new CreatureController(temp.Item1, temp.Item2));
+                ReDraw(temp.Item1, temp.Item2);
             }
-
-
-            StartDraw();
 
             LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
 
-            PosionOnMapLabel.Content = Map.PoisonOnMap;
 
-            FoodOnMapLabel.Content= Map.FoodOnMap;
-
-            for (int i = 0; i < 8; i++)
-            {
-                
-                    Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 3, 3, 0.5), ToolTip = "Health of creature in moment of creating childs", FontSize = 20 });
-
-
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 0.5, 3, 3), ToolTip = "Generations without evolution of creature", FontSize = 20 });
-
-            }
-            CheckMinimum();
         }
 
-        public World(List<CreatureController> creatures,MapController map)
+        public World(List<CreatureController> creatures,MapController map):this(map)
         {
-            WindowState = WindowState.Maximized;
-            WindowStyle = WindowStyle.None;
-
-            InitializeComponent();
-
-            //Close all app when closes this
-            this.Closed += (sender, e) => App.MainScreen?.Close();
-
-            Timer.Tick += Timer_Tick;
-
-           
+            if (creatures is null)
+                throw new ArgumentNullException();
 
             Creatures = creatures;
 
-            CreatureController.Map = map;
+            LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
 
+        }
+
+        private World(MapController map)
+        {
+
+            App.MainScreen.Hide();
+
+            WindowState = WindowState.Maximized;
+            WindowStyle = WindowStyle.None;
+
+            InitializeComponent();
+
+            //Close all app when closes this
+            this.Closed += (sender, e) => App.MainScreen?.Close();
+
+            Timer.Tick += Timer_Tick;
+
+            CreatureController.Map = map;
 
             StartDraw();
 
             LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
-
-            CheckMinimum();
-
 
             PosionOnMapLabel.Content = Map.PoisonOnMap;
 
             FoodOnMapLabel.Content = Map.FoodOnMap;
 
-            for (int i = 0; i < 8; i++)
+            Best8.Columns = App.MinimumForNewGeneration;
+
+            for (int i = 0; i < App.MinimumForNewGeneration; i++)
             {
 
                 Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 3, 3, 0.5), ToolTip = "Health of creature in moment of creating childs", FontSize = 20 });
 
-
             }
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < App.MinimumForNewGeneration; i++)
             {
                 Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 0.5, 3, 3), ToolTip = "Generations without evolution of creature", FontSize = 20 });
 
             }
 
-           
+            //If Min is non defined
+            if (App.MinFood == -1)
+                App.MinFood = Map.Square / 10;
+            if (App.MinPoison == -1)
+                App.MinPoison = Map.Square / 30;
+
+
+            CheckMinimum();
+
+         
+
+            this.KeyDown+= (o, e) => { if (e.Key == System.Windows.Input.Key.Escape) Exit(); };
         }
 
 
@@ -251,25 +210,40 @@ namespace Genetic_Algorith_View.Windows
 
         private void CheckMinimum()
         {
-            if(Map.FoodOnMap<App.MinFood*2/4)
+            try
             {
-                while( App.MinFood != Map.FoodOnMap)
+                if (Map.FoodOnMap < App.MinFood * 2 / 4)
                 {
-                    var temp = Map.FreePosition();
-                    if (temp is null)
-                        break;
-                    else
+
+                    var changed = Map.GenerateFood((App.MinFood - Map.FoodOnMap) * 2);
+                    foreach (var item in changed)
                     {
-                        Map[temp.Item1, temp.Item2] = new Food();
-                        ReDraw(temp.Item1, temp.Item2);
+                        ReDraw(item.Item1, item.Item2);
+                    }
+
+                }
+                if (Map.PoisonOnMap < App.MinPoison * 2 / 4)
+                {
+                    var changed = Map.GeneratePoison((App.MinPoison - Map.PoisonOnMap) * 2);
+                    foreach (var item in changed)
+                    {
+                        ReDraw(item.Item1, item.Item2);
                     }
                 }
-                
+            }
+            catch
+            {
+                return;
             }
         }
 
         private void Restart()
         {
+            if (MaxTurns < CurrentTurns)
+            {
+                MaxTurns = CurrentTurns;
+
+            }
 
             AllTurns += CurrentTurns;
 
@@ -358,17 +332,11 @@ namespace Genetic_Algorith_View.Windows
             }
         }
 
-       
-
         private void WorldLive()
         {
             CurrentTurns++;
            
-            if(MaxTurns<CurrentTurns)
-            {
-                MaxTurns = CurrentTurns;
-
-            }
+           
 
            
 

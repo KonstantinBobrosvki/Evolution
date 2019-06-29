@@ -13,6 +13,7 @@ namespace Genetic_Algorith_View
     /// </summary>
     public partial class App : Application
     {
+        #region Properties
         public static Controller.MapController Map;
 
         public static int Height;
@@ -35,5 +36,22 @@ namespace Genetic_Algorith_View
         public static Windows.World WorldScreen;
 
         public static readonly string PathToFolder = AppDomain.CurrentDomain.BaseDirectory;
+
+        #endregion
+
+
+        App()
+        {
+            InitializeComponent();
+        }
+
+        [STAThread]
+        static void Main()
+        {
+            App app = new App();
+            MainWindow window = new MainWindow();
+           
+            app.Run(window);
+        }
     }
 }
