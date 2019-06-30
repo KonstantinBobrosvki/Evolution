@@ -48,13 +48,11 @@ namespace Genetic_Algorith_View
                         App.MinFood = int.Parse(reader.ReadLine());
                         App.MinPoison = int.Parse(reader.ReadLine());
                         App.ChangeMap = bool.Parse(reader.ReadLine());
-                        App.CreaturesCount = int.Parse(reader.ReadLine());
-                        App.MinimumForNewGeneration = int.Parse(reader.ReadLine());
-
+                       
                     }
 
                     //For cratures
-                    List<CreatureController> creatures = new List<CreatureController>(App.CreaturesCount);
+                    List<CreatureController> creatures = new List<CreatureController>(64);
                     using (FileStream stream = new FileStream(path + @"\Creatures.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
                         creatures = (List<CreatureController>)binaryFormatter.Deserialize(stream);

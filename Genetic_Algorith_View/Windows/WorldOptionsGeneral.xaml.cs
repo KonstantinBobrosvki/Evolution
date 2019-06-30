@@ -103,34 +103,51 @@ namespace Genetic_Algorith_View
 
         private void NewWorld_Click(object sender, RoutedEventArgs e)
         {
-           
-           if(Seed==null)
-           {
+            if (Width * Height - 2 * Width - 2 * Height + 4 < 64 + App.MinFood + App.MinPoison)
+            {
+                MessageBox.Show("Area of the world is too small. Try bigger numbers.");
+               
+                return;
+
+            }
+
+            if (Seed==null)
+            {
                 if (Width == 0)
                     Width = new Random().Next(50, 150);
                 if (Height == 0)
                     Height = new Random(Guid.NewGuid().GetHashCode()).Next(50, 150);
 
+                
+
+                
+
+                
 
                 App.Height = Height;
                 App.Width = Width;
                 App.ChangeMap = true;
 
-                if (Width * Height < App.CreaturesCount + App.MinFood + App.MinPoison)
-                {
-                    MessageBox.Show("World generated with this options will contains bugs");
-                  
-                }
+               
 
-           }
+            }
 
             else
             {
                 App.Map = new Controller.MapController(Width, Height, (int)Seed);
                 App.ChangeMap = false;
             }
+            try
+            {
+                App.WorldScreen = new World();
 
-            App.WorldScreen = new World();
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+               
+            }
             App.WorldScreen.Show();
             App.MainScreen.Hide();
             this.Close();

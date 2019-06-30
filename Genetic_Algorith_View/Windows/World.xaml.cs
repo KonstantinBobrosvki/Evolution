@@ -19,7 +19,7 @@ namespace Genetic_Algorith_View.Windows
         
 
         #region
-        List<CreatureController> Creatures = new List<CreatureController>(App.CreaturesCount);
+        List<CreatureController> Creatures = new List<CreatureController>(64);
 
         public MapController Map { get => CreatureController.Map; }
 
@@ -70,19 +70,24 @@ namespace Genetic_Algorith_View.Windows
         public World():this(App.Map ?? new MapController(App.Width, App.Height, DateTime.Now.Millisecond))
         {
 
-           
+            if (Map.EmpetyCells < 64)
+            {
+                App.MainScreen.Show();
 
-            for (int i = 0; i < Creatures.Capacity; i++)
+                throw new ArgumentException("The world is too small");
+            }
+            for (int i = 0; i < 64; i++)
             {
                 var temp = Map.FreePosition();
-                if (temp is null)
-                    break;
+               
                 Creatures.Add(new CreatureController(temp.Item1, temp.Item2));
                 ReDraw(temp.Item1, temp.Item2);
             }
 
             LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
 
+            return;
+       
 
         }
 
@@ -122,15 +127,15 @@ namespace Genetic_Algorith_View.Windows
 
             FoodOnMapLabel.Content = Map.FoodOnMap;
 
-            Best8.Columns = App.MinimumForNewGeneration;
+            Best8.Columns = 8;
 
-            for (int i = 0; i < App.MinimumForNewGeneration; i++)
+            for (int i = 0; i <8; i++)
             {
 
                 Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 3, 3, 0.5), ToolTip = "Health of creature in moment of creating childs", FontSize = 20 });
 
             }
-            for (int i = 0; i < App.MinimumForNewGeneration; i++)
+            for (int i = 0; i < 8; i++)
             {
                 Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 0.5, 3, 3), ToolTip = "Generations without evolution of creature", FontSize = 20 });
 
@@ -251,13 +256,13 @@ namespace Genetic_Algorith_View.Windows
             GenerationsCount++;
 
 
-            var newpopulation = new List<CreatureController>(App.CreaturesCount);
+            var newpopulation = new List<CreatureController>(64);
             for (int i = 0; i < Creatures.Count; i++)
             {
                 var item = Creatures[i];
                 newpopulation.AddRange(item.GetChildrens(8, 2));
                 ((Label)Best8.Children[i]).Content = item.Health;
-                ((Label)Best8.Children[i+8]).Content = item.GenerationsWithoutEvolution;
+                ((Label)Best8.Children[i+Best8.Columns]).Content = item.GenerationsWithoutEvolution;
 
             }
 
@@ -271,6 +276,8 @@ namespace Genetic_Algorith_View.Windows
             foreach (var item in newpopulation)
             {
                 var place = CreatureController.Map.FreePosition();
+                if (place is null)
+                    break;
                 var body = new CreatureBody();
                 CreatureController.Map[place.Item1, place.Item2] = body;
                 item.Body = body;
@@ -336,9 +343,6 @@ namespace Genetic_Algorith_View.Windows
         {
             CurrentTurns++;
            
-           
-
-           
 
             for (int i = 0; i < Creatures.Count; i++)
             {
@@ -353,16 +357,19 @@ namespace Genetic_Algorith_View.Windows
                 {
                     CreatureController.Map[item.X, item.Y] = null;
                     ReDraw(item.X, item.Y);
-                    item.Body = null;
                     Creatures.RemoveAt(i);
                     i--;
                     LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
+                  
+
+                    if (Creatures.Count ==8)
+                    {
+                        Restart();
+                        return;
+                    }
+
                 }
-                if (Creatures.Count == App.MinimumForNewGeneration)
-                {
-                    Restart();
-                    break;
-                }
+               
             }
             CheckMinimum();
 
@@ -488,8 +495,7 @@ namespace Genetic_Algorith_View.Windows
                     writer.WriteLine(App.MinFood);
                     writer.WriteLine(App.MinPoison);
                     writer.WriteLine(App.ChangeMap);
-                    writer.WriteLine(App.CreaturesCount);
-                    writer.WriteLine(App.MinimumForNewGeneration);
+                  
                     writer.Flush();
                 }
 

@@ -81,7 +81,7 @@ namespace Controller
         /// <returns>Cell with new food</returns>
         public List<(int ,int)> GenerateFood(int count)
         {
-            if (count <= 0)
+            if (count < 0)
                 throw new ArgumentOutOfRangeException();
 
 
