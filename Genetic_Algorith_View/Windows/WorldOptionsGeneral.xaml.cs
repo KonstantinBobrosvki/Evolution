@@ -21,8 +21,8 @@ namespace Genetic_Algorith_View
     public partial class WorldOptions : Window
     {
         Int32? Seed=null;
-        Int32 Width;
-        Int32 Height;
+        Int32 Width=new Random().Next(60,120);
+        Int32 Height=new Random(Guid.NewGuid().GetHashCode()).Next(80,130);
 
         public WorldOptions()
         {
@@ -103,7 +103,7 @@ namespace Genetic_Algorith_View
 
         private void NewWorld_Click(object sender, RoutedEventArgs e)
         {
-            if (Width * Height - 2 * Width - 2 * Height + 4 < 64 + App.MinFood + App.MinPoison)
+            if (Width * Height - 2 * Width - 2 * Height + 4 < 64 +10)
             {
                 MessageBox.Show("Area of the world is too small. Try bigger numbers.");
                
@@ -111,43 +111,35 @@ namespace Genetic_Algorith_View
 
             }
 
-            if (Seed==null)
-            {
+            
                 if (Width == 0)
                     Width = new Random().Next(50, 150);
                 if (Height == 0)
                     Height = new Random(Guid.NewGuid().GetHashCode()).Next(50, 150);
+           
+                App.Map = new Controller.MapController(Width, Height, Seed ?? new Random().Next(-100,100));
 
-                
 
-                
-
-                
-
-                App.Height = Height;
-                App.Width = Width;
-                App.ChangeMap = true;
-
-               
-
-            }
-
-            else
-            {
-                App.Map = new Controller.MapController(Width, Height, (int)Seed);
-                App.ChangeMap = false;
-            }
-            try
-            {
-                App.WorldScreen = new World();
+            try { 
+                App.WorldScreen = new World(App.Map.Clone(),true);
 
             }
             catch (ArgumentException ex)
             {
                 MessageBox.Show(ex.Message);
+                App.MainScreen.Show();
+                this.Close();
                 return;
-               
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                this.Close();
+                App.WorldScreen.Show();
+                return;
+            }
+
+
             App.WorldScreen.Show();
             App.MainScreen.Hide();
             this.Close();

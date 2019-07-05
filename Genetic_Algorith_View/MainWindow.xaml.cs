@@ -21,14 +21,26 @@ namespace Genetic_Algorith_View
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
+            if(Windows.World.AlreadyOpened)
+            {
+                MessageBox.Show("You already opened world screen.");
+                App.WorldScreen.Show();
+                return;
+            }
             WorldOptions worldOptions = new WorldOptions();
-            worldOptions.Show();
+            worldOptions.ShowDialog();
             
           
         }
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
+            if (Windows.World.AlreadyOpened)
+            {
+                MessageBox.Show("You already opened world screen.");
+                App.WorldScreen.Show();
+                return;
+            }
             System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
             dialog.SelectedPath = App.PathToFolder;
             
@@ -40,17 +52,7 @@ namespace Genetic_Algorith_View
             {
                 if (dialogresult == System.Windows.Forms.DialogResult.OK)
                 {
-                    //For APP
-                    using (StreamReader reader = new StreamReader(new FileStream(path + @"\App.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
-                    {
-                        App.Height = int.Parse(reader.ReadLine());
-                        App.Width = int.Parse(reader.ReadLine());
-                        App.MinFood = int.Parse(reader.ReadLine());
-                        App.MinPoison = int.Parse(reader.ReadLine());
-                        App.ChangeMap = bool.Parse(reader.ReadLine());
-                       
-                    }
-
+                    
                     //For cratures
                     List<CreatureController> creatures = new List<CreatureController>(64);
                     using (FileStream stream = new FileStream(path + @"\Creatures.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -59,10 +61,15 @@ namespace Genetic_Algorith_View
                     }
 
 
-                    //For map
-                    using (FileStream stream = new FileStream(path + @"\Map.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    //For Currentmap
+                    using (FileStream stream = new FileStream(path + @"\CurrentMap.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
                         CreatureController.Map = (MapController)binaryFormatter.Deserialize(stream);
+                    }
+
+                    using (FileStream stream = new FileStream(path + @"\StartMap.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                       App.Map=  (MapController)  binaryFormatter.Deserialize(stream);
                     }
 
                     App.Map = CreatureController.Map;
@@ -76,8 +83,8 @@ namespace Genetic_Algorith_View
                         App.WorldScreen.GenerationsCount = int.Parse(reader.ReadLine());
                         App.WorldScreen.AllTurns = int.Parse(reader.ReadLine());
                         App.WorldScreen.StartTime=DateTime.Now- TimeSpan.Parse(reader.ReadLine());
-
-                        
+                        App.WorldScreen.MinFood= int.Parse(reader.ReadLine());
+                        App.WorldScreen.MinPoison= int.Parse(reader.ReadLine());
 
                     }
 

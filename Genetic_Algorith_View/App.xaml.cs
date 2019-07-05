@@ -17,17 +17,6 @@ namespace Genetic_Algorith_View
 
         public static Controller.MapController Map;
 
-        public static int Height;
-
-        public static int Width;
-
-        public static int MinFood=-1;
-
-        public static int MinPoison=-1;
-        //The map will be same after restart or not
-        public static bool ChangeMap = false;
-
-       
         public static MainWindow MainScreen;
 
         public static Windows.World WorldScreen;
@@ -48,9 +37,9 @@ namespace Genetic_Algorith_View
 
           
             App app = new App();
-            MainWindow window = new MainWindow();
-               
-            app.Run(window);
+     
+            MainScreen = new MainWindow();
+            app.Run(MainScreen);
         }
     }
 }

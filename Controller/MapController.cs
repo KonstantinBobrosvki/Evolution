@@ -34,7 +34,7 @@ namespace Controller
         /// </summary>
         public int EmpetyCells { get; private set; }
 
-        public int Square { get => (Width - 1) * (Height - 1); }
+        public int Area { get => Width*Height-2*Height-2*Width+4; }
 
         #endregion
         private readonly WorldObject[,] Map;
@@ -107,31 +107,26 @@ namespace Controller
         /// <param name="rnd">Random for randomazing</param>
         public MapController(WorldObject[,]map,int seed)
         {
+            if (map is null)
+                throw new ArgumentNullException();
+
             if (map.GetLength(0) < 3 || map.GetLength(1) < 3)
                 throw new ArgumentOutOfRangeException();
 
-            if (map is null)
-                throw new ArgumentNullException();  
-            
             Map=(WorldObject[,])map.Clone();
             Seed =seed;
 
-            //New values for things
-            foreach (var item in this)
-            {
-                if (item is null)
-                    EmpetyCells++;
-                else if (item is Food)
-                    FoodOnMap++;
-                else if (item is Poison)
-                    PoisonOnMap++;
-            }
+           
         }
         #endregion
 
         public MapController Clone()
         {
-            return new MapController(Map, Seed); ;
+            var result = new MapController(Map, Seed);
+            result.FoodOnMap = FoodOnMap;
+            result.EmpetyCells = EmpetyCells;
+            result.PoisonOnMap = PoisonOnMap;
+            return result ;
         }
 
         public WorldObject this[int x, int y]
@@ -169,7 +164,7 @@ namespace Controller
                 }
         
                     
-                if(value is Food)
+                else if(value is Food)
                 {
                         if (this[x, y] is null)
                             EmpetyCells--;
@@ -180,7 +175,7 @@ namespace Controller
                         FoodOnMap++;
                 }
 
-                 if (value is Poison)
+                 else  if (value is Poison)
                  {
                         if (Map[x, y] is null)
                             EmpetyCells--;
@@ -191,7 +186,7 @@ namespace Controller
                             PoisonOnMap++;
                  }
 
-                 if(value is CreatureBody)
+                 else if(value is CreatureBody)
                  {
                     if (Map[x, y] is null)
                         EmpetyCells--;
@@ -202,6 +197,8 @@ namespace Controller
                     else if (this[x, y] is Poison)
                         PoisonOnMap--;
                  }
+
+                
 
                 if (!(value is null))
                 {
