@@ -259,9 +259,7 @@ namespace Tests
                     var t = map.FreePosition();
                     map[t.Item1, t.Item2] = null;
                 }
-                map.GenerateFood(10);
-                map.GeneratePoison(10);
-
+              
             }
             //Finish check
             {

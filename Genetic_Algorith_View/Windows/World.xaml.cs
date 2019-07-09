@@ -65,9 +65,6 @@ namespace Genetic_Algorith_View.Windows
         }
         private int minfood;
 
-        //TODO: DELETE THIS
-        public System.Windows.Controls.Primitives.UniformGrid MapField1 { get => MapField; }
-
         public int MinPoison {
             get=>minpoison;
             set {
@@ -104,13 +101,33 @@ namespace Genetic_Algorith_View.Windows
 
         }
 
+        /// <summary>
+        /// Standart constructor gettin map from app property and creating creatures
+        /// </summary>
+        public World() : this(App.Map.Clone(), true)
+        {
+
+        }
+
         public World(MapController map, bool createpopulation = false)
         {
-            this.Closed += (o, e) => AlreadyOpened = false;
+            CreatureController.Map = map;
+
+            if (Map.EmpetyCells < 64)
+            {
+
+                this.Close();
+               
+                throw new ArgumentException("The world is too small");
+            }
 
             if (AlreadyOpened)
+            {
                 throw new Exception("You can open only one window");
-          
+            }
+
+            this.Closed += ClosedEvent;
+
             AlreadyOpened = true;
 
             App.MainScreen.Hide();
@@ -126,18 +143,13 @@ namespace Genetic_Algorith_View.Windows
             Timer.Tick += Timer_Tick;
 
             
-            CreatureController.Map = map;
+           
 
-            MinFood = (Map.Area - 64) / 20;
-            MinPoison = (Map.Area - 64) / 50;
+
 
             StartDraw();
 
-            LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
-
-            PosionOnMapLabel.Content = Map.PoisonOnMap;
-
-            FoodOnMapLabel.Content = Map.FoodOnMap;
+           
 
             Best8.Columns = 8;
 
@@ -155,14 +167,7 @@ namespace Genetic_Algorith_View.Windows
 
             if(createpopulation)
             {
-                if (Map.EmpetyCells < 64)
-                {
-                    
-                    this.Close();
-                    App.MainScreen = new MainWindow();
-                    App.MainScreen.Show();
-                    throw new ArgumentException("The world is too small");
-                }
+               
                 for (int i = 0; i < 64; i++)
                 {
                     var temp = Map.FreePosition();
@@ -171,13 +176,20 @@ namespace Genetic_Algorith_View.Windows
                     ReDraw(temp.Item1, temp.Item2);
                 }
 
-                LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
+               
             }
-          
+
+            LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
+
+            MinFood = (Map.Area - 64) / 20;
+            MinPoison = (Map.Area - 64) / 50;
 
             CheckMinimum();
 
-         
+            PosionOnMapLabel.Content = Map.PoisonOnMap;
+
+            FoodOnMapLabel.Content = Map.FoodOnMap;
+
 
             this.KeyDown+= (o, e) => { if (e.Key == System.Windows.Input.Key.Escape) Exit(); };
         }
@@ -252,15 +264,14 @@ namespace Genetic_Algorith_View.Windows
             }
         }
 
-       public static int GetOneRankIndex(int x, int y)
+        public static int GetOneRankIndex(int x, int y)
         {
             return CreatureController.Map.Width * y + x;
         }
 
         public void CheckMinimum()
         {
-            try
-            {
+            
                 if (Map.FoodOnMap < MinFood * 2 / 4)
                 {
 
@@ -271,19 +282,15 @@ namespace Genetic_Algorith_View.Windows
                     }
 
                 }
-                if (Map.PoisonOnMap <MinPoison * 2 / 4)
+                if (Map.PoisonOnMap <MinPoison * 3 / 4)
                 {
-                    var changed = Map.GeneratePoison((MinPoison - Map.PoisonOnMap) * 2);
+                    var changed = Map.GeneratePoison((MinPoison - Map.PoisonOnMap * 2));
                     foreach (var item in changed)
                     {
                         ReDraw(item.Item1, item.Item2);
                     }
                 }
-            }
-            catch
-            {
-                return;
-            }
+          
         }
 
         public void ReDraw(int x, int y)
@@ -424,7 +431,7 @@ namespace Genetic_Algorith_View.Windows
                         else
                         {
                             Map[x, y] = new CreatureBody();
-                            MessageBox.Show("Here we aRe");
+                           
                             newpopulation[i++].Body = (CreatureBody)Map[x, y];
                         }
                     }
@@ -454,11 +461,13 @@ namespace Genetic_Algorith_View.Windows
         #endregion
 
         #region Events
-
+       
         private void Timer_Tick(object sender, EventArgs e)
         {
+            
+          
             WorldLive();
-           
+            
             ElapsedTimeLabel.Content = "Elapsed real time: " + (DateTime.Now - StartTime).ToString();
         }
 
@@ -594,13 +603,20 @@ namespace Genetic_Algorith_View.Windows
 
                 if (answer2 == MessageBoxResult.Yes)
                     SaveButton_Click(null, null);
-               
+
+                AlreadyOpened = false;
+                Closed -= ClosedEvent;
                   this.Close();
             }
             else if(answer==MessageBoxResult.No)
             {
                 MessageBox.Show("Good choice");
             }
+        }
+
+        private void ClosedEvent(object sender,EventArgs e)
+        {
+            Exit();
         }
         #endregion
 

@@ -21,12 +21,16 @@ namespace Genetic_Algorith_View
     public partial class WorldOptions : Window
     {
         Int32? Seed=null;
-        Int32 Width=new Random().Next(60,120);
-        Int32 Height=new Random(Guid.NewGuid().GetHashCode()).Next(80,130);
+        Int32 MapWidth=new Random().Next(90,120);
+        int MapHeight =new Random(Guid.NewGuid().GetHashCode()).Next(80,110);
 
         public WorldOptions()
         {
             InitializeComponent();
+
+            WidthInput.Text = MapWidth.ToString();
+            HeightInput.Text = MapHeight.ToString();
+
             SeedInput.TextChanged += SeedInput_TextChanged;
             WidthInput.TextChanged += WidthInput_TextChanged;
             HeightInput.TextChanged += HeightInput_TextChanged;
@@ -34,108 +38,111 @@ namespace Genetic_Algorith_View
 
         private void HeightInput_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (int.TryParse(HeightInput.Text.Replace(" ", ""), out Height))
+            var me = ((TextBox)sender);
+            for (int i = 0; i < SeedInput.Text.Length; i++)
             {
-                if (HeightInput.Text.Length < 2)
-                    return;
-                if (Height <= 2)
+                var symbol = me.Text[i];
+                if (!char.IsNumber(symbol))
                 {
-                    MessageBox.Show("This value must be greater than 3");
-                    Height = 3;
-                    HeightInput.Text = 3.ToString();
+                    me.Text = me.Text.Remove(i, 1);
                 }
             }
-            else if (String.IsNullOrWhiteSpace(HeightInput.Text)||String.IsNullOrEmpty(HeightInput.Text))
+            if (!String.IsNullOrWhiteSpace(me.Text))
             {
-
-
+                if (int.TryParse(me.Text, out int temp))
+                {
+                    if (me.Text.Length < 2)
+                    {
+                        if (temp < 3)
+                            MessageBox.Show("Try bigger value");
+                        else
+                        {
+                            MapHeight = temp;
+                        }
+                    }
+                }
             }
-            else
-            {
-                MessageBox.Show("This block contains only integers");
-               HeightInput.Text = HeightInput.Text.Remove(HeightInput.Text.Length - 1);
-            }
+       
         }
 
         private void WidthInput_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (int.TryParse(WidthInput.Text.Replace(" ",""), out Width))
+            var me = ((TextBox)sender);
+            for (int i = 0; i < SeedInput.Text.Length; i++)
             {
-                if (WidthInput.Text.Length < 2)
-                    return;
-                
-                if(Width<=2)
+                var symbol = me.Text[i];
+                if (!char.IsNumber(symbol))
                 {
-                    MessageBox.Show("This value must be greater than 3");
-                    Width = 3;
-                    WidthInput.Text = "3";
+                    me.Text = me.Text.Remove(i, 1);
                 }
             }
-            else if(String.IsNullOrWhiteSpace(WidthInput.Text)||String.IsNullOrEmpty(WidthInput.Text))
+            if (!String.IsNullOrWhiteSpace(me.Text))
             {
-                
-              
-            }
-            else
-            {
-                MessageBox.Show("This block contains only integers");
-                WidthInput.Text = WidthInput.Text.Remove(WidthInput.Text.Length - 1);
+                if (int.TryParse(me.Text, out int temp))
+                { 
+                    if (me.Text.Length < 2)
+                    {
+                        if (temp < 3)
+                            MessageBox.Show("Try bigger value");
+                        else
+                        {
+                            MapWidth = temp;
+                        }
+                    }
+                }
             }
         }
 
         private void SeedInput_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(int.TryParse(SeedInput.Text.Replace(" ", ""), out int temp))
+            var me = ((TextBox)sender);
+            for (int i = 0; i < SeedInput.Text.Length; i++)
             {
-                Seed = temp;
+                var symbol = me.Text[i];
+               if(!char.IsNumber(symbol))
+                {
+                    me.Text= me.Text.Remove(i, 1);
+                }
             }
-            else if (String.IsNullOrWhiteSpace(SeedInput.Text))
+            if(!String.IsNullOrWhiteSpace(me.Text))
             {
-
-
-            }
-            else
-            {
-                MessageBox.Show("This block contains only integers");
-                SeedInput.Text = SeedInput.Text.Remove(SeedInput.Text.Length - 1);
+                if (int.TryParse(me.Text, out int temp))
+                    Seed = temp;
+                else
+                    MessageBox.Show("Try other numbers");
             }
         }
 
         private void NewWorld_Click(object sender, RoutedEventArgs e)
         {
-            if (Width * Height - 2 * Width - 2 * Height + 4 < 64 +10)
+            int square = MapWidth * MapHeight - 2 * MapWidth - 2 * MapHeight + 4;
+            if (square< 64 +10)
             {
                 MessageBox.Show("Area of the world is too small. Try bigger numbers.");
                
                 return;
 
             }
-
-            
-                if (Width == 0)
-                    Width = new Random().Next(50, 150);
-                if (Height == 0)
-                    Height = new Random(Guid.NewGuid().GetHashCode()).Next(50, 150);
-           
-                App.Map = new Controller.MapController(Width, Height, Seed ?? new Random().Next(-100,100));
+                App.Map = new Controller.MapController(MapWidth, MapHeight, Seed ?? new Random().Next(-100,100),0,0,square/80);
 
 
-            try { 
-                App.WorldScreen = new World(App.Map.Clone(),true);
+            try
+            {
+                App.WorldScreen = new World();
 
             }
             catch (ArgumentException ex)
             {
                 MessageBox.Show(ex.Message);
-                App.MainScreen.Show();
-                this.Close();
+                MessageBox.Show("Input data have errors.Try again");
                 return;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                this.Close();
+
                 App.WorldScreen.Show();
+                this.Close();
                 return;
             }
 

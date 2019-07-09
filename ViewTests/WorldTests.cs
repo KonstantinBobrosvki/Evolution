@@ -14,18 +14,18 @@ namespace Genetic_Algorith_View.Windows.Tests
         [TestInitialize]
         public void Initialize()
         {
-           
+
             App.MainScreen = new MainWindow();
-            App.Map = new MapController(random.Next(70,120),random.Next(70,100),random.Next());
+            App.Map = new MapController(random.Next(70, 120), random.Next(70, 100), random.Next());
         }
 
         [TestMethod()]
         public void RedrawTest()
         {
-                App.WorldScreen = new World(new MapController(random.Next(20, 100), random.Next(30, 100), 10), true);
+            App.WorldScreen = new World();
             for (int i = 0; i < 1000; i++)
             {
-              
+
                 App.WorldScreen.WorldLive();
                 for (int x = 0; x < CreatureController.Map.Width; x++)
                 {
@@ -33,7 +33,7 @@ namespace Genetic_Algorith_View.Windows.Tests
                     {
                         var element = CreatureController.Map[x, y];
                         var rect = App.WorldScreen.MapField1.Children[World.GetOneRankIndex(x, y)] as System.Windows.Controls.Grid;
-                        SolidColorBrush brush=null;
+                        SolidColorBrush brush = null;
 
                         if (element is Wall)
                         {
@@ -43,7 +43,7 @@ namespace Genetic_Algorith_View.Windows.Tests
                         {
 
                             brush = new SolidColorBrush(Color.FromRgb(0, 0, 255));
-                         
+
 
                         }
                         else if (element is Food)
@@ -59,7 +59,7 @@ namespace Genetic_Algorith_View.Windows.Tests
                             brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
                         }
 
-                        Assert.AreEqual(rect.Background.ToString(), brush.ToString(),x.ToString()+" "+y.ToString());
+                        Assert.AreEqual(rect.Background.ToString(), brush.ToString(), x.ToString() + " " + y.ToString());
                     }
                 }
             }
@@ -68,6 +68,11 @@ namespace Genetic_Algorith_View.Windows.Tests
 
         }
 
+
+        [TestMethod()]
+        {
+
+        }
 
     }
 }
