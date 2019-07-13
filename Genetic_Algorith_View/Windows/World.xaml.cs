@@ -74,6 +74,7 @@ namespace Genetic_Algorith_View.Windows
                 CheckMinimum(); }
         }
         private int minpoison;
+
         public long AllTurns;
 
         DispatcherTimer Timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 100) };
@@ -181,8 +182,15 @@ namespace Genetic_Algorith_View.Windows
 
             LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
 
-            MinFood = (Map.Area - 64) / 20;
-            MinPoison = (Map.Area - 64) / 50;
+            MinFood = (Map.Area - 64) / 10;
+            MinPoison = (Map.Area - 64) / 20;
+
+            if (MinFood==0)
+             MinFood = 1;
+
+            if(MinPoison == 0)
+                MinPoison = 1;
+
 
             CheckMinimum();
 
@@ -272,24 +280,24 @@ namespace Genetic_Algorith_View.Windows
         public void CheckMinimum()
         {
             
-                if (Map.FoodOnMap < MinFood * 2 / 4)
+                if (Map.FoodOnMap < MinFood)
                 {
 
-                    var changed = Map.GenerateFood((MinFood - Map.FoodOnMap) * 2);
+                    var changed = Map.GenerateFood((MinFood - Map.FoodOnMap));
                     foreach (var item in changed)
                     {
                         ReDraw(item.Item1, item.Item2);
                     }
 
                 }
-                if (Map.PoisonOnMap <MinPoison * 3 / 4)
+                if (Map.PoisonOnMap <MinPoison)
                 {
-                    var changed = Map.GeneratePoison((MinPoison - Map.PoisonOnMap * 2));
-                    foreach (var item in changed)
-                    {
-                        ReDraw(item.Item1, item.Item2);
-                    }
+                     var changed = Map.GeneratePoison((MinPoison - Map.PoisonOnMap));
+                foreach (var item in changed)
+                {
+                    ReDraw(item.Item1, item.Item2);
                 }
+            }
           
         }
 
@@ -473,6 +481,7 @@ namespace Genetic_Algorith_View.Windows
 
         private void NextMoveButton_Click(object sender, RoutedEventArgs e)
         {
+            
             WorldLive();
 
         }

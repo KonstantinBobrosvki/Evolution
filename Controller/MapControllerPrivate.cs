@@ -91,7 +91,7 @@ namespace Controller
             FoodOnMap += count;
             EmpetyCells -= count;
 
-            Random rnd = new Random(Seed + 2);
+            Random rnd = new Random(Seed + FoodOnMap);
 
             var result = new List<(int, int)>(count);
             for (int i = 0; i < count; i++)
@@ -132,7 +132,7 @@ namespace Controller
             PoisonOnMap += count;
             EmpetyCells -= count;
 
-            Random rnd = new Random(Seed + 3);
+            Random rnd = new Random(Seed + PoisonOnMap);
             for (int i = 0; i < count; i++)
             {
                 int x = rnd.Next(0, Width - 1);

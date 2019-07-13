@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Genetic_Algorith_View.Windows;
 
+
 namespace Genetic_Algorith_View
 {
     /// <summary>
@@ -21,7 +22,7 @@ namespace Genetic_Algorith_View
     public partial class WorldOptions : Window
     {
         Int32? Seed=null;
-        Int32 MapWidth=new Random().Next(90,120);
+        int MapWidth=new Random().Next(90,120);
         int MapHeight =new Random(Guid.NewGuid().GetHashCode()).Next(80,110);
 
         public WorldOptions()
@@ -47,22 +48,27 @@ namespace Genetic_Algorith_View
                     me.Text = me.Text.Remove(i, 1);
                 }
             }
+            me.CaretIndex = me.Text.Length;
+
             if (!String.IsNullOrWhiteSpace(me.Text))
             {
                 if (int.TryParse(me.Text, out int temp))
                 {
-                    if (me.Text.Length < 2)
+                    if (me.Text.Length > 2)
                     {
                         if (temp < 3)
-                            MessageBox.Show("Try bigger value");
-                        else
                         {
-                            MapHeight = temp;
+                            MessageBox.Show("Try bigger value");
+                            return;
                         }
+                          
+                        
                     }
+                    MapHeight = temp;
                 }
+                
             }
-       
+      
         }
 
         private void WidthInput_TextChanged(object sender, TextChangedEventArgs e)
@@ -76,21 +82,24 @@ namespace Genetic_Algorith_View
                     me.Text = me.Text.Remove(i, 1);
                 }
             }
+            me.CaretIndex = me.Text.Length;
+
             if (!String.IsNullOrWhiteSpace(me.Text))
             {
                 if (int.TryParse(me.Text, out int temp))
                 { 
-                    if (me.Text.Length < 2)
+                    if (me.Text.Length > 2)
                     {
                         if (temp < 3)
-                            MessageBox.Show("Try bigger value");
-                        else
                         {
-                            MapWidth = temp;
+                            MessageBox.Show("Try bigger value");
+                            return;
                         }
                     }
+                    MapWidth = temp;
                 }
             }
+
         }
 
         private void SeedInput_TextChanged(object sender, TextChangedEventArgs e)
@@ -111,12 +120,14 @@ namespace Genetic_Algorith_View
                 else
                     MessageBox.Show("Try other numbers");
             }
+            me.CaretIndex = me.Text.Length;
+
         }
 
         private void NewWorld_Click(object sender, RoutedEventArgs e)
         {
             int square = MapWidth * MapHeight - 2 * MapWidth - 2 * MapHeight + 4;
-            if (square< 64 +10)
+            if (square< 64)
             {
                 MessageBox.Show("Area of the world is too small. Try bigger numbers.");
                
