@@ -31,10 +31,7 @@ namespace Controller
         {
             Map[x, y] = new CreatureBody(x,y);
             Body =(CreatureBody) Map[x, y];
-
-            //For optimization
-            if (this.GetType().ToString() != typeof(CreatureController).ToString())
-                LogicBlocks = null;
+            
         }
 
         private CreatureController()

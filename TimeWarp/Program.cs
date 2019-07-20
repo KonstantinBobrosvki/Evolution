@@ -14,30 +14,7 @@ namespace TimeWarp
 {
     class Program
     {
-        public static MapController Map
-        {
-            get
-            {
-                return CreatureController.Map;
-            }
-        }
-
-        static long MaxTurns;
-
-        static long CurrentTurns;
-
-        static int MinFood;
-
-        static int MinPoison;
-
-        static long AllTurns;
-
-        static  int epochs;
-
-        static List<CreatureController> Creatures=new List<CreatureController>(64);
-
-        static DateTime StartTime = DateTime.Now;
-
+       
         [DllImport("kernel32.dll")]
         static extern IntPtr GetConsoleWindow();
 
@@ -64,35 +41,16 @@ namespace TimeWarp
             WriteLine("Enter Seed");
             int seed = int.Parse(ReadLine());
 
-            Genetic_Algorith_View.App.Map = new MapController(width, height, seed);
 
-            CreatureController.Map = Genetic_Algorith_View.App.Map.Clone();
-
-            MinFood = (Map.Area - 64) / 10;
-            MinPoison = (Map.Area - 64) / 20;
-
-            if (MinFood == 0)
-                MinFood = 1;
-
-            if (MinPoison == 0)
-                MinPoison = 1;
-
-
-            for (int i = 0; i < 64; i++)
-            {
-                var temp = Map.FreePosition();
-
-                Creatures.Add(new CreatureController(temp.Item1, temp.Item2));
-               
-            }
+            var WorldController =new WorldController( new MapController(width, height, seed));
 
             WriteLine("Enter epoch for living");
-            epochs =int.Parse(ReadLine());
+            int epochs =int.Parse(ReadLine());
 
 
             for (int i = 0; i < epochs; i++)
             {
-                WorldLive();
+                WorldController.WorldLive(null);
             }
 
             WriteLine("Ready");
@@ -103,137 +61,20 @@ namespace TimeWarp
             if (result == ConsoleKey.Y)
             {
                 App.MainScreen = new MainWindow();
-                new System.Threading.Thread(Save).Start();
-                Open();
+                 Save(WorldController);
+                Open(WorldController);
             }
             else
             {
-               Save();
+               Save(WorldController);
             }
           
 
         }
 
-        static void CheckMinimum()
-        {
+     
 
-            if (Map.FoodOnMap < MinFood)
-            {
-
-              Map.GenerateFood((MinFood - Map.FoodOnMap));
-               
-
-            }
-            if (Map.PoisonOnMap < MinPoison)
-            {
-               Map.GeneratePoison((MinPoison - Map.PoisonOnMap));
-                
-
-            }
-
-        }
-
-        static void WorldLive()
-        {
-            CurrentTurns++;
-
-
-            for (int i = 0; i < Creatures.Count; i++)
-            {
-                var item = Creatures[i];
-
-               item.Think();
-               
-                if (item.Health == 0)
-                {
-                    CreatureController.Map[item.X, item.Y] = null;
-
-                  
-                    Creatures.RemoveAt(i);
-                    i--;
-                   
-
-
-                    if (Creatures.Count == 8)
-                    {
-                        Restart();
-                        return;
-                    }
-
-                }
-
-            }
-            CheckMinimum();
-
-        }
-
-        static void Restart()
-        {
-            AllTurns += CurrentTurns;
-            if (MaxTurns < CurrentTurns)
-            {
-                MaxTurns = CurrentTurns;
-
-            }
-
-           
-            CurrentTurns = 0;
-           
-            var newpopulation = new List<CreatureController>(64);
-            for (int i = 0; i < Creatures.Count; i++)
-            {
-                var item = Creatures[i];
-                newpopulation.AddRange(item.GetChildrens(8, 2));
-               
-
-            }
-
-
-
-            CreatureController.Map = Genetic_Algorith_View.App.Map.Clone();
-
-
-
-            foreach (var item in newpopulation)
-            {
-                var place = CreatureController.Map.FreePosition();
-                
-                var body = new CreatureBody();
-                CreatureController.Map[place.Item1, place.Item2] = body;
-                item.Body = body;
-            }
-            for (int i = newpopulation.Count; i < 64; i++)
-            {
-
-                for (int x = 1; x < Map.Width - 1; x++)
-                {
-                    for (int y = 1; y < Map.Height - 1; y++)
-                    {
-                        var cell = Map[x, y];
-                        if (cell is Wall || cell is CreatureBody)
-                        {
-
-                        }
-                        else
-                        {
-                            Map[x, y] = new CreatureBody();
-
-                            newpopulation[i++].Body = (CreatureBody)Map[x, y];
-                        }
-                    }
-                }
-            }
-            Creatures = newpopulation;
-
-
-
-            
-
-
-            CheckMinimum();
-        }
-
-        static void Save()
+        static void Save(WorldController worldController)
         {
 
             
@@ -246,36 +87,9 @@ namespace TimeWarp
             var temp = DateTime.Now.ToString();
             string path = App.PathToFolder + @"\Saves\" + temp.Replace(':', '-');
 
-            Directory.CreateDirectory(path);
-
-
-
-
-            using (FileStream stream = new FileStream(path + @"\Creatures.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
+            using (FileStream stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
             {
-                binaryFormatter.Serialize(stream, Creatures);
-            }
-
-            using (FileStream stream = new FileStream(path + @"\CurrentMap.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
-            {
-                binaryFormatter.Serialize(stream, Map);
-            }
-            using (FileStream stream = new FileStream(path + @"\StartMap.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
-            {
-                binaryFormatter.Serialize(stream, App.Map);
-            }
-
-
-            using (StreamWriter writer = new StreamWriter(new FileStream(path + @"\WorldDatas.txt", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite)))
-            {
-                writer.WriteLine(MaxTurns);
-                writer.WriteLine(CurrentTurns);
-                writer.WriteLine(epochs);
-                writer.WriteLine(AllTurns);
-                writer.WriteLine((DateTime.Now - StartTime));
-                writer.WriteLine(MinFood);
-                writer.WriteLine(MinPoison);
-
+                binaryFormatter.Serialize(stream,worldController );
             }
 
             WriteLine();
@@ -288,22 +102,11 @@ namespace TimeWarp
 
         }
 
-        static void Open()
+        static void Open(WorldController worldController)
         {
-          
+            App.WorldController = worldController;
 
-            App.WorldScreen = new Genetic_Algorith_View.Windows.World(Creatures,Map);
-
-         
-                App.WorldScreen.MaxTurns = MaxTurns;
-                App.WorldScreen.CurrentTurns = CurrentTurns;
-                App.WorldScreen.AllTurns = AllTurns;
-                App.WorldScreen.GenerationsCount = epochs;
-                App.WorldScreen.StartTime = DateTime.Now;
-                App.WorldScreen.MinFood =MinFood;
-                App.WorldScreen.MinPoison = MinPoison;
-
-
+            App.WorldScreen = new Genetic_Algorith_View.Windows.World();
 
             var handle = GetConsoleWindow();
 

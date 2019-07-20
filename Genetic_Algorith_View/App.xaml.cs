@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-
+using Controller;
 namespace Genetic_Algorith_View
 {
     /// <summary>
@@ -15,7 +15,8 @@ namespace Genetic_Algorith_View
     {
         #region Properties
 
-        public static Controller.MapController Map;
+        public static WorldController WorldController;
+   
 
         public static MainWindow MainScreen;
 

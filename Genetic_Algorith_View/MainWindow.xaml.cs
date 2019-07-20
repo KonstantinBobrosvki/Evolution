@@ -55,40 +55,13 @@ namespace Genetic_Algorith_View
                     
                     //For cratures
                     List<CreatureController> creatures = new List<CreatureController>(64);
-                    using (FileStream stream = new FileStream(path + @"\Creatures.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
-                        creatures = (List<CreatureController>)binaryFormatter.Deserialize(stream);
+                       App.WorldController = (WorldController)binaryFormatter.Deserialize(stream);
                     }
 
 
-                    //For Currentmap
-                    using (FileStream stream = new FileStream(path + @"\CurrentMap.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    {
-                        CreatureController.Map = (MapController)binaryFormatter.Deserialize(stream);
-                    }
-
-                    using (FileStream stream = new FileStream(path + @"\StartMap.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    {
-                       App.Map=  (MapController)  binaryFormatter.Deserialize(stream);
-                    }
-
-                    App.Map = CreatureController.Map;
-
-                    App.WorldScreen = new Windows.World(creatures, App.Map);
-
-                    using (StreamReader reader = new StreamReader(new FileStream(path + @"\WorldDatas.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
-                    {
-                        App.WorldScreen.MaxTurns = int.Parse(reader.ReadLine());
-                        App.WorldScreen.CurrentTurns = int.Parse(reader.ReadLine());
-                        App.WorldScreen.GenerationsCount = int.Parse(reader.ReadLine());
-                        App.WorldScreen.AllTurns = int.Parse(reader.ReadLine());
-                        App.WorldScreen.StartTime=DateTime.Now- TimeSpan.Parse(reader.ReadLine());
-                        App.WorldScreen.MinFood= int.Parse(reader.ReadLine());
-                        App.WorldScreen.MinPoison= int.Parse(reader.ReadLine());
-
-                    }
-
-                   
+                    App.WorldScreen = new Windows.World();
 
                     App.WorldScreen.Show();
 

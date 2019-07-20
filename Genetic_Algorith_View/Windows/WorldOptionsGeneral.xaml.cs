@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Genetic_Algorith_View.Windows;
-
+using Controller;
 
 namespace Genetic_Algorith_View
 {
@@ -134,8 +134,15 @@ namespace Genetic_Algorith_View
                 return;
 
             }
-                App.Map = new Controller.MapController(MapWidth, MapHeight, Seed ?? new Random().Next(-100,100),0,0,square/80);
-
+                var Map = new Controller.MapController(MapWidth, MapHeight, Seed ?? new Random().Next(-100,100),0,0,square/80);
+            try
+            {
+                App.WorldController = new WorldController(Map);
+            }
+            catch(ArgumentException)
+            {
+                MessageBox.Show("Try biiger numbers");
+            }
 
             try
             {
