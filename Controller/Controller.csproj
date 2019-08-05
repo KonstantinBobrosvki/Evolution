@@ -45,6 +45,7 @@
     <Compile Include="CreatureControllerPrivate.cs" />
     <Compile Include="MapController.cs" />
     <Compile Include="MapControllerPrivate.cs" />
+    <Compile Include="NewGenerationEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorldController.cs" />
     <Compile Include="WorldControllerPrivate.cs" />

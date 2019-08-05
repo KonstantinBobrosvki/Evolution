@@ -10,8 +10,18 @@ namespace Controller
     [Serializable]
    public partial class WorldController
    {
-        public MapController CurrentMap { get => CreatureController.Map; }
+        public MapController CurrentMap {
+            get => currentmap;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
 
+                currentmap = value;
+                CreatureController.Map = value;
+            }
+        }
+        private MapController currentmap;
         public readonly MapController StartMap;
 
         public List<CreatureController> Creatures { get; private set; }
@@ -121,17 +131,24 @@ namespace Controller
             if (MaxTurns < CurrentTurns)
             {
                 MaxTurns = CurrentTurns;
-
             }
 
             AllTurns += CurrentTurns;
 
+
+            if (RestartEvent != null)
+            {
+                RestartEvent.Invoke(this, new NewGenerationEventArgs(Creatures, CurrentTurns));
+            }
+            LastRestart = new NewGenerationEventArgs(Creatures, CurrentTurns);
+
             CurrentTurns = 0;
+
             GenerationsCount++;
 
 
             var newpopulation = new List<CreatureController>(64);
-            for (int i = 0; i < Creatures.Count; i++)
+            for (int i = 0; i < 8; i++)
             {
                 var item = Creatures[i];
                 newpopulation.AddRange(item.GetChildrens(8, 2));
@@ -139,7 +156,7 @@ namespace Controller
 
 
 
-            CreatureController.Map = StartMap.Clone();
+            CurrentMap = StartMap.Clone();
 
 
 
@@ -175,6 +192,9 @@ namespace Controller
                     }
                 }
             }
+
+           
+
             Creatures = newpopulation;
             CheckMinimum();
         }

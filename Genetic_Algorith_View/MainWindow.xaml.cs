@@ -47,17 +47,27 @@ namespace Genetic_Algorith_View
             System.Windows.Forms.DialogResult dialogresult = dialog.ShowDialog();
 
             string path = dialog.SelectedPath;
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
+          
             try
             {
                 if (dialogresult == System.Windows.Forms.DialogResult.OK)
                 {
-                    
-                    //For cratures
-                    List<CreatureController> creatures = new List<CreatureController>(64);
-                    using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+
+
+                    BinaryFormatter binaryFormatter = new BinaryFormatter();
+
+                    if (!Directory.Exists(App.PathToFolder + @"\Saves"))
                     {
-                       App.WorldController = (WorldController)binaryFormatter.Deserialize(stream);
+                        Directory.CreateDirectory(App.PathToFolder + @"\Saves");
+                    }
+                   
+
+                    using (FileStream stream = new FileStream(path + @"\WorldController.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                       App.WorldController=(WorldController) binaryFormatter.Deserialize(stream);
+
+                        //It works
+                        App.WorldController.CurrentMap = App.WorldController.CurrentMap;
                     }
 
 
@@ -81,16 +91,21 @@ namespace Genetic_Algorith_View
                 return;
 
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("This is strange error");
-                MessageBox.Show(ex.Message);
-                return;
+            //catch(ArgumentNullException ex)
+            //{
+            //    throw ex;
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("This is strange error");
+            //    MessageBox.Show(ex.Message);
+            //    MessageBox.Show(ex.StackTrace);
+            //    MessageBox.Show(ex.GetType().ToString());
+            //    return;
 
-            }
+            //}
 
-            this.Hide();
-
+           
         }
     }
 }

@@ -94,6 +94,14 @@ namespace Genetic_Algorith_View.Windows
 
 
             this.KeyDown+= (o, e) => { if (e.Key == System.Windows.Input.Key.Escape) Exit(); };
+
+
+            App.WorldController.RestartEvent += RestartInfoUpdate;
+
+            if(App.WorldController.LastRestart!=null)
+            RestartInfoUpdate(null, App.WorldController.LastRestart);
+
+            
         }
 
 
@@ -210,12 +218,13 @@ namespace Genetic_Algorith_View.Windows
 
         private void WorldInfoUpdate()
         {
-            CurrentLive.Content = App.WorldController.CurrentTurns;
-            MaxLive.Content = App.WorldController.MaxTurns;
-            LiveCreaturesCountLabel.Content = App.WorldController.Creatures.Count;
-            Genretaions.Content = App.WorldController.GenerationsCount;
-            AvarangeLiveLabel.Content = App.WorldController.AvarangeTurns;
+            CurrentLive.Content = "Current turns: "+ App.WorldController.CurrentTurns;
+            MaxLive.Content = "Max turns: "+ App.WorldController.MaxTurns;
+            LiveCreaturesCountLabel.Content ="Live creatures: "+ App.WorldController.Creatures.Count;
+            Genretaions.Content = "Generations Count: " + App.WorldController.GenerationsCount;
+            AvarangeLiveLabel.Content = "Avarange turns: "+ App.WorldController.AvarangeTurns;
         }
+
         #endregion
 
         #region Events
@@ -319,11 +328,11 @@ namespace Genetic_Algorith_View.Windows
 
 
 
-            using (FileStream stream = new FileStream(path + @"\WorldController.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
-            {
+               using (FileStream stream = new FileStream(path + @"\WorldController.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
+               {
                 binaryFormatter.Serialize(stream,App.WorldController);
-            }
-                MessageBox.Show("The save is in folder ''"+temp+"'' .You can rename it if you want ");
+               }
+                MessageBox.Show("The save is in folder ''"+path+"'' .You can rename it if you want ");
 
 
               
@@ -355,9 +364,18 @@ namespace Genetic_Algorith_View.Windows
         {
             Exit();
         }
+
+        private void RestartInfoUpdate(object sender,Controller.NewGenerationEventArgs args)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+               ((Label) Best8.Children[i]).Content = args.Parents[i].Health;
+               ((Label)Best8.Children[i+8]).Content = args.Parents[i].GenerationsWithoutEvolution;
+            }
+        }
         #endregion
 
-     
+
     }
 
 

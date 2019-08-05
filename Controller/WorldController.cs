@@ -11,6 +11,10 @@ namespace Controller
     {
         public delegate void Drawer(int x, int y);
 
+        public event Action<object, NewGenerationEventArgs> RestartEvent;
+
+        public NewGenerationEventArgs LastRestart { get; private set; }
+
         /// <summary>
         ///  One turn existing
         /// </summary>
@@ -69,11 +73,22 @@ namespace Controller
         }
 
 
-        public WorldController(MapController map,List<CreatureController> creatures):this(map)
+        public WorldController(MapController map,List<CreatureController> creatures)
         {
             if (creatures == null)
                 throw new ArgumentNullException();
-            
+
+            if (map == null)
+                throw new ArgumentNullException();
+
+            if (map.EmpetyCells < 80)
+                throw new ArgumentException("Too small map");
+
+            this.StartMap = map.Clone();
+            CurrentMap = StartMap.Clone();
+
+            MinFood = CurrentMap.EmpetyCells / 30;
+            MinPoison = CurrentMap.EmpetyCells / 60;
 
             Creatures = creatures;
         }
@@ -86,8 +101,9 @@ namespace Controller
                 throw new ArgumentException("Too small map");
 
             this.StartMap = map.Clone();
-            CreatureController.Map = StartMap.Clone();
+            CurrentMap = StartMap.Clone();
             Creatures = new List<CreatureController>(64);
+
             for (int i = 0; i < 64; i++)
             {
                 var temp = map.FreePosition();

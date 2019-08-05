@@ -9,6 +9,7 @@ using static System.Console;
 using Genetic_Algorith_View;
 using System.Windows;
 using System.Runtime.InteropServices;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace TimeWarp
 {
@@ -42,17 +43,20 @@ namespace TimeWarp
             int seed = int.Parse(ReadLine());
 
 
-            var WorldController =new WorldController( new MapController(width, height, seed));
+            var WorldController =new WorldController(new MapController(width, height, seed));
 
             WriteLine("Enter epoch for living");
-            int epochs =int.Parse(ReadLine());
+            long epochs =long.Parse(ReadLine());
 
 
-            for (int i = 0; i < epochs; i++)
+            for (long i = 0; i <= epochs; i++)
             {
                 WorldController.WorldLive(null);
+                Console.CursorLeft = 0;
+                Console.Write(i);
+               
             }
-
+            WriteLine();
             WriteLine("Ready");
             WriteLine("Do you want open graphic verion?");
             WriteLine("y/n");
@@ -77,7 +81,6 @@ namespace TimeWarp
         static void Save(WorldController worldController)
         {
 
-            
             BinaryFormatter binaryFormatter = new BinaryFormatter();
 
             if (!Directory.Exists(App.PathToFolder + @"\Saves"))
@@ -87,13 +90,18 @@ namespace TimeWarp
             var temp = DateTime.Now.ToString();
             string path = App.PathToFolder + @"\Saves\" + temp.Replace(':', '-');
 
-            using (FileStream stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
-            {
-                binaryFormatter.Serialize(stream,worldController );
-            }
+            Directory.CreateDirectory(path);
 
+
+
+
+            using (FileStream stream = new FileStream(path + @"\WorldController.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
+            {
+                binaryFormatter.Serialize(stream, worldController);
+            }
+            
             WriteLine();
-           WriteLine(" The save is in folder ''" + path + "'' .You can rename it if you want ");
+            WriteLine(" The save is in folder ''" + path + "'' .You can rename it if you want ");
            
            
 
