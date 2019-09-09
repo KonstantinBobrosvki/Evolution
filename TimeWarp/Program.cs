@@ -9,7 +9,7 @@ using static System.Console;
 using Genetic_Algorith_View;
 using System.Windows;
 using System.Runtime.InteropServices;
-using Excel = Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Interop.Excel;
 
 namespace TimeWarp
 {
@@ -22,6 +22,7 @@ namespace TimeWarp
         [DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
+        static Worksheet workSheet;
 
         [STAThread]
         static void Main(string[] args)
@@ -49,12 +50,28 @@ namespace TimeWarp
             long epochs =long.Parse(ReadLine());
 
 
+
+            string pathforexcel = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+           Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+            // Создаём экземпляр рабочий книги Excel
+            Microsoft.Office.Interop.Excel.Workbook workBook;
+            // Создаём экземпляр листа Excel
+           
+
+            workBook = excelApp.Workbooks.Add();
+            workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.Worksheets.get_Item(1);
+            WorldController.RestartEvent += ExcelFunc;
+           
             for (long i = 0; i <= epochs; i++)
             {
                 WorldController.WorldLive(null);
                 Console.CursorLeft = 0;
                 Console.Write(i);
+
                
+
+
             }
             WriteLine();
             WriteLine("Ready");
@@ -65,15 +82,25 @@ namespace TimeWarp
             if (result == ConsoleKey.Y)
             {
                 App.MainScreen = new MainWindow();
-                 Save(WorldController);
+                Save(WorldController);
                 Open(WorldController);
             }
             else
             {
                Save(WorldController);
+                workSheet.Cells[1, 1] = "Survived time:";
+                workSheet.Cells[1, 3] = "Max survived time " + WorldController.MaxTurns;
+                workSheet.Cells[1, 5] = "Avarange survived time " + WorldController.AvarangeTurns;
+              
+
+             
+             
+                
+                excelApp.Visible = true;
+                excelApp.UserControl = true;
+                Console.ReadKey();
             }
           
-
         }
 
      
@@ -120,10 +147,18 @@ namespace TimeWarp
 
             ShowWindow(handle, 0);
 
-            Application app = new Application();
-           app.Run(App.WorldScreen);
+            System.Windows.Application app = new System.Windows.Application();
+            app.Run(App.WorldScreen);
 
-            app.Exit+=(s,e)=>Application.Current.Shutdown();
+            app.Exit+=(s,e) => System.Windows.Application.Current.Shutdown();
+        }
+
+        static void ExcelFunc(object sender,NewGenerationEventArgs e)
+        {
+            var worldcontroller = (WorldController)sender;
+
+            workSheet.Cells[worldcontroller.GenerationsCount+1, 1] = e.CurrentLiveTime;
+            
         }
 
     }
