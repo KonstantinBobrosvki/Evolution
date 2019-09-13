@@ -14,6 +14,8 @@ namespace Genetic_Algorith_View.Windows
     /// <summary>
     /// Логика взаимодействия для World.xaml
     /// </summary>
+    ///
+    [Serializable]
     public partial class World : Window
     {
 
@@ -314,24 +316,26 @@ namespace Genetic_Algorith_View.Windows
         {
             
                 Timer.Stop();
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                
 
                 if (!Directory.Exists(App.PathToFolder + @"\Saves"))
                 {
                     Directory.CreateDirectory(App.PathToFolder + @"\Saves");
                 }
-                var temp = DateTime.Now.ToString();
-                string  path = App.PathToFolder + @"\Saves\" + temp.Replace(':','-');
-               
-                Directory.CreateDirectory(path);
+                
+                string  path = App.PathToFolder + @"\Saves\" + DateTime.Now.ToString().Replace(':','-');
+            Directory.CreateDirectory(path);
+            var temp = App.WorldController;
+
+
+            WorldController.Save(path, App.WorldController);
+
+                
 
 
 
 
-               using (FileStream stream = new FileStream(path + @"\WorldController.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
-               {
-                binaryFormatter.Serialize(stream,App.WorldController);
-               }
+             
                 MessageBox.Show("The save is in folder ''"+path+"'' .You can rename it if you want ");
 
 
@@ -342,6 +346,7 @@ namespace Genetic_Algorith_View.Windows
 
         private void Exit()
         {
+            Timer.Stop();
            var answer= MessageBox.Show("Are you sure?", "Exit Window", MessageBoxButton.YesNo);
             if(answer==MessageBoxResult.Yes)
             {

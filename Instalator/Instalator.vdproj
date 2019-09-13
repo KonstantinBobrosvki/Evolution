@@ -15,8 +15,14 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_00C5F7071D5D23433315E1914FCAFFFB"
+        "OwnerKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_69FFC9173326CB2F6397F9DAC169A1FD"
-        "OwnerKey" = "8:_DB073087621545E39D4E9736DED5143E"
+        "OwnerKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -28,25 +34,43 @@
         "Entry"
         {
         "MsmKey" = "8:_70AA2D7E087D105A9C1CD4A20FE05C83"
-        "OwnerKey" = "8:_DB073087621545E39D4E9736DED5143E"
+        "OwnerKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_70AA2D7E087D105A9C1CD4A20FE05C83"
+        "OwnerKey" = "8:_00C5F7071D5D23433315E1914FCAFFFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_98493FF669F64F696BBEC2BF2FA68974"
-        "OwnerKey" = "8:_DB073087621545E39D4E9736DED5143E"
+        "OwnerKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_DB073087621545E39D4E9736DED5143E"
+        "MsmKey" = "8:_98493FF669F64F696BBEC2BF2FA68974"
+        "OwnerKey" = "8:_00C5F7071D5D23433315E1914FCAFFFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DB073087621545E39D4E9736DED5143E"
+        "OwnerKey" = "8:_70AA2D7E087D105A9C1CD4A20FE05C83"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -58,13 +82,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_98493FF669F64F696BBEC2BF2FA68974"
+        "OwnerKey" = "8:_00C5F7071D5D23433315E1914FCAFFFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_70AA2D7E087D105A9C1CD4A20FE05C83"
+        "OwnerKey" = "8:_98493FF669F64F696BBEC2BF2FA68974"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -92,6 +116,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
         "Release"
@@ -116,6 +148,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
     }
@@ -146,6 +186,37 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_00C5F7071D5D23433315E1914FCAFFFB"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Genetic_Algorith_View, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_00C5F7071D5D23433315E1914FCAFFFB"
+                    {
+                    "Name" = "8:Genetic_Algorith_View.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Genetic_Algorith_View.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_D5E9CA36BEA1429C9B5FA588889B557F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_69FFC9173326CB2F6397F9DAC169A1FD"
             {
             "AssemblyRegister" = "3:1"
@@ -277,17 +348,6 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_EE55DAD24ACE408CAFBE093BC8FFA151"
-                    {
-                    "Name" = "8:Saves"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_F80C563C7BE94EDF88E5D5F52EF3064E"
-                        "Folders"
-                        {
-                        }
-                    }
                 }
             }
         }
@@ -307,7 +367,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Instalator"
         "ProductCode" = "8:{E68F911A-552C-4709-AA9B-51FC0A3B55D0}"
-        "PackageCode" = "8:{90653421-4D63-4B88-ACAF-2085601995AA}"
+        "PackageCode" = "8:{783A960C-669F-4A2F-8451-C5B48219E3A3}"
         "UpgradeCode" = "8:{4C40CE34-6849-41F6-A8DF-20F0EFA9B0B9}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -427,20 +487,6 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_73CA8299050D42BDBB94C7DF4B1444BD"
-            {
-            "Name" = "8:OpenMe"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_DB073087621545E39D4E9736DED5143E"
-            "Folder" = "8:_BB3807F7735B45489A732AF271A0B551"
-            "WorkingFolder" = "8:_D5E9CA36BEA1429C9B5FA588889B557F"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
         }
         "UserInterface"
         {
@@ -840,9 +886,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_DB073087621545E39D4E9736DED5143E"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F1078CA7F5EC4DC4AAD3719110D580BC"
             {
-            "SourcePath" = "8:..\\Genetic_Algorith_View\\obj\\Debug\\Genetic_Algorith_View.exe"
+            "SourcePath" = "8:..\\TimeWarp\\obj\\Debug\\TimeWarp.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D5E9CA36BEA1429C9B5FA588889B557F"
@@ -862,7 +908,7 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{8DD07889-8C32-4D55-AC1C-A83F43D8E3E7}"
+            "OutputProjectGuid" = "8:{08C5CFDA-9544-40BC-A471-663B3BC6C958}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

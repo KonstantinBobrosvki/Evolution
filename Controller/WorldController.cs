@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using Modal;
+using System.Linq;
 
 namespace Controller
 {
+    [Serializable]
     public  partial class WorldController
     {
+       
         public delegate void Drawer(int x, int y);
 
         public event Action<object, NewGenerationEventArgs> RestartEvent;
@@ -60,9 +61,9 @@ namespace Controller
 
                 if (drawer != null)
                 {
-                    foreach (var position in Interacted)
+                    foreach (var (X, Y) in Interacted)
                     {
-                        drawer(position.X, position.Y);
+                        drawer(X, Y);
                     }
                 }
 
@@ -75,9 +76,6 @@ namespace Controller
 
         public WorldController(MapController map,List<CreatureController> creatures)
         {
-            if (creatures == null)
-                throw new ArgumentNullException();
-
             if (map == null)
                 throw new ArgumentNullException();
 
@@ -90,7 +88,7 @@ namespace Controller
             MinFood = CurrentMap.EmpetyCells / 30;
             MinPoison = CurrentMap.EmpetyCells / 60;
 
-            Creatures = creatures;
+            Creatures = creatures ?? throw new ArgumentNullException();
         }
         public WorldController(MapController map)
         {
@@ -113,5 +111,99 @@ namespace Controller
             MinFood = CurrentMap.EmpetyCells / 30;
             MinPoison = CurrentMap.EmpetyCells / 60;
         }
+
+        private WorldController(MapController startmap,int notuse)
+        {
+            StartMap = startmap;
+        }
+
+      
+        /// <summary>
+        /// Saves data to DIRECTORY
+        /// </summary>
+        /// <param name="path">Directory path</param>
+        /// <param name="worldController">Worldcontroller</param>
+        public static void Save(string path,WorldController worldController)
+        {
+            
+            //For info data
+            using (StreamWriter writer = new StreamWriter(path+"\\worldcontroller.evol"))
+            {
+                writer.WriteLine(worldController.MaxTurns);
+                writer.WriteLine(worldController.CurrentTurns);
+                writer.WriteLine(worldController.GenerationsCount);
+                writer.WriteLine(worldController.MinFood);
+                writer.WriteLine(worldController.MinPoison);
+                writer.WriteLine(worldController.AllTurns);
+
+
+            }
+
+            //For startmap
+            MapController.Save(path + "\\startmap.evol", worldController.StartMap);
+
+            //For currentmap
+            MapController.Save(path + "\\currentmap.evol", worldController.CurrentMap);
+
+            //for Creatures
+            for (int i = 0; i < worldController.Creatures.Count; i++)
+            {
+                var item = worldController.Creatures[i];
+                CreatureController.Save(path + "\\creature" + i + ".evol",item);
+            }
+
+          
+
+
+        }
+        /// <summary>
+        /// Load from file
+        /// </summary>
+        /// <param name="path">Path to folder</param>
+        /// <returns>result</returns>
+       public static WorldController Load(string path)
+       {
+            //For startmap
+            var result = new WorldController(MapController.Load(path + "\\startmap.evol"),0);
+
+            //For info data
+            using (var reader = new StreamReader(path + "\\worldcontroller.evol"))
+            {
+             result.maxturns=int.Parse(reader.ReadLine());
+            result.currentTurns= int.Parse( reader.ReadLine());
+           result.generationsCount=  int.Parse( reader.ReadLine());
+           result.minfood=  int.Parse( reader.ReadLine());
+           result.minpoison=  int.Parse( reader.ReadLine());
+           result.allturns=  int.Parse( reader.ReadLine());
+
+
+            }
+
+            
+        
+
+            //For currentmap
+            result.currentmap= MapController.Load(path + "\\currentmap.evol");
+            CreatureController.Map = result.CurrentMap;
+
+            //for Creatures
+
+            var creatures_paths = Directory.GetFiles(path, "*creature*").Where((str) => str.Contains("creature")).ToList();
+           
+            result.Creatures = new List<CreatureController>(64);
+            for (int i = 0; i < creatures_paths.Count; i++)
+            {
+
+               
+                var temp = CreatureController.Load(path + "\\creature" + i + ".evol");
+                result.Creatures.Add(temp);
+            }
+
+        
+
+
+            return result;
+       }
+
     }
 }

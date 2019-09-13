@@ -60,7 +60,7 @@ namespace Modal
             
             if(obj is CreatureBody temp)
             {
-                if (temp.X == this.X & temp.Y == Y)
+                if (temp.X == this.X & temp.Y == Y & temp.Health==Health)
                     return true;
                
             }

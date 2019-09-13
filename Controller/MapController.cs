@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.IO;
 using Modal;
 
 namespace Controller
@@ -116,7 +116,17 @@ namespace Controller
             Map=(WorldObject[,])map.Clone();
             Seed =seed;
 
-           
+            foreach (var item in Map)
+            {
+                if (item is Food)
+                    FoodOnMap++;
+                else if (item is Poison)
+                    PoisonOnMap++;
+                else if (item is null)
+                    EmpetyCells++;
+            }
+
+
         }
         #endregion
 
@@ -274,6 +284,112 @@ namespace Controller
         public override int GetHashCode()
         {
             return Width*Height;
+        }
+
+        public static void Save(string path,MapController controller)
+        {
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                //First we save size
+                writer.WriteLine(controller.Width+"+"+controller.Height);
+                //Second is seed
+                writer.WriteLine(controller.Seed);
+
+                //Then we save all map with their int analogs
+                //0-empety 1-Creature Body 2-Food 3-Poison 4-Wall
+                //Every info finishes with ;
+
+                //Builder is for optimaizing and easy
+                StringBuilder builder = new StringBuilder();
+
+                for (int y = 0; y < controller.Height; y++)
+                {
+                    for (int x = 0; x < controller.Width; x++)
+                    {
+                        var item = controller[x, y];
+                        if (item is null)
+                        {
+                            builder.Append(0 + "+"+x+"+"+y+";");
+                        }
+                        else if (item is CreatureBody body)
+                        {
+                            builder.Append(1 + "+" + body.Health + "+" + (int)body.Sight + "+" + x + "+" + y + ";");
+                        }
+                        else if (item is Food)
+                        {
+                            builder.Append(2+ "+" + x + "+" + y +";");
+                        }
+                        else if (item is Poison)
+                        {
+                            builder.Append(3 + "+" + x + "+" + y+ ";");
+                        }
+                        else if (item is Wall)
+                        {
+                            builder.Append(4 + "+" + x + "+" + y + ";");
+                        }
+
+                    }
+                }     
+                writer.WriteLine(builder.ToString());
+                writer.Flush();
+            }
+        }
+        public static MapController Load(string path)
+        {
+            using (StreamReader reader = new StreamReader(path))
+            {
+                var sizes = reader.ReadLine();
+                var width = int.Parse(sizes.Split('+')[0]);
+                var height = int.Parse(sizes.Split('+')[1]);
+                var seed = int.Parse(reader.ReadLine());
+                var map_string = reader.ReadLine().Split(';');
+                var map = new WorldObject[width, height];
+
+                foreach (var item in map_string)
+                {
+                    if (item == "")
+                        break;
+                    var type_int = item[0];
+                    var parametrs = item.Split('+');
+
+                    if (type_int == '1')
+                    {
+                       
+                     map[int.Parse(parametrs[3]),int.Parse(parametrs[4])] = new CreatureBody(int.Parse(parametrs[3]), int.Parse(parametrs[4]))
+                            {
+                        Health = int.Parse(parametrs[1]),
+                                Sight = (CreatureBody.SeeDirection)int.Parse(parametrs[2])
+                    };
+                        continue;
+                    }
+
+                    var x = int.Parse(parametrs[1]);
+                    var y = int.Parse(parametrs[2]);
+
+                    if (type_int == '0')
+                    {
+                        map[x, y] = null;
+                    }
+                    else if (type_int == '2')
+                    {
+                        map[x, y] = new Food(x, y);
+                    }
+                    else if (type_int == '3')
+                    {
+                        map[x, y] = new Poison(x, y);
+                    }
+                    else if (type_int == '4')
+                    {
+                        map[x, y] = new Wall(x, y);
+                    }
+                    else
+                        throw new System.IO.FileLoadException();
+                }
+
+               
+                return new MapController(map, seed);
+               
+            }
         }
     }
 }

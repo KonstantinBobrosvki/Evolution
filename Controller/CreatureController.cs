@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Modal;
+using System.IO;
+using System.Text;
 
 namespace Controller
 {
@@ -188,5 +190,73 @@ namespace Controller
 
         #endregion
 
+        public static void Save(string path, CreatureController controller)
+        {
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                //First save X Y
+                writer.WriteLine(controller.X + "+" + controller.Y);
+
+                //Second is current logic block index
+                writer.WriteLine(controller.Current);
+
+                //Generations without evolution
+                writer.WriteLine(controller.GenerationsWithoutEvolution);
+
+                //Brain
+                StringBuilder builder = new StringBuilder();
+
+                foreach (var item in controller.LogicBlocks)
+                {
+                    builder.Append(item + ";");
+                }
+                writer.WriteLine(builder.ToString());
+
+
+            }
+        }
+
+        public static CreatureController Load(string path)
+        {
+            if (Map == null)
+                throw new Exception("First load map");
+            using (StreamReader reader = new StreamReader(path))
+            {
+                var xy = reader.ReadLine().Split('+') ;
+                var currentindex = int.Parse(reader.ReadLine());
+                var generations = int.Parse(reader.ReadLine());
+                var brain = new int[64];
+                var temp = reader.ReadLine().Split(';');
+                
+                for (int i = 0; i < 64; i++)
+                {
+                   
+                        brain[i] = int.Parse(temp[i].Replace(" ",""));
+                    
+                }
+               
+                CreatureController result = new CreatureController();
+                result.body = Map[int.Parse(xy[0]), int.Parse(xy[1])] as CreatureBody;
+                result.LogicBlocks = brain;
+                result.NotUseCurrent = currentindex;
+                result.GenerationsWithoutEvolution = generations;
+                return result;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is CreatureController creature)
+            {
+                for (int i = 0; i < 64; i++)
+                {
+                    if (creature.LogicBlocks[i] != LogicBlocks[i])
+                       return false;
+                      
+                }
+                return true;
+            }
+            return false;
+        }
     }
 }

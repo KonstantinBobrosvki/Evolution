@@ -6,14 +6,13 @@ using Modal;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using static System.Console;
-using Genetic_Algorith_View;
 using System.Windows;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Interop.Excel;
 
 namespace TimeWarp
 {
-    class Program
+    public class Program
     {
        
         [DllImport("kernel32.dll")]
@@ -24,7 +23,7 @@ namespace TimeWarp
 
         static Worksheet workSheet;
 
-        [STAThread]
+        
         static void Main(string[] args)
         {
             WriteLine("Hello this is a hepler app to Evolution.");
@@ -44,7 +43,7 @@ namespace TimeWarp
             int seed = int.Parse(ReadLine());
 
 
-            var WorldController =new WorldController(new MapController(width, height, seed));
+            var worldController =new WorldController(new MapController(width, height, seed));
 
             WriteLine("Enter epoch for living");
             long epochs =long.Parse(ReadLine());
@@ -53,19 +52,19 @@ namespace TimeWarp
 
             string pathforexcel = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-           Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
             // Создаём экземпляр рабочий книги Excel
-            Microsoft.Office.Interop.Excel.Workbook workBook;
+             Microsoft.Office.Interop.Excel.Workbook workBook;
             // Создаём экземпляр листа Excel
            
 
             workBook = excelApp.Workbooks.Add();
             workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.Worksheets.get_Item(1);
-            WorldController.RestartEvent += ExcelFunc;
+            worldController.RestartEvent += ExcelFunc;
            
             for (long i = 0; i <= epochs; i++)
             {
-                WorldController.WorldLive(null);
+                worldController.WorldLive(null);
                 Console.CursorLeft = 0;
                 Console.Write(i);
 
@@ -75,91 +74,37 @@ namespace TimeWarp
             }
             WriteLine();
             WriteLine("Ready");
-            WriteLine("Do you want open graphic verion?");
-            WriteLine("y/n");
 
-            var result = ReadKey().Key;
-            if (result == ConsoleKey.Y)
-            {
-                App.MainScreen = new MainWindow();
-                Save(WorldController);
-                Open(WorldController);
-            }
-            else
-            {
-               Save(WorldController);
+            string path = AppDomain.CurrentDomain.BaseDirectory + @"Saves\\" + DateTime.Now.ToString().Replace(':', '-');
+
+            WriteLine();
+            Directory.CreateDirectory(path);
+            WorldController.Save(path, worldController);
+            
+            WriteLine(" The save is in folder ''" + path + "'' .You can rename it if you want ");
+
+          
                 workSheet.Cells[1, 1] = "Survived time:";
-                workSheet.Cells[1, 3] = "Max survived time " + WorldController.MaxTurns;
-                workSheet.Cells[1, 5] = "Avarange survived time " + WorldController.AvarangeTurns;
-              
-
-             
-             
-                
+                workSheet.Cells[1, 3] = "Max survived time " + worldController.MaxTurns;
+                workSheet.Cells[1, 5] = "Avarange survived time " + worldController.AvarangeTurns;
+                workSheet.Columns.AutoFit();
                 excelApp.Visible = true;
                 excelApp.UserControl = true;
                 Console.ReadKey();
-            }
-          
-        }
-
-     
-
-        static void Save(WorldController worldController)
-        {
-
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-            if (!Directory.Exists(App.PathToFolder + @"\Saves"))
-            {
-                Directory.CreateDirectory(App.PathToFolder + @"\Saves");
-            }
-            var temp = DateTime.Now.ToString();
-            string path = App.PathToFolder + @"\Saves\" + temp.Replace(':', '-');
-
-            Directory.CreateDirectory(path);
-
-
-
-
-            using (FileStream stream = new FileStream(path + @"\WorldController.dat", FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
-            {
-                binaryFormatter.Serialize(stream, worldController);
-            }
             
-            WriteLine();
-            WriteLine(" The save is in folder ''" + path + "'' .You can rename it if you want ");
-           
-           
-
-
-
-
-        }
-
-        static void Open(WorldController worldController)
-        {
-            App.WorldController = worldController;
-
-            App.WorldScreen = new Genetic_Algorith_View.Windows.World();
-
-            var handle = GetConsoleWindow();
-
-            ShowWindow(handle, 0);
-
-            System.Windows.Application app = new System.Windows.Application();
-            app.Run(App.WorldScreen);
-
-            app.Exit+=(s,e) => System.Windows.Application.Current.Shutdown();
+          
         }
 
         static void ExcelFunc(object sender,NewGenerationEventArgs e)
         {
             var worldcontroller = (WorldController)sender;
 
+            if(workSheet!= null)
             workSheet.Cells[worldcontroller.GenerationsCount+1, 1] = e.CurrentLiveTime;
             
         }
+
+       
 
     }
 }

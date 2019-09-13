@@ -7,7 +7,7 @@ using Modal;
 
 namespace Controller
 { 
-    [Serializable]
+    
    public partial class WorldController
    {
         public MapController CurrentMap {
@@ -121,11 +121,6 @@ namespace Controller
             return result;
         }
 
-        /// <summary>
-        /// Actions of creatures
-        /// </summary>
-        /// <returns>Changed cell or null when all cells are changed</returns>
-
         private void Restart()
         {
             if (MaxTurns < CurrentTurns)
@@ -197,6 +192,29 @@ namespace Controller
 
             Creatures = newpopulation;
             CheckMinimum();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is WorldController controller)
+            {
+
+                bool result = controller.CurrentMap.Equals(this.CurrentMap) && this.StartMap.Equals(controller.StartMap);
+               
+                if (controller.Creatures.Count != Creatures.Count)
+                    return false;
+
+             
+                for (int i = 0; i < controller.Creatures.Count; i++)
+                {
+                    if (!controller.Creatures[i].Equals(Creatures[i]))
+                        return false;
+                }
+               
+                return result;
+            }
+
+            return false;
         }
         #endregion
     }

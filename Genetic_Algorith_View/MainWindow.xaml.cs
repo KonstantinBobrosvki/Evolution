@@ -41,12 +41,12 @@ namespace Genetic_Algorith_View
                 App.WorldScreen.Show();
                 return;
             }
-            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
             dialog.SelectedPath = App.PathToFolder;
             
             System.Windows.Forms.DialogResult dialogresult = dialog.ShowDialog();
 
-            string path = dialog.SelectedPath;
+            
           
             try
             {
@@ -54,23 +54,12 @@ namespace Genetic_Algorith_View
                 {
 
 
-                    BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-                    if (!Directory.Exists(App.PathToFolder + @"\Saves"))
-                    {
-                        Directory.CreateDirectory(App.PathToFolder + @"\Saves");
-                    }
                    
-
-                    using (FileStream stream = new FileStream(path + @"\WorldController.dat", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    {
-                       App.WorldController=(WorldController) binaryFormatter.Deserialize(stream);
+                        App.WorldController = WorldController.Load(dialog.SelectedPath);
 
                         //It works
                         App.WorldController.CurrentMap = App.WorldController.CurrentMap;
-                    }
-
-
+                   
                     App.WorldScreen = new Windows.World();
 
                     App.WorldScreen.Show();
