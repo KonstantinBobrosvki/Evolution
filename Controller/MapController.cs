@@ -230,7 +230,7 @@ namespace Controller
             if (EmpetyCells == 0)
                 return null;
 
-            Random rnd = new Random();
+            Random rnd = new Random(Guid.NewGuid().GetHashCode());
             while(true)
             {
                 var x = rnd.Next(0, Width);

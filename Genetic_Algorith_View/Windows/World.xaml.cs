@@ -225,6 +225,8 @@ namespace Genetic_Algorith_View.Windows
             LiveCreaturesCountLabel.Content ="Live creatures: "+ App.WorldController.Creatures.Count;
             Genretaions.Content = "Generations Count: " + App.WorldController.GenerationsCount;
             AvarangeLiveLabel.Content = "Avarange turns: "+ App.WorldController.AvarangeTurns;
+            FoodOnMapLabel.Content = Map.FoodOnMap;
+            PosionOnMapLabel.Content = Map.PoisonOnMap;
         }
 
         #endregion
