@@ -4,6 +4,8 @@ using System.Windows;
 using System.IO;
 using Controller;
 using System.Collections.Generic;
+using System.Windows.Media;
+
 namespace Genetic_Algorith_View
 {
     /// <summary>
@@ -17,6 +19,10 @@ namespace Genetic_Algorith_View
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
             App.MainScreen = this;
+
+            VisualBrush visualBrush = new VisualBrush();
+
+          
         }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)

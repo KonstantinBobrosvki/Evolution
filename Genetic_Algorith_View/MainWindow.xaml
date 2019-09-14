@@ -5,19 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Genetic_Algorith_View"
         mc:Ignorable="d"
+       
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="113*"/>
             <RowDefinition Height="306*"/>
         </Grid.RowDefinitions>
+
+       
+
+        <Grid.Background >
+
+            <VisualBrush  Stretch="Fill">
+
+                <VisualBrush.Visual>
+
+                    <Image x:Name="BackgroundVideo" Source="/Resources/Bacground.gif"  ></Image>
+
+                </VisualBrush.Visual>
+            </VisualBrush >
+
+        </Grid.Background>
+
+
         <Grid>
-            <Label x:Name="TitleLabel" Content="Evolution" Background="Blue" FontSize="52" 
-                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  >
+            <Label x:Name="TitleLabel" Content="Evolution"  FontSize="52" 
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"    >
 
             </Label>
         </Grid>
-        <Grid  Background="Green" Grid.Row="1">
+        <Grid  Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="53*"/>
                 <RowDefinition Height="74*"/>
