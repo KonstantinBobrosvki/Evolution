@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Genetic_Algorith_View.Windows"
         mc:Ignorable="d"
+        Icon="/Resources/icon.png"
         Title="World" Height="800" Width="1600">
 
     <Grid x:Name="All">

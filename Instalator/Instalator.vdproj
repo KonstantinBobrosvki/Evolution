@@ -15,14 +15,26 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_00C5F7071D5D23433315E1914FCAFFFB"
-        "OwnerKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
+        "MsmKey" = "8:_2914D70FB29549B3917A41D1B78E1617"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_69FFC9173326CB2F6397F9DAC169A1FD"
-        "OwnerKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
+        "OwnerKey" = "8:_2914D70FB29549B3917A41D1B78E1617"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_69FFC9173326CB2F6397F9DAC169A1FD"
+        "OwnerKey" = "8:_BE888ED469E6484A8F7BB1A39DAB484C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_70AA2D7E087D105A9C1CD4A20FE05C83"
+        "OwnerKey" = "8:_2914D70FB29549B3917A41D1B78E1617"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -34,31 +46,37 @@
         "Entry"
         {
         "MsmKey" = "8:_70AA2D7E087D105A9C1CD4A20FE05C83"
-        "OwnerKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
+        "OwnerKey" = "8:_BE888ED469E6484A8F7BB1A39DAB484C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_70AA2D7E087D105A9C1CD4A20FE05C83"
-        "OwnerKey" = "8:_00C5F7071D5D23433315E1914FCAFFFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_98493FF669F64F696BBEC2BF2FA68974"
-        "OwnerKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_98493FF669F64F696BBEC2BF2FA68974"
-        "OwnerKey" = "8:_00C5F7071D5D23433315E1914FCAFFFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
+        "MsmKey" = "8:_73736439014043DCBACA5F99DD02268F"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_98493FF669F64F696BBEC2BF2FA68974"
+        "OwnerKey" = "8:_2914D70FB29549B3917A41D1B78E1617"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_98493FF669F64F696BBEC2BF2FA68974"
+        "OwnerKey" = "8:_BE888ED469E6484A8F7BB1A39DAB484C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BE888ED469E6484A8F7BB1A39DAB484C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_98493FF669F64F696BBEC2BF2FA68974"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -70,25 +88,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F1078CA7F5EC4DC4AAD3719110D580BC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_69FFC9173326CB2F6397F9DAC169A1FD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_00C5F7071D5D23433315E1914FCAFFFB"
+        "OwnerKey" = "8:_2914D70FB29549B3917A41D1B78E1617"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_98493FF669F64F696BBEC2BF2FA68974"
+        "OwnerKey" = "8:_BE888ED469E6484A8F7BB1A39DAB484C"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -186,37 +198,6 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_00C5F7071D5D23433315E1914FCAFFFB"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Genetic_Algorith_View, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_00C5F7071D5D23433315E1914FCAFFFB"
-                    {
-                    "Name" = "8:Genetic_Algorith_View.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Genetic_Algorith_View.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_D5E9CA36BEA1429C9B5FA588889B557F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_69FFC9173326CB2F6397F9DAC169A1FD"
             {
             "AssemblyRegister" = "3:1"
@@ -224,11 +205,6 @@
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_69FFC9173326CB2F6397F9DAC169A1FD"
-                    {
-                    "Name" = "8:System.Net.Http.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
@@ -255,11 +231,6 @@
             "AssemblyAsmDisplayName" = "8:Modal, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_70AA2D7E087D105A9C1CD4A20FE05C83"
-                    {
-                    "Name" = "8:Modal.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Modal.dll"
             "TargetName" = "8:"
@@ -279,6 +250,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_73736439014043DCBACA5F99DD02268F"
+            {
+            "SourcePath" = "8:..\\Genetic_Algorith_View\\icon.ico"
+            "TargetName" = "8:icon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_D5E9CA36BEA1429C9B5FA588889B557F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_98493FF669F64F696BBEC2BF2FA68974"
             {
             "AssemblyRegister" = "3:1"
@@ -286,11 +277,6 @@
             "AssemblyAsmDisplayName" = "8:Controller, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_98493FF669F64F696BBEC2BF2FA68974"
-                    {
-                    "Name" = "8:Controller.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Controller.dll"
             "TargetName" = "8:"
@@ -487,6 +473,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_B19BD92B88EE463EA1FBA9252A8EA103"
+            {
+            "Name" = "8:Evolution"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_BE888ED469E6484A8F7BB1A39DAB484C"
+            "Folder" = "8:_BB3807F7735B45489A732AF271A0B551"
+            "WorkingFolder" = "8:_D5E9CA36BEA1429C9B5FA588889B557F"
+            "Icon" = "8:_73736439014043DCBACA5F99DD02268F"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -886,7 +886,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F1078CA7F5EC4DC4AAD3719110D580BC"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2914D70FB29549B3917A41D1B78E1617"
             {
             "SourcePath" = "8:..\\TimeWarp\\obj\\Debug\\TimeWarp.exe"
             "TargetName" = "8:"
@@ -909,6 +909,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{08C5CFDA-9544-40BC-A471-663B3BC6C958}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BE888ED469E6484A8F7BB1A39DAB484C"
+            {
+            "SourcePath" = "8:..\\Genetic_Algorith_View\\obj\\Debug\\Genetic_Algorith_View.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_D5E9CA36BEA1429C9B5FA588889B557F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{8DD07889-8C32-4D55-AC1C-A83F43D8E3E7}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
