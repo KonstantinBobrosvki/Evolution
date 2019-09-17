@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modal", "Modal\Modal.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "Controller\Controller.csproj", "{8AA9063B-4374-4BBE-B020-06DDC66852BE}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Instalator", "Instalator\Instalator.vdproj", "{B76326B1-F7B0-4519-BFE0-D6B73A0EA9EC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeWarp", "TimeWarp\TimeWarp.csproj", "{08C5CFDA-9544-40BC-A471-663B3BC6C958}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Instalator", "Instalator\Instalator.vdproj", "{AA83BFB0-15E7-479B-A1A4-E34183F26793}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,12 +31,12 @@ Global
 		{8AA9063B-4374-4BBE-B020-06DDC66852BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AA9063B-4374-4BBE-B020-06DDC66852BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AA9063B-4374-4BBE-B020-06DDC66852BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B76326B1-F7B0-4519-BFE0-D6B73A0EA9EC}.Debug|Any CPU.ActiveCfg = Debug
-		{B76326B1-F7B0-4519-BFE0-D6B73A0EA9EC}.Release|Any CPU.ActiveCfg = Release
 		{08C5CFDA-9544-40BC-A471-663B3BC6C958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08C5CFDA-9544-40BC-A471-663B3BC6C958}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08C5CFDA-9544-40BC-A471-663B3BC6C958}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08C5CFDA-9544-40BC-A471-663B3BC6C958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA83BFB0-15E7-479B-A1A4-E34183F26793}.Debug|Any CPU.ActiveCfg = Debug
+		{AA83BFB0-15E7-479B-A1A4-E34183F26793}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
