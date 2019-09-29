@@ -127,6 +127,8 @@ namespace Genetic_Algorith_View
         private void NewWorld_Click(object sender, RoutedEventArgs e)
         {
             int square = MapWidth * MapHeight - 2 * MapWidth - 2 * MapHeight + 4;
+
+            var Map = new Controller.MapController(MapWidth, MapHeight, Seed ?? new Random().Next(-100, 100), 0, 0, square / 80);
             if (square< 64)
             {
                 MessageBox.Show("Area of the world is too small. Try bigger numbers.");
@@ -134,14 +136,15 @@ namespace Genetic_Algorith_View
                 return;
 
             }
-                var Map = new Controller.MapController(MapWidth, MapHeight, Seed ?? new Random().Next(-100,100),0,0,square/80);
+               
             try
             {
                 App.WorldController = new WorldController(Map);
             }
             catch(ArgumentException)
             {
-                MessageBox.Show("Try biiger numbers");
+                MessageBox.Show("Try bigger numbers");
+                return;
             }
 
             try
@@ -159,7 +162,7 @@ namespace Genetic_Algorith_View
             {
                 MessageBox.Show(ex.Message);
 
-                App.WorldScreen.Show();
+                App.MainScreen.Show();
                 this.Close();
                 return;
             }

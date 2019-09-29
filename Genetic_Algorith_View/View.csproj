@@ -60,6 +60,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Windows\ChooseAIType.xaml.cs">
+      <DependentUpon>ChooseAIType.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\World.xaml.cs">
       <DependentUpon>World.xaml</DependentUpon>
     </Compile>
@@ -78,6 +81,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\ChooseAIType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\World.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,6 +136,37 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\StandartAI\Catch0.png" />
+    <Resource Include="Resources\StandartAI\Catch1.png" />
+    <Resource Include="Resources\StandartAI\Catch2.png" />
+    <Resource Include="Resources\StandartAI\Catch3.png" />
+    <Resource Include="Resources\StandartAI\Catch4.png" />
+    <Resource Include="Resources\StandartAI\Catch5.png" />
+    <Resource Include="Resources\StandartAI\Catch6.png" />
+    <Resource Include="Resources\StandartAI\Catch7.png" />
+    <Resource Include="Resources\StandartAI\Move0.png" />
+    <Resource Include="Resources\StandartAI\Move1.png" />
+    <Resource Include="Resources\StandartAI\Move2.png" />
+    <Resource Include="Resources\StandartAI\Move3.png" />
+    <Resource Include="Resources\StandartAI\Move4.png" />
+    <Resource Include="Resources\StandartAI\Move5.png" />
+    <Resource Include="Resources\StandartAI\Move6.png" />
+    <Resource Include="Resources\StandartAI\Move7.png" />
+    <Resource Include="Resources\StandartAI\See0.png" />
+    <Resource Include="Resources\StandartAI\See1.png" />
+    <Resource Include="Resources\StandartAI\See2.png" />
+    <Resource Include="Resources\StandartAI\See3.png" />
+    <Resource Include="Resources\StandartAI\See4.png" />
+    <Resource Include="Resources\StandartAI\See5.png" />
+    <Resource Include="Resources\StandartAI\See6.png" />
+    <Resource Include="Resources\StandartAI\See7.png" />
+    <Resource Include="Resources\StandartAI\Rotate3.png" />
+    <Resource Include="Resources\StandartAI\Rotate4.png" />
+    <Resource Include="Resources\StandartAI\Rotate5.png" />
+    <Resource Include="Resources\StandartAI\Rotate6.png" />
+    <Resource Include="Resources\StandartAI\Rotate7.png" />
+    <Resource Include="Resources\StandartAI\Rotate1.png" />
+    <Resource Include="Resources\StandartAI\Rotate2.png" />
     <Resource Include="icon.ico" />
     <Content Include="Resources\Background.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -136,5 +174,6 @@
     <Resource Include="Resources\icon.ico" />
     <Resource Include="Resources\icon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

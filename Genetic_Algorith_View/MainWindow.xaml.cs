@@ -18,14 +18,12 @@ namespace Genetic_Algorith_View
             InitializeComponent();
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
-            App.MainScreen = this;
-
-            VisualBrush visualBrush = new VisualBrush();
-
-          
+            if (App.MainScreen != null)
+                throw new Exception("WTF");
+            App.MainScreen = this;         
         }
 
-        private void NewButton_Click(object sender, RoutedEventArgs e)
+        private void NewWorld()
         {
             if(Windows.World.AlreadyOpened)
             {
@@ -39,7 +37,7 @@ namespace Genetic_Algorith_View
           
         }
 
-        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        private void LoadWorld()
         {
             if (Windows.World.AlreadyOpened)
             {
@@ -101,6 +99,26 @@ namespace Genetic_Algorith_View
             //}
 
            
+        }
+
+        private void EnviromentButton_Click(object sender, RoutedEventArgs e)
+        {
+           var choise= MessageBox.Show("Do you want to create new world?", "Eviroment", MessageBoxButton.YesNo);
+
+            if (choise == MessageBoxResult.Yes)
+                NewWorld();  
+            else
+                LoadWorld();
+
+
+        }
+
+        private void NewAIButton_Click(object sender, RoutedEventArgs e)
+        {
+            var tempo = new Windows.ChooseAIType();
+            this.ShowInTaskbar = false;
+            tempo.ShowDialog();
+            this.Hide();
         }
     }
 }

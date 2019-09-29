@@ -73,6 +73,24 @@ namespace Controller
             }
         }
 
+        /// <summary>
+        /// Creates creature controller with special brain
+        /// </summary>
+        /// <param name="brain">Brain array</param>
+        public CreatureController(int[] brain)
+        {
+            if (brain == null || brain.Length != 64)
+                throw new ArgumentException();
+
+            for (int i = 0; i < 64; i++)
+            {
+                var item = brain[i];
+                if (item > 63 || item < 0)
+                    throw new ArgumentException("Every block must be from 0 to 63");
+                this.LogicBlocks[i] = item;
+            }
+        }
+
         #region Methods for evolving
 
         /// <summary>
