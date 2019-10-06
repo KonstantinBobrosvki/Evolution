@@ -16,9 +16,61 @@ namespace Genetic_Algorith_View
         #region Properties
 
         public static WorldController WorldController;
-   
 
-        public static MainWindow MainScreen;
+        public static MainWindow StartScreen;
+
+        public static List<Window> UsingWindows = new List<Window>();
+
+        /// <summary>
+        /// Respendes most important screen for moment
+        /// </summary>
+        public static Window CurrentMain
+        {
+            get => currentmain;
+
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+
+                if(currentmain!=null)
+                {
+                    currentmain.Closed -= Close;
+                    currentmain.Closing -= Close;
+
+                }
+                value.Closed += Close;
+
+                currentmain = value;
+                currentmain.Show();
+
+            }
+
+        }
+
+        private static Window currentmain;
+
+        /// <summary>
+        /// Close all program windows
+        /// </summary>
+        public static void Close(object sender,EventArgs e)
+        {
+            foreach (var item in UsingWindows)
+            {
+                try
+                {
+                    item.Close();
+
+                }
+                catch (Exception)
+                {
+
+                    
+                }
+            }
+        }
+        
+
 
         public static Windows.World WorldScreen;
 
@@ -39,8 +91,8 @@ namespace Genetic_Algorith_View
           
             App app = new App();
      
-            MainScreen = new MainWindow();
-            app.Run(MainScreen);
+            StartScreen = new MainWindow();
+            app.Run(StartScreen);
         }
     }
 }

@@ -19,13 +19,23 @@
             <RowDefinition Height="63*"/>
         </Grid.RowDefinitions>
         <UniformGrid x:Name="StandartImages" Grid.Row="1" Columns="8" Rows="4">
-            
+
         </UniformGrid>
         <Image Grid.Column="1" Grid.Row="1"/>
-        <Button Content="Choose" Background="Green" Margin="10,0" Grid.Row="3"/>
+        <Button Content="Choose" Click="Standart_Choose_Click" Background="Green" Margin="10,0" Grid.Row="3"/>
         <Label Content="Standart" VerticalAlignment="Center" HorizontalAlignment="Center" Height="26" Margin="171,10,171,14" Width="54" />
         <Label Content="Pseudo code" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Height="26" Margin="159,10,159,14" Width="78"/>
         <Button Content="Choose" Background="Red" Margin="10,0" Grid.Row="3" Grid.Column="1"/>
+        <Label 
+               
+               VerticalContentAlignment="Center"
+               Grid.Row="2">
+            <Label.FontSize>16</Label.FontSize>
+            <Label.Content>
+                
+                <AccessText TextWrapping="Wrap" Text="This is standart way to control creature.It is easy to learn.Here you have images to visualize the process. Recommended for beginners and childrens"/>
+            </Label.Content>
+        </Label>
 
     </Grid>
 </Window>

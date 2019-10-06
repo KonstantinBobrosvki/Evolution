@@ -18,20 +18,18 @@ namespace Genetic_Algorith_View
             InitializeComponent();
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
-            if (App.MainScreen != null)
+            if (App.StartScreen != null)
                 throw new Exception("WTF");
-            App.MainScreen = this;         
+            App.StartScreen = this;
+            App.UsingWindows.Add(this);
+            App.CurrentMain = this;
         }
 
         private void NewWorld()
         {
-            if(Windows.World.AlreadyOpened)
-            {
-                MessageBox.Show("You already opened world screen.");
-                App.WorldScreen.Show();
-                return;
-            }
             WorldOptions worldOptions = new WorldOptions();
+            App.UsingWindows.Add(worldOptions);
+
             worldOptions.ShowDialog();
             
           
@@ -39,12 +37,7 @@ namespace Genetic_Algorith_View
 
         private void LoadWorld()
         {
-            if (Windows.World.AlreadyOpened)
-            {
-                MessageBox.Show("You already opened world screen.");
-                App.WorldScreen.Show();
-                return;
-            }
+            
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             dialog.SelectedPath = App.PathToFolder;
             
@@ -61,12 +54,15 @@ namespace Genetic_Algorith_View
                    
                         App.WorldController = WorldController.Load(dialog.SelectedPath);
 
-                        //It works
+                        //It works .Some bugs from past
                         App.WorldController.CurrentMap = App.WorldController.CurrentMap;
                    
                     App.WorldScreen = new Windows.World();
 
-                    App.WorldScreen.Show();
+                    App.UsingWindows.Add(App.WorldScreen);
+                    App.CurrentMain = App.WorldScreen;
+
+                   
 
 
 
@@ -88,22 +84,21 @@ namespace Genetic_Algorith_View
             //{
             //    throw ex;
             //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("This is strange error");
-            //    MessageBox.Show(ex.Message);
-            //    MessageBox.Show(ex.StackTrace);
-            //    MessageBox.Show(ex.GetType().ToString());
-            //    return;
+            catch (Exception ex)
+            {
+                MessageBox.Show("This is strange error");
+                MessageBox.Show(ex.Message);
+             
+                return;
 
-            //}
+            }
 
-           
+
         }
 
         private void EnviromentButton_Click(object sender, RoutedEventArgs e)
         {
-           var choise= MessageBox.Show("Do you want to create new world?", "Eviroment", MessageBoxButton.YesNo);
+           var choise= MessageBox.Show("Do you want to create new world? \n (Yes for new/No for load)", "Eviroment", MessageBoxButton.YesNo);
 
             if (choise == MessageBoxResult.Yes)
                 NewWorld();  
@@ -116,9 +111,26 @@ namespace Genetic_Algorith_View
         private void NewAIButton_Click(object sender, RoutedEventArgs e)
         {
             var tempo = new Windows.ChooseAIType();
+            App.UsingWindows.Add(tempo);
+            App.CurrentMain = tempo;
             this.ShowInTaskbar = false;
-            tempo.ShowDialog();
             this.Hide();
+        }
+
+        private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(e.Key==System.Windows.Input.Key.Escape)
+            {
+                var result = MessageBox.Show("Are you sure?", "Exit", MessageBoxButton.YesNo);
+                if(result==MessageBoxResult.Yes)
+                {
+                    App.Close(null,null);
+                }
+                else
+                {
+
+                }
+            }
         }
     }
 }

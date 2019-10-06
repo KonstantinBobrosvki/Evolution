@@ -52,7 +52,7 @@ namespace Genetic_Algorith_View.Windows
 
             AlreadyOpened = true;
 
-            App.MainScreen.Hide();
+            App.StartScreen.Hide();
 
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
@@ -60,7 +60,7 @@ namespace Genetic_Algorith_View.Windows
             InitializeComponent();
 
             //Close all app when closes this
-            this.Closed += (sender, e) => App.MainScreen?.Close();
+            this.Closed += (sender, e) => App.StartScreen?.Close();
 
             Timer.Tick += Timer_Tick;
 

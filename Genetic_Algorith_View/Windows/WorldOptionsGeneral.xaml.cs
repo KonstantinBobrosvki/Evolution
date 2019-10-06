@@ -162,14 +162,14 @@ namespace Genetic_Algorith_View
             {
                 MessageBox.Show(ex.Message);
 
-                App.MainScreen.Show();
+                App.StartScreen.Show();
                 this.Close();
                 return;
             }
 
 
             App.WorldScreen.Show();
-            App.MainScreen.Hide();
+            App.StartScreen.Hide();
             this.Close();
         }
     }

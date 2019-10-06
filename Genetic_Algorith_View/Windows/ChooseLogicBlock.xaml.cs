@@ -15,22 +15,20 @@ using System.Windows.Shapes;
 namespace Genetic_Algorith_View.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для ChooseAIType.xaml
+    /// Логика взаимодействия для ChooseLogicBlock.xaml
     /// </summary>
-    public partial class ChooseAIType : Window
+    public partial class ChooseLogicBlock : Window
     {
-        public ChooseAIType()
+        public event Action<object, int> ChoosedItemCode;
+        public ChooseLogicBlock()
         {
             InitializeComponent();
-            WindowState = WindowState.Maximized;
-            WindowStyle = WindowStyle.None;
-            StandartImages.Rows = 4;
-            StandartImages.Columns = 8;
 
+            var StandartImages = AllGrid;
 
             var iteration = 0;
             //Loop for adding images in standart AI
-          
+
             for (int i = 0; i < 8; i++)
             {
                 var temp = new Uri("pack://application:,,,/Resources/StandartAI/Catch" + i + ".png");
@@ -59,23 +57,20 @@ namespace Genetic_Algorith_View.Windows
                 var image = new Image() { Source = new BitmapImage(temp) };
                 StandartImages.Children.Insert(iteration++, image);
             }
+            for (;iteration<64;iteration ++)
+            {
+                Label l = new Label();
+                l.Content = iteration;
 
-           
+                StandartImages.Children.Insert(iteration, l);
+
+            }
 
 
 
 
-            StandartImages.Rows = 4;
+            StandartImages.Rows = 8;
             StandartImages.Columns = 8;
-        }
-
-        private void Standart_Choose_Click(object sender, RoutedEventArgs e)
-        {
-            var Creator = new StandartAICreator();
-            Creator.Show();
-            Creator.Closed += (o,a) => this.Close();
-            this.Hide();
-
         }
     }
 }
