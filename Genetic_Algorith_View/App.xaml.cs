@@ -42,6 +42,8 @@ namespace Genetic_Algorith_View
                 value.Closed += Close;
 
                 currentmain = value;
+                currentmain.WindowState = WindowState.Maximized;
+                currentmain.WindowStyle = WindowStyle.None;
                 currentmain.Show();
 
             }
