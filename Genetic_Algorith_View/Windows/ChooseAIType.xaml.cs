@@ -29,43 +29,7 @@ namespace Genetic_Algorith_View.Windows
             StandartImages.Columns = 8;
 
 
-            var iteration = 0;
-            //Loop for adding images in standart AI
           
-            for (int i = 0; i < 8; i++)
-            {
-                var temp = new Uri("pack://application:,,,/Resources/StandartAI/Catch" + i + ".png");
-
-                var image = new Image() { Source = new BitmapImage(temp) };
-                StandartImages.Children.Insert(iteration++, image);
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                var temp = new Uri("pack://application:,,,/Resources/StandartAI/Move" + i + ".png");
-
-                var image = new Image() { Source = new BitmapImage(temp) };
-                StandartImages.Children.Insert(iteration++, image);
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                var temp = new Uri("pack://application:,,,/Resources/StandartAI/See" + i + ".png");
-
-                var image = new Image() { Source = new BitmapImage(temp) };
-                StandartImages.Children.Insert(iteration++, image);
-            }
-            for (int i = 1; i < 8; i++)
-            {
-                var temp = new Uri("pack://application:,,,/Resources/StandartAI/Rotate" + i + ".png");
-
-                var image = new Image() { Source = new BitmapImage(temp) };
-                StandartImages.Children.Insert(iteration++, image);
-            }
-
-           
-
-
-
-
             StandartImages.Rows = 4;
             StandartImages.Columns = 8;
         }

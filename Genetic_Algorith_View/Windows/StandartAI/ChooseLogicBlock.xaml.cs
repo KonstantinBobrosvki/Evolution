@@ -96,7 +96,7 @@ namespace Genetic_Algorith_View.Windows
 
         private void BlockClick(object sender,EventArgs e)
         {
-            var temp = (int)((FrameworkElement)sender).Tag;
+            var temp =int.Parse(((FrameworkElement)sender).Tag.ToString());
             ChoosedItemCode.Invoke(this, temp);
             this.Close();
         }

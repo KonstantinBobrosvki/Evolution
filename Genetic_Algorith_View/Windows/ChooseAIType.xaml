@@ -19,7 +19,39 @@
             <RowDefinition Height="63*"/>
         </Grid.RowDefinitions>
         <UniformGrid x:Name="StandartImages" Grid.Row="1" Columns="8" Rows="4">
-
+            <Image Source="pack://application:,,,/Resources/StandartAI/Catch0.png" Tag="0"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Catch1.png" Tag="1"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Catch2.png" Tag="2"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Catch3.png" Tag="3"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Catch4.png" Tag="4"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Catch5.png" Tag="5"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Catch6.png" Tag="6"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Catch7.png" Tag="7"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Move0.png" Tag="8"  ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Move1.png" Tag="9"  ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Move2.png" Tag="10"  ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Move3.png" Tag="11"  ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Move4.png" Tag="12"  ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Move5.png" Tag="13"  ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Move6.png" Tag="14"  ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Move7.png" Tag="15"  ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/See0.png" Tag="16" ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/See1.png" Tag="17" ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/See2.png" Tag="18" ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/See3.png" Tag="19" ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/See4.png" Tag="20" ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/See5.png" Tag="21" ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/See6.png" Tag="22" ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/See7.png" Tag="23" ></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Rotate0.png" Tag="24"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Rotate1.png" Tag="25"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Rotate2.png" Tag="26"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Rotate3.png" Tag="27"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Rotate4.png" Tag="28"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Rotate5.png" Tag="29"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Rotate6.png" Tag="30"></Image>
+            <Image Source="pack://application:,,,/Resources/StandartAI/Rotate7.png" Tag="31"></Image>
+       
         </UniformGrid>
         <Image Grid.Column="1" Grid.Row="1"/>
         <Button Content="Choose" Click="Standart_Choose_Click" Background="Green" Margin="10,0" Grid.Row="3"/>

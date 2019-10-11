@@ -18,7 +18,23 @@
 
 
         <UniformGrid x:Name="LogicBlocksGrid" Columns="8" Rows="8" Grid.Row="0" Grid.Column="0" >
-            
+
         </UniformGrid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="41*"/>
+                <RowDefinition Height="44*"/>
+                <RowDefinition Height="236*"/>
+            </Grid.RowDefinitions>
+            <Label Content="Real time testing" FontSize="30"/>
+            <Grid x:Name="CheckBoxGrid" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="47*"/>
+                    <ColumnDefinition Width="182*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle x:Name="CheckBoxRect"  MouseDown="CheckBoxRect_MouseDown" Fill="Red" Stroke="Black"/>
+                <Label Content="Off" x:Name="CheckBoxStateLabel" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

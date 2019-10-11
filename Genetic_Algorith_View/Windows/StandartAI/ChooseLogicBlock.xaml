@@ -1,0 +1,75 @@
+﻿<Window x:Class="Genetic_Algorith_View.Windows.ChooseLogicBlock"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Genetic_Algorith_View.Windows"
+        mc:Ignorable="d"
+        Title="ChooseLogicBlock" Height="450" Width="800">
+    <UniformGrid x:Name="AllGrid" >
+        <Image Source="pack://application:,,,/Resources/StandartAI/Catch0.png" Tag="0" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Catch1.png" Tag="1" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Catch2.png" Tag="2" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Catch3.png" Tag="3" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Catch4.png" Tag="4" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Catch5.png" Tag="5" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Catch6.png" Tag="6" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Catch7.png" Tag="7" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Move0.png" Tag="8" MouseDown="BlockClick"  ></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Move1.png" Tag="9" MouseDown="BlockClick"  ></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Move2.png" Tag="10" MouseDown="BlockClick"  ></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Move3.png" Tag="11" MouseDown="BlockClick"  ></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Move4.png" Tag="12" MouseDown="BlockClick"  ></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Move5.png" Tag="13" MouseDown="BlockClick"  ></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Move6.png" Tag="14" MouseDown="BlockClick"  ></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Move7.png" Tag="15" MouseDown="BlockClick"  ></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/See0.png" Tag="16" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/See1.png" Tag="17" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/See2.png" Tag="18" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/See3.png" Tag="19" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/See4.png" Tag="20" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/See5.png" Tag="21" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/See6.png" Tag="22" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/See7.png" Tag="23" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Rotate0.png" Tag="24" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Rotate1.png" Tag="25" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Rotate2.png" Tag="26" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Rotate3.png" Tag="27" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Rotate4.png" Tag="28" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Rotate5.png" Tag="29" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Rotate6.png" Tag="30" MouseDown="BlockClick"></Image>
+        <Image Source="pack://application:,,,/Resources/StandartAI/Rotate7.png" Tag="31" MouseDown="BlockClick"></Image>
+        <Label Content="32" Tag="32" MouseDown="BlockClick"></Label>
+        <Label Content="33" Tag="33" MouseDown="BlockClick"></Label>
+        <Label Content="34" Tag="34" MouseDown="BlockClick"></Label>
+        <Label Content="35" Tag="35" MouseDown="BlockClick"></Label>
+        <Label Content="36" Tag="36" MouseDown="BlockClick"></Label>
+        <Label Content="37" Tag="37" MouseDown="BlockClick"></Label>
+        <Label Content="38" Tag="38" MouseDown="BlockClick"></Label>
+        <Label Content="39" Tag="39" MouseDown="BlockClick"></Label>
+        <Label Content="40" Tag="40" MouseDown="BlockClick"></Label>
+        <Label Content="41" Tag="41" MouseDown="BlockClick"></Label>
+        <Label Content="42" Tag="42" MouseDown="BlockClick"></Label>
+        <Label Content="43" Tag="43" MouseDown="BlockClick"></Label>
+        <Label Content="44" Tag="44" MouseDown="BlockClick"></Label>
+        <Label Content="45" Tag="45" MouseDown="BlockClick"></Label>
+        <Label Content="46" Tag="46" MouseDown="BlockClick"></Label>
+        <Label Content="47" Tag="47" MouseDown="BlockClick"></Label>
+        <Label Content="48" Tag="48" MouseDown="BlockClick"></Label>
+        <Label Content="49" Tag="49" MouseDown="BlockClick"></Label>
+        <Label Content="50" Tag="50" MouseDown="BlockClick"></Label>
+        <Label Content="51" Tag="51" MouseDown="BlockClick"></Label>
+        <Label Content="52" Tag="52" MouseDown="BlockClick"></Label>
+        <Label Content="53" Tag="53" MouseDown="BlockClick"></Label>
+        <Label Content="54" Tag="54" MouseDown="BlockClick"></Label>
+        <Label Content="55" Tag="55" MouseDown="BlockClick"></Label>
+        <Label Content="56" Tag="56" MouseDown="BlockClick"></Label>
+        <Label Content="57" Tag="57" MouseDown="BlockClick"></Label>
+        <Label Content="58" Tag="58" MouseDown="BlockClick"></Label>
+        <Label Content="59" Tag="59" MouseDown="BlockClick"></Label>
+        <Label Content="60" Tag="60" MouseDown="BlockClick"></Label>
+        <Label Content="61" Tag="61" MouseDown="BlockClick"></Label>
+        <Label Content="62" Tag="62" MouseDown="BlockClick"></Label>
+        <Label Content="63" Tag="63" MouseDown="BlockClick"></Label>
+    </UniformGrid>
+</Window>

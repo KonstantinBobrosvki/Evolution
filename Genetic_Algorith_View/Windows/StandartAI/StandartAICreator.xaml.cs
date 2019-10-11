@@ -19,7 +19,7 @@ namespace Genetic_Algorith_View.Windows
     /// </summary>
     public partial class StandartAICreator : Window
     {
-       
+        private bool RealTimeTesting = false;
     
         public StandartAICreator()
         {
@@ -119,6 +119,23 @@ namespace Genetic_Algorith_View.Windows
 
             element.Background = brush;
 
+        }
+
+        private void CheckBoxRect_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var rect = sender as Rectangle;
+            if (RealTimeTesting)
+            {
+                rect.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                CheckBoxStateLabel.Content = "OFF";
+
+            }
+            else
+            {
+                rect.Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                CheckBoxStateLabel.Content = "ON";
+            }
+            RealTimeTesting = !RealTimeTesting;
         }
     }
 }
