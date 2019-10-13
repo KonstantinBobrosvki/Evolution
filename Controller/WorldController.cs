@@ -14,13 +14,13 @@ namespace Controller
 
         public event Action<object, NewGenerationEventArgs> RestartEvent;
 
-        public NewGenerationEventArgs LastRestart { get; private set; }
+        public NewGenerationEventArgs LastRestart { get; protected set; }
 
         /// <summary>
         ///  One turn existing
         /// </summary>
         /// <param name="drawer">Delegate for drawing.Set null=no drawing</param>
-        public void WorldLive(Drawer drawer)
+        public virtual void WorldLive(Drawer drawer)
         {
             CurrentTurns++;
             for (int i = 0; i < Creatures.Count; i++)

@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using Controller;
+using Modal;
 
 namespace Genetic_Algorith_View.Windows
 {
@@ -19,7 +20,12 @@ namespace Genetic_Algorith_View.Windows
     /// </summary>
     public partial class StandartAICreator : Window
     {
-        private bool RealTimeTesting = false;
+       
+        private bool RealTimeTestingEnabled = false;
+        private int[] BrainArray = new int[64];
+        private CreatureController CreatureController=null;
+        WorldController WorldController;
+        const int WidthMap = 80, HeightMap = 80;
     
         public StandartAICreator()
         {
@@ -35,10 +41,93 @@ namespace Genetic_Algorith_View.Windows
                 image.Tag = i;
             }
             RandomizeBlocks();
-
+          
+            
             App.CurrentMain = this;
             LogicBlocksGrid.Columns = 8;
             LogicBlocksGrid.Rows = 8;
+
+            
+
+
+            //For real time testing
+            Thread thread = new Thread(RealTimeTesting);
+            thread.Start();
+
+            for (int i = 0; i < WidthMap*HeightMap; i++)
+            {
+                var rect = new Rectangle();              
+                VisualRealTimeTestingGrid.Children.Add(rect);
+
+            }
+            VisualRealTimeTestingGrid.Columns = WidthMap;
+            VisualRealTimeTestingGrid.Rows = HeightMap;
+
+        }
+
+        private void RealTimeTesting()
+        {
+            while(true)
+            {
+                while(!RealTimeTestingEnabled)
+                {
+
+                }
+                WorldController.WorldLive(ReDrawMap);
+
+                this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                        (ThreadStart)delegate ()
+                        {
+                           
+                            CurrentLiveTimeLabel.Content = WorldController.CurrentTurns;
+                            MaxLiveTimeLabel.Content = WorldController.MaxTurns;
+                            //For UI changes
+                        }
+                          );
+                Thread.Sleep(400);
+            }
+
+
+            
+        }
+
+        private void ReDrawMap(int x,int y)
+        {
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                        (ThreadStart)delegate ()
+                        {
+                            var rect = VisualRealTimeTestingGrid.Children[x + y * WidthMap] as Rectangle;
+
+                            WorldObject element = WorldController.CurrentMap[x, y];
+
+
+
+                            if (element is Wall)
+                            {
+                                rect.Fill = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+                            }
+                            else if (element is CreatureBody)
+                            {
+                                rect.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 255));
+                            }
+                            else if (element is Food)
+                            {
+                                rect.Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                            }
+                            else if (element is Poison)
+                            {
+                                rect.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                            }
+                            else if (element is null)
+                            {
+                                rect.Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                            }
+                            else
+                            {
+                                //This was all types I dnk what to do
+                                throw new Exception();
+                            }
+                        });
         }
 
         private void ImageClick(object sender,MouseEventArgs e)
@@ -116,15 +205,46 @@ namespace Genetic_Algorith_View.Windows
 
 
 
-
+            BrainArray[index] = code;
             element.Background = brush;
+
+            var NewCreatures = new List<CreatureController>(10);
+            var NewMap = new MapController(WidthMap,HeightMap, new Random().Next(-100,100));
+            CreatureController.Map = NewMap;
+            for (int i = 0; i < 10; i++)
+            {
+                var temp = new CreatureController(BrainArray);
+                var position = NewMap.FreePosition();
+                temp.Body = new Modal.CreatureBody(position.Item1, position.Item2);
+                temp.MustEvolve = false;
+                NewMap[position.Item1, position.Item2] = temp.Body;
+                NewCreatures.Add(temp);
+
+            }
+            WorldController = new WorldController(NewMap, NewCreatures);
+         
+
+            new Thread(FullReDraw).Start();
+           
+            
+        }
+
+        private void FullReDraw()
+        {
+            for (int x = 0; x < WidthMap; x++)
+            {
+                for (int y = 0; y < HeightMap; y++)
+                {
+                    ReDrawMap(x, y);
+                }
+            }
 
         }
 
         private void CheckBoxRect_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var rect = sender as Rectangle;
-            if (RealTimeTesting)
+            if (RealTimeTestingEnabled)
             {
                 rect.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
                 CheckBoxStateLabel.Content = "OFF";
@@ -135,7 +255,7 @@ namespace Genetic_Algorith_View.Windows
                 rect.Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0));
                 CheckBoxStateLabel.Content = "ON";
             }
-            RealTimeTesting = !RealTimeTesting;
+            RealTimeTestingEnabled = !RealTimeTestingEnabled;
         }
     }
 }

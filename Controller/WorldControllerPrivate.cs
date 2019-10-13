@@ -21,16 +21,16 @@ namespace Controller
                 CreatureController.Map = value;
             }
         }
-        private MapController currentmap;
+        protected MapController currentmap;
         public readonly MapController StartMap;
 
-        public List<CreatureController> Creatures { get; private set; }
+        public List<CreatureController> Creatures { get; protected set; }
 
         #region Properties
         public long MaxTurns
         {
             get => maxturns;
-            private set
+            protected set
             {
                 maxturns = value;
               
@@ -41,7 +41,7 @@ namespace Controller
         public long CurrentTurns
         {
             get => currentTurns;
-            private set
+            protected set
             {
                 currentTurns = value;
                 
@@ -57,7 +57,7 @@ namespace Controller
         public long GenerationsCount
         {
             get => generationsCount;
-            private set
+            protected set
             {
                 generationsCount = value;
             }
@@ -67,7 +67,7 @@ namespace Controller
         public int MinFood
         {
             get => minfood;
-            private set
+            protected set
             {
                 if (value < 0)
                     throw new ArgumentException();
@@ -93,19 +93,19 @@ namespace Controller
         public long AllTurns
         {
             get => allturns;
-            private set
+            protected set
             {
                 if (value < 0)
                     throw new ArgumentOutOfRangeException();
                 allturns = value;
             }
         }
-        private long allturns;
+        protected long allturns;
         #endregion
 
         #region Methods
 
-        private List<(int, int)> CheckMinimum()
+        protected List<(int, int)> CheckMinimum()
         {
             List<(int, int)> result = new List<(int, int)>();
             if (CurrentMap.FoodOnMap < MinFood)
@@ -121,7 +121,7 @@ namespace Controller
             return result;
         }
 
-        private void Restart()
+        protected void Restart()
         {
             if (MaxTurns < CurrentTurns)
             {
