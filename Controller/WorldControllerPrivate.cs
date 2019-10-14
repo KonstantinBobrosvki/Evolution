@@ -105,7 +105,7 @@ namespace Controller
 
         #region Methods
 
-        protected List<(int, int)> CheckMinimum()
+        protected virtual List<(int, int)> CheckMinimum()
         {
             List<(int, int)> result = new List<(int, int)>();
             if (CurrentMap.FoodOnMap < MinFood)
@@ -121,7 +121,7 @@ namespace Controller
             return result;
         }
 
-        protected void Restart()
+        protected virtual void Restart()
         {
             if (MaxTurns < CurrentTurns)
             {

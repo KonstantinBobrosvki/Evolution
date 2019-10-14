@@ -112,7 +112,12 @@ namespace Controller
             MinPoison = CurrentMap.EmpetyCells / 60;
         }
 
-        private WorldController(MapController startmap,int notuse)
+        /// <summary>
+        /// Standart controller with full control
+        /// </summary>
+        /// <param name="startmap">Original State of Map</param>
+        /// <param name="notuse">Crutch in code</param>
+        protected WorldController(MapController startmap,int notuse)
         {
             StartMap = startmap;
         }

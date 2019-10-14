@@ -48,6 +48,7 @@
     <Compile Include="MapControllerPrivate.cs" />
     <Compile Include="NewGenerationEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecialWorldController.cs" />
     <Compile Include="WorldController.cs" />
     <Compile Include="WorldControllerPrivate.cs" />
   </ItemGroup>
