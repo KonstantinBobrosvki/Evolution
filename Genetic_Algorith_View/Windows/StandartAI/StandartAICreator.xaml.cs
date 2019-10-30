@@ -23,9 +23,8 @@ namespace Genetic_Algorith_View.Windows
        
         private bool RealTimeTestingEnabled = false;
         private int[] BrainArray = new int[64];
-        private CreatureController CreatureController=null;
-        WorldController WorldController;
-        const int WidthMap = 80, HeightMap = 80;
+        SpecialWorldController WorldController;
+        const int WidthMap = 30, HeightMap = 30;
     
         public StandartAICreator()
         {
@@ -41,8 +40,9 @@ namespace Genetic_Algorith_View.Windows
                 image.Tag = i;
             }
             RandomizeBlocks();
-          
-            
+            WorldController = new SpecialWorldController(new CreatureController(BrainArray), new MapController(WidthMap, HeightMap, Guid.NewGuid().GetHashCode()));
+            FullReDraw();
+            WorldController.RestartEvent += (o, e) => FullReDraw();
             App.CurrentMain = this;
             LogicBlocksGrid.Columns = 8;
             LogicBlocksGrid.Rows = 8;
@@ -150,12 +150,54 @@ namespace Genetic_Algorith_View.Windows
             
             for (int i = 0; i < 64; i++)
             {
-                Brush brush = new ImageBrush();
+                
               
                 var code = rnd.Next(0, 64);
                 var element = LogicBlocksGrid.Children[i] as Grid;
-                SetCode((int)element.Tag, code);
-               
+
+                //Do not use SetCOde for optimization
+                #region SetCodeCopy
+                Brush brush = new ImageBrush();
+
+
+              
+                element.Children.Clear();
+                if (code < 8)
+                {
+                    brush = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/StandartAI/Rotate" + code + ".png")));
+                }
+                else if (code < 16)
+                {
+                    brush = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/StandartAI/See" + (code - 8) + ".png")));
+
+                }
+                else if (code < 24)
+                {
+                    brush = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/StandartAI/Move" + (code - 16) + ".png")));
+
+                }
+                else if (code < 32)
+                {
+                    brush = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/StandartAI/Catch" + (code - 24) + ".png")));
+                }
+                else
+                {
+                    brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                    element.Children.Add(new Label()
+                    {
+                        Content = code,
+                        HorizontalContentAlignment = HorizontalAlignment.Center,
+                        VerticalContentAlignment = VerticalAlignment.Center,
+                        FontSize = FontSize * 1.5
+                    });
+                }
+
+
+
+                BrainArray[i] = code;
+                element.Background = brush;
+                #endregion
+
             }
         }
 
@@ -207,24 +249,10 @@ namespace Genetic_Algorith_View.Windows
 
             BrainArray[index] = code;
             element.Background = brush;
+            WorldController.ChangeSubject(BrainArray);
+          
 
-            var NewCreatures = new List<CreatureController>(10);
-            var NewMap = new MapController(WidthMap,HeightMap, new Random().Next(-100,100));
-            CreatureController.Map = NewMap;
-            for (int i = 0; i < 10; i++)
-            {
-                var temp = new CreatureController(BrainArray);
-                var position = NewMap.FreePosition();
-                temp.Body = new Modal.CreatureBody(position.Item1, position.Item2);
-                temp.MustEvolve = false;
-                NewMap[position.Item1, position.Item2] = temp.Body;
-                NewCreatures.Add(temp);
-
-            }
-            WorldController = new WorldController(NewMap, NewCreatures);
-         
-
-            new Thread(FullReDraw).Start();
+        
            
             
         }

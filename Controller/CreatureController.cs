@@ -217,6 +217,7 @@ namespace Controller
                 CreatureController c = new CreatureController();
                 c.LogicBlocks = (int[])LogicBlocks.Clone();
                 c.GenerationsWithoutEvolution = this.GenerationsWithoutEvolution + 1;
+                c.MustEvolve = MustEvolve; 
                 if (mutatescount > 0)
                 {
                     c.Evolve();

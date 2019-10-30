@@ -80,7 +80,7 @@ namespace Controller
         public int MinPoison
         {
             get => minpoison;
-            private set
+            protected set
             {
                 if (value < 0)
                     throw new ArgumentException();
@@ -216,6 +216,14 @@ namespace Controller
 
             return false;
         }
+
+        protected  void RaiseRestart(NewGenerationEventArgs args)
+        {
+            if (args == null)
+                throw new ArgumentNullException();
+            RestartEvent?.Invoke(this, args);
+        }
+
         #endregion
     }
 }

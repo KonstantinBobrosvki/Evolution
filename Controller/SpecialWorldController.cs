@@ -8,6 +8,14 @@ namespace Controller
 {
    public class SpecialWorldController:WorldController
     {
+        public CreatureController Subject {
+            get => Creatures[0];
+            private set
+            {
+                Creatures[0] = value;
+            }
+        }
+
         /// <summary>
         /// Controller for special tests
         /// </summary>
@@ -27,9 +35,9 @@ namespace Controller
         public override void WorldLive(Drawer drawer)
         {
             CurrentTurns++;
-           var result =Creatures[0].Think();
+           var result =Subject.Think();
            
-            if(Creatures[0].Health==0)
+            if(Subject.Health<=0)
             {
                 Restart();
                 if (drawer != null)
@@ -44,6 +52,7 @@ namespace Controller
                 }
                 return;
             }
+            result.AddRange(CheckMinimum());
             if (drawer != null)
             {
                 foreach (var item in result)
@@ -51,6 +60,27 @@ namespace Controller
                     drawer(item.X, item.Y);
                 }
             }
+          
+        }
+        protected override void Restart()
+        {
+            if(CurrentTurns>MaxTurns)
+            {
+                MaxTurns = CurrentTurns;
+            }
+            CurrentTurns = 0;
+            CreatureController newCreature = Subject.GetChildrens(1, 0)[0];
+            CurrentMap = StartMap.Clone();
+            var cell = CurrentMap.FreePosition();
+            CurrentMap[cell.Item1, cell.Item2] = new CreatureBody();
+            newCreature.Body = CurrentMap[cell.Item1, cell.Item2] as CreatureBody;
+            RaiseRestart(new NewGenerationEventArgs(new List<CreatureController>() { Subject }, CurrentTurns));
+            Subject = newCreature;
+        }
+        public void ChangeSubject(int [] brainArray)
+        {
+            Subject = new CreatureController(brainArray);
+            Restart();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Controller
         {
             if (parents == null)
                 throw new ArgumentNullException();
-            if (parents.Count != 8)
+            if (parents.Count < 1)
                 throw new ArgumentException();
             if (livetime < 0)
                 throw new ArgumentOutOfRangeException();
