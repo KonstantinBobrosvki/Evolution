@@ -20,11 +20,15 @@ namespace Genetic_Algorith_View.Windows
     /// </summary>
     public partial class StandartAICreator : Window
     {
-       
-        private bool RealTimeTestingEnabled = false;
+        //For real time testing
+        System.Timers.Timer timer;
+        //In ms
+        const double SpeedOfTesting = 500;
+
         private int[] BrainArray = new int[64];
         SpecialWorldController WorldController;
         const int WidthMap = 30, HeightMap = 30;
+
     
         public StandartAICreator()
         {
@@ -41,6 +45,10 @@ namespace Genetic_Algorith_View.Windows
             }
             RandomizeBlocks();
             WorldController = new SpecialWorldController(new CreatureController(BrainArray), new MapController(WidthMap, HeightMap, Guid.NewGuid().GetHashCode()));
+            
+            WorldController.GetType().GetProperty("MinFood").SetValue(WorldController, 20, null);
+            WorldController.GetType().GetProperty("MinPoison").SetValue(WorldController, 20, null);
+
             FullReDraw();
             WorldController.RestartEvent += (o, e) => FullReDraw();
             App.CurrentMain = this;
@@ -51,8 +59,10 @@ namespace Genetic_Algorith_View.Windows
 
 
             //For real time testing
-            Thread thread = new Thread(RealTimeTesting);
-            thread.Start();
+            timer = new System.Timers.Timer(SpeedOfTesting);
+            timer.Elapsed += RealTimeTesting;
+
+            WorldController.SpecialInfoChanged += (o, a) => new Thread(() => ChangeInfos()).Start(); 
 
             for (int i = 0; i < WidthMap*HeightMap; i++)
             {
@@ -63,32 +73,24 @@ namespace Genetic_Algorith_View.Windows
             VisualRealTimeTestingGrid.Columns = WidthMap;
             VisualRealTimeTestingGrid.Rows = HeightMap;
 
+           
+
         }
 
-        private void RealTimeTesting()
+        private void RealTimeTesting(object o, object f)
         {
-            while(true)
-            {
-                while(!RealTimeTestingEnabled)
-                {
+           
+                WorldController.WorldLive(ReDrawMap);    
+        }
 
-                }
-                WorldController.WorldLive(ReDrawMap);
-
-                this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+        private void ChangeInfos()
+        {
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                         (ThreadStart)delegate ()
                         {
-                           
-                            CurrentLiveTimeLabel.Content = WorldController.CurrentTurns;
-                            MaxLiveTimeLabel.Content = WorldController.MaxTurns;
-                            //For UI changes
-                        }
-                          );
-                Thread.Sleep(400);
-            }
-
-
-            
+                           EatsAllFoodLabel.Content= WorldController.EatsAllAvinableFood;
+                            FindInfinityLoopsLabel.Content = WorldController.HaveLoops;
+                        });
         }
 
         private void ReDrawMap(int x,int y)
@@ -272,7 +274,7 @@ namespace Genetic_Algorith_View.Windows
         private void CheckBoxRect_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var rect = sender as Rectangle;
-            if (RealTimeTestingEnabled)
+            if (timer.Enabled)
             {
                 rect.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
                 CheckBoxStateLabel.Content = "OFF";
@@ -283,7 +285,7 @@ namespace Genetic_Algorith_View.Windows
                 rect.Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0));
                 CheckBoxStateLabel.Content = "ON";
             }
-            RealTimeTestingEnabled = !RealTimeTestingEnabled;
+            timer.Enabled = !timer.Enabled;
         }
     }
 }

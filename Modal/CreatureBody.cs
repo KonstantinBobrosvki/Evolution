@@ -11,10 +11,7 @@ namespace Modal
     public class CreatureBody :WorldObject
     {
 
-        /// <summary>
-        /// Event for diying creature
-        /// </summary>
-        public event EventHandler DieEvent;
+        
         /// <summary>
         /// Health of Creature
         /// <para>Max health is 100</para>
@@ -31,7 +28,7 @@ namespace Modal
                 if (Health <= 0)
                 {
                     health = 0;
-                    DieEvent?.Invoke(this, new EventArgs());
+                   
                 }
             }
         }

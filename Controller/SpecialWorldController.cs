@@ -8,6 +8,44 @@ namespace Controller
 {
    public class SpecialWorldController:WorldController
     {
+        /// <summary>
+        /// Casuses on change of EatsAllAvinableFood or HaveLoops
+        /// </summary>
+        public event EventHandler SpecialInfoChanged;
+
+        /// <summary>
+        /// Does subject eats food
+        /// </summary>
+       public bool EatsAllAvinableFood {
+            get =>eatsAllFood;
+            private set {
+                if (value != eatsAllFood)
+                {
+                    eatsAllFood = value;
+                    SpecialInfoChanged?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+        private bool eatsAllFood;
+        /// <summary>
+        /// Does subject have bugs in logic
+        /// </summary>
+        public bool HaveLoops {
+            get =>haveLoops;
+            private set
+            {
+                if (value != haveLoops)
+                {
+                    haveLoops = value;
+                    SpecialInfoChanged?.Invoke(this, new EventArgs());
+                }
+
+            }
+        }
+        private bool haveLoops;
+        /// <summary>
+        /// Main creature
+        /// </summary>
         public CreatureController Subject {
             get => Creatures[0];
             private set
@@ -35,8 +73,78 @@ namespace Controller
         public override void WorldLive(Drawer drawer)
         {
             CurrentTurns++;
+
+
+
+            #region Crutch for optimization
+            var nearFood = 0;
+
+            var temp_X = Subject.X;
+            var temp_Y = Subject.Y;
+            var temp_Health = Subject.Health;
+            //Checks if subject it all food
+
+            if (CurrentMap[Subject.X - 1, Subject.Y - 1] is Food)
+                nearFood++;
+            if (CurrentMap[Subject.X - 1, Subject.Y] is Food)
+                nearFood++;
+            if (CurrentMap[Subject.X - 1, Subject.Y + 1] is Food)
+                nearFood++;
+            if (CurrentMap[Subject.X, Subject.Y - 1] is Food)
+                nearFood++;
+            if (CurrentMap[Subject.X, Subject.Y + 1] is Food)
+                nearFood++;
+            if (CurrentMap[Subject.X + 1, Subject.Y + 1] is Food)
+                nearFood++;
+            if (CurrentMap[Subject.X + 1, Subject.Y - 1] is Food)
+                nearFood++;
+            if (CurrentMap[Subject.X + 1, Subject.Y] is Food)
+                nearFood++;
+            #endregion
+
            var result =Subject.Think();
+
            
+            #region Another part of crutch
+            if (nearFood==0)
+            {
+
+            }
+            else
+            {
+                var newnearFood = 0;
+
+                if (CurrentMap[temp_X- 1, temp_Y- 1] is Food)
+                   newnearFood++; 
+                if (CurrentMap[temp_X - 1,temp_Y] is Food)
+                    newnearFood++;
+                if (CurrentMap[temp_X - 1,temp_Y + 1] is Food)
+                    newnearFood++;
+                if (CurrentMap[temp_X,    temp_Y- 1] is Food)
+                    newnearFood++;
+                if (CurrentMap[temp_X,    temp_Y+ 1] is Food)
+                    newnearFood++;
+                if (CurrentMap[temp_X + 1,temp_Y + 1] is Food)
+                    newnearFood++;
+                if (CurrentMap[temp_X + 1,temp_Y - 1] is Food)
+                    newnearFood++;
+                if (CurrentMap[temp_X + 1,temp_Y] is Food)
+                    newnearFood++;   
+                
+                //If count of food still is same=> subject did not eat that
+                if(newnearFood==nearFood)
+                {
+                    EatsAllAvinableFood = false;
+                }
+            }
+            #endregion
+
+
+            if (result.Count==1)
+            {
+                this.HaveLoops = true;
+            }
+
             if(Subject.Health<=0)
             {
                 Restart();
@@ -80,6 +188,8 @@ namespace Controller
         public void ChangeSubject(int [] brainArray)
         {
             Subject = new CreatureController(brainArray);
+            EatsAllAvinableFood = true;
+            HaveLoops = false;
             Restart();
         }
     }
