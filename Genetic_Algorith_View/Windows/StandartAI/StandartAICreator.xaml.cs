@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Controller;
+using Modal;
+using MyUIElements;
+using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,8 +10,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Controller;
-using Modal;
 
 namespace Genetic_Algorith_View.Windows
 {
@@ -36,9 +34,7 @@ namespace Genetic_Algorith_View.Windows
 
             for (int i = 0; i < 64; i++)
             {
-                var image = new Grid();
-                
-             
+                var image = new Grid();            
                 LogicBlocksGrid.Children.Add(image);
                 image.MouseDown += ImageClick;
                 image.Tag = i;
@@ -54,6 +50,7 @@ namespace Genetic_Algorith_View.Windows
             App.CurrentMain = this;
             LogicBlocksGrid.Columns = 8;
             LogicBlocksGrid.Rows = 8;
+            
 
             
 
@@ -134,8 +131,14 @@ namespace Genetic_Algorith_View.Windows
 
         private void ImageClick(object sender,MouseEventArgs e)
         {
-            var choosingwindow = new ChooseLogicBlock();
             var it = sender as Grid;
+            if (e.RightButton==MouseButtonState.Pressed)
+            {
+                ShowNextBlocks((int)it.Tag);
+                return;
+            }
+            var choosingwindow = new ChooseLogicBlock();
+            
             choosingwindow.ChoosedItemCode += (s, i) => { SetCode((int)it.Tag, i); };
             choosingwindow.ShowDialog();
 
@@ -286,6 +289,131 @@ namespace Genetic_Algorith_View.Windows
                 CheckBoxStateLabel.Content = "ON";
             }
             timer.Enabled = !timer.Enabled;
+        }
+
+
+        private ArrowLine[] Arrows = new ArrowLine[5];
+        /// <summary>
+        /// For drawing of arrows for next operation in logic blocks (on poison,food and etc)
+        /// </summary>
+        /// <param name="index">start index</param>
+        private void ShowNextBlocks(int index)
+        {
+            foreach (var item in Arrows)
+            {
+                if (item != null)
+                    AllGrid.Children.Remove(item);
+                    
+            }
+           var el= LogicBlocksGrid.Children[index++] as Grid;  
+            {
+                //For food
+                var ar = new ArrowLine();
+                ar.Stroke = Brushes.Green;
+                ar.StrokeThickness = 20;
+              
+                ar.X1 = el.PointToScreen(new Point(0, 0)).X + el.ActualWidth / 2-20;
+                ar.Y1 = el.PointToScreen(new Point(0, 0)).Y + 70 + el.ActualHeight;
+               
+                ar.Y2 = ar.Y1 -40;
+                
+
+                ar.X2 = ar.X1;
+
+
+
+                Arrows[0]=ar;
+                ar.BringIntoView();
+
+            }
+            el = LogicBlocksGrid.Children[index++] as Grid;
+            {
+                //For poison
+
+                var ar = new ArrowLine();
+                ar.Stroke = Brushes.Red;
+                ar.StrokeThickness = 20;
+
+                ar.X1 = el.PointToScreen(new Point(0, 0)).X + el.ActualWidth / 2 - 20;
+                ar.Y1 = el.PointToScreen(new Point(0, 0)).Y + 70 + el.ActualHeight;
+
+                ar.Y2 = ar.Y1 - 40;
+
+
+                ar.X2 = ar.X1;
+
+
+
+                Arrows[1] = ar;
+                ar.BringIntoView();
+            }
+            el = LogicBlocksGrid.Children[index++] as Grid;
+            {
+                //For creature
+                var ar = new ArrowLine();
+                ar.Stroke = Brushes.Blue;
+                ar.StrokeThickness = 20;
+
+                ar.X1 = el.PointToScreen(new Point(0, 0)).X + el.ActualWidth / 2 - 20;
+                ar.Y1 = el.PointToScreen(new Point(0, 0)).Y + 70 + el.ActualHeight;
+
+                ar.Y2 = ar.Y1 - 40;
+
+
+                ar.X2 = ar.X1;
+
+
+
+                Arrows[2] = ar;
+                ar.BringIntoView();
+            }
+            el = LogicBlocksGrid.Children[index++] as Grid;
+            {
+                //For empty
+
+                var ar = new ArrowLine();
+                ar.Stroke = Brushes.AntiqueWhite;
+                ar.StrokeThickness = 20;
+
+                ar.X1 = el.PointToScreen(new Point(0, 0)).X + el.ActualWidth / 2 - 20;
+                ar.Y1 = el.PointToScreen(new Point(0, 0)).Y + 70 + el.ActualHeight;
+
+                ar.Y2 = ar.Y1 - 40;
+
+
+                ar.X2 = ar.X1;
+
+
+
+                Arrows[3] = ar;
+                ar.BringIntoView();
+            }
+            el = LogicBlocksGrid.Children[index++] as Grid;
+            {
+
+                //For wall
+
+                var ar = new ArrowLine();
+                ar.Stroke = Brushes.DarkGray;
+                ar.StrokeThickness = 20;
+
+                ar.X1 = el.PointToScreen(new Point(0, 0)).X + el.ActualWidth / 2 - 20;
+                ar.Y1 = el.PointToScreen(new Point(0, 0)).Y + 70 + el.ActualHeight;
+
+                ar.Y2 = ar.Y1 - 40;
+
+
+                ar.X2 = ar.X1;
+
+
+
+                Arrows[4] = ar;
+                ar.BringIntoView();
+            }
+            foreach (var item in Arrows)
+            {
+               AllGrid.Children.Add(item);
+            }
         }
     }
 }

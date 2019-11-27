@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Genetic_Algorith_View.Windows"
         mc:Ignorable="d"
         Title="StandartAICreator" Height="450" Width="800">
-    <Grid>
+    <Grid x:Name="AllGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="321*"/>
             <RowDefinition Height="98*"/>
@@ -45,7 +45,7 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
-                   
+
                 </Grid.RowDefinitions>
                 <Label Content="Current Live Time:" />
                 <Label x:Name="CurrentLiveTimeLabel" Content="0" Grid.Column="1"/>
@@ -56,16 +56,25 @@
                 <Label x:Name="FindInfinityLoopsLabel" Content="False" Grid.Column="1"  Grid.Row="2" />
                 <Label Content="Eats all available food:" Grid.Row="3"/>
                 <Label Content="Yes" x:Name="EatsAllFoodLabel" Grid.Column="1" Grid.Row="3"/>
-                
+
 
             </Grid>
 
-            
+
         </Grid>
         <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="1">
             <UniformGrid x:Name="VisualRealTimeTestingGrid" Grid.Row="1" Grid.Column="1" >
 
             </UniformGrid>
         </Border>
+
+        <Grid x:Name="EntartaimentGrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="217*"/>
+                <ColumnDefinition Width="346*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Label" />
+        </Grid>
+
     </Grid>
 </Window>

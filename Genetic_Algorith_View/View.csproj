@@ -60,6 +60,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="MyUIElements\ArrowEnds.cs" />
+    <Compile Include="MyUIElements\ArrowLine.cs" />
+    <Compile Include="MyUIElements\ArrowLineBase.cs" />
+    <Compile Include="MyUIElements\ArrowPolyline.cs" />
     <Compile Include="Windows\StandartAI\ChooseLogicBlock.xaml.cs">
       <DependentUpon>ChooseLogicBlock.xaml</DependentUpon>
     </Compile>
