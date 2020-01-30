@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-
+using System.Threading.Tasks;
 namespace Genetic_Algorith_View.Windows
 {
     /// <summary>
@@ -21,13 +21,14 @@ namespace Genetic_Algorith_View.Windows
         //For real time testing
         System.Timers.Timer timer;
         //In ms
-        const double SpeedOfTesting = 500;
+        const double SpeedOfTesting = 1000;
 
         private int[] BrainArray = new int[64];
         SpecialWorldController WorldController;
         const int WidthMap = 30, HeightMap = 30;
 
-    
+        private readonly SynchronizationContext synchronizationContext;
+
         public StandartAICreator()
         {
             InitializeComponent();
@@ -37,6 +38,21 @@ namespace Genetic_Algorith_View.Windows
                 var image = new Grid();            
                 LogicBlocksGrid.Children.Add(image);
                 image.MouseDown += ImageClick;
+                image.MouseEnter += (t,e) => { ShowNextBlocks((int)image.Tag); };
+                image.MouseLeave += (t, e) =>
+                {
+                    var remaing = 5;
+                    for (int ii = AllGrid.Children.Count - 1; ii >= 0; ii--)
+                    {
+                        var item = AllGrid.Children[ii];
+                        if (item is ArrowLine)
+                        {
+                            AllGrid.Children.RemoveAt(ii);
+                            remaing--;
+                            if (remaing == 0)
+                                break;
+                        }
+                    } };
                 image.Tag = i;
             }
             RandomizeBlocks();
@@ -45,7 +61,7 @@ namespace Genetic_Algorith_View.Windows
             WorldController.GetType().GetProperty("MinFood").SetValue(WorldController, 20, null);
             WorldController.GetType().GetProperty("MinPoison").SetValue(WorldController, 20, null);
 
-            FullReDraw();
+            
             WorldController.RestartEvent += (o, e) => FullReDraw();
             App.CurrentMain = this;
             LogicBlocksGrid.Columns = 8;
@@ -70,15 +86,22 @@ namespace Genetic_Algorith_View.Windows
             VisualRealTimeTestingGrid.Columns = WidthMap;
             VisualRealTimeTestingGrid.Rows = HeightMap;
 
-           
+            FullReDraw();
+
+            synchronizationContext = SynchronizationContext.Current;
+
 
         }
 
         private void RealTimeTesting(object o, object f)
         {
-           
-                WorldController.WorldLive(ReDrawMap);    
-        }
+            synchronizationContext.Post(new SendOrPostCallback(o1 =>
+            {
+                WorldController.WorldLive(ReDrawMap);
+            }), null);
+
+
+        } 
 
         private void ChangeInfos()
         {
@@ -92,9 +115,7 @@ namespace Genetic_Algorith_View.Windows
 
         private void ReDrawMap(int x,int y)
         {
-            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                        (ThreadStart)delegate ()
-                        {
+          
                             var rect = VisualRealTimeTestingGrid.Children[x + y * WidthMap] as Rectangle;
 
                             WorldObject element = WorldController.CurrentMap[x, y];
@@ -126,17 +147,13 @@ namespace Genetic_Algorith_View.Windows
                                 //This was all types I dnk what to do
                                 throw new Exception();
                             }
-                        });
+                       
         }
 
         private void ImageClick(object sender,MouseEventArgs e)
         {
             var it = sender as Grid;
-            if (e.RightButton==MouseButtonState.Pressed)
-            {
-                ShowNextBlocks((int)it.Tag);
-                return;
-            }
+           
             var choosingwindow = new ChooseLogicBlock();
             
             choosingwindow.ChoosedItemCode += (s, i) => { SetCode((int)it.Tag, i); };
@@ -292,20 +309,18 @@ namespace Genetic_Algorith_View.Windows
         }
 
 
-        private ArrowLine[] Arrows = new ArrowLine[5];
+      
         /// <summary>
         /// For drawing of arrows for next operation in logic blocks (on poison,food and etc)
         /// </summary>
         /// <param name="index">start index</param>
         private void ShowNextBlocks(int index)
         {
-            foreach (var item in Arrows)
-            {
-                if (item != null)
-                    AllGrid.Children.Remove(item);
-                    
-            }
-           var el= LogicBlocksGrid.Children[index++] as Grid;  
+
+            index++;
+            if (index >= 64)
+                index -= 64;
+            var el= LogicBlocksGrid.Children[index++] as Grid;       
             {
                 //For food
                 var ar = new ArrowLine();
@@ -319,13 +334,15 @@ namespace Genetic_Algorith_View.Windows
                 
 
                 ar.X2 = ar.X1;
+               
 
 
-
-                Arrows[0]=ar;
+                AllGrid.Children.Add(ar);
                 ar.BringIntoView();
-
+                
             }
+            if (index >= 64)
+                index -= 64;
             el = LogicBlocksGrid.Children[index++] as Grid;
             {
                 //For poison
@@ -344,9 +361,11 @@ namespace Genetic_Algorith_View.Windows
 
 
 
-                Arrows[1] = ar;
+                AllGrid.Children.Add(ar);
                 ar.BringIntoView();
             }
+            if (index >= 64)
+                index -= 64;
             el = LogicBlocksGrid.Children[index++] as Grid;
             {
                 //For creature
@@ -364,9 +383,11 @@ namespace Genetic_Algorith_View.Windows
 
 
 
-                Arrows[2] = ar;
+                AllGrid.Children.Add(ar);
                 ar.BringIntoView();
             }
+            if (index >= 64)
+                index -= 64;
             el = LogicBlocksGrid.Children[index++] as Grid;
             {
                 //For empty
@@ -385,9 +406,11 @@ namespace Genetic_Algorith_View.Windows
 
 
 
-                Arrows[3] = ar;
+                AllGrid.Children.Add(ar);
                 ar.BringIntoView();
             }
+            if (index >= 64)
+                index -= 64;
             el = LogicBlocksGrid.Children[index++] as Grid;
             {
 
@@ -406,14 +429,11 @@ namespace Genetic_Algorith_View.Windows
                 ar.X2 = ar.X1;
 
 
-
-                Arrows[4] = ar;
+                
+                AllGrid.Children.Add(ar);
                 ar.BringIntoView();
             }
-            foreach (var item in Arrows)
-            {
-               AllGrid.Children.Add(item);
-            }
+            
         }
     }
 }
