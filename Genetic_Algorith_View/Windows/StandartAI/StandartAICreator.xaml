@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
 
 
-        <UniformGrid x:Name="LogicBlocksGrid" Columns="8" Rows="8" Grid.Row="0" Grid.Column="0" >
+        <UniformGrid x:Name="LogicBlocksGrid" Columns="8" Rows="9" Grid.Row="0" Grid.Column="0" >
 
         </UniformGrid>
         <Grid Grid.Column="1">
