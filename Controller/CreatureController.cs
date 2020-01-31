@@ -385,7 +385,7 @@ namespace Controller
                 var xy = reader.ReadLine().Split('+') ;
                 var currentindex = int.Parse(reader.ReadLine());
                 var generations = int.Parse(reader.ReadLine());
-                var evolve = bool.Parse(reader.ReadLine());
+                bool evolve = reader.ReadLine() == "1";    
                 var brain = new int[64];
                 var temp = reader.ReadLine().Split(';');
                 
@@ -424,5 +424,11 @@ namespace Controller
         {
             return base.GetHashCode();
         }
+
+        public int[] GetBrain()
+        {
+           return (int[])LogicBlocks.Clone();
+        }
+
     }
 }

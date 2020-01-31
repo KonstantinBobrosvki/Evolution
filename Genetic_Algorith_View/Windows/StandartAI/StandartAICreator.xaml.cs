@@ -93,6 +93,16 @@ namespace Genetic_Algorith_View.Windows
 
         }
 
+        public StandartAICreator(CreatureController c) : this()
+        {
+            var temp = c.GetBrain();
+            WorldController.ChangeSubject(temp);
+            for (int i = 0; i < temp.Length; i++)
+            {
+                SetCode(i, temp[i]);
+            }
+        }
+
         private void RealTimeTesting(object o, object f)
         {
             synchronizationContext.Post(new SendOrPostCallback(o1 =>

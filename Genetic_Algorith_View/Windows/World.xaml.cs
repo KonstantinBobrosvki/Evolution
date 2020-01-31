@@ -6,8 +6,9 @@ using Controller;
 using Modal;
 using System.Windows.Media;
 using System.Windows.Threading;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Linq;
+
 
 namespace Genetic_Algorith_View.Windows
 {
@@ -133,8 +134,10 @@ namespace Genetic_Algorith_View.Windows
                             MessageBox.Show("Free");
                         else if (Map[x1, y1] is CreatureBody)
                         {
-                            MessageBox.Show(Map[x1, y1].GetType().ToString().Split('.')[1] + " " + ((CreatureBody)Map[x1, y1]).Health);
-
+                           // MessageBox.Show(Map[x1, y1].GetType().ToString().Split('.')[1] + " " + ((CreatureBody)Map[x1, y1]).Health);
+                            Timer.Stop();
+                            var temp = new Windows.StandartAICreator(Creatures.Where((c)=>c.Body.Equals( Map[x1, y1])).First());
+                           
                         }
                         else
                             MessageBox.Show(Map[x1, y1].GetType().ToString().Split('.')[1]);
