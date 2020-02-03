@@ -24,6 +24,8 @@ namespace Genetic_Algorith_View
         Int32? Seed=null;
         int MapWidth=new Random().Next(90,120);
         int MapHeight =new Random(Guid.NewGuid().GetHashCode()).Next(80,110);
+        public WorldController Result { get; private set; }
+
 
         public WorldOptions()
         {
@@ -139,7 +141,7 @@ namespace Genetic_Algorith_View
                
             try
             {
-                App.WorldController = new WorldController(Map);
+                Result = new WorldController(Map);
             }
             catch(ArgumentException)
             {
@@ -147,29 +149,6 @@ namespace Genetic_Algorith_View
                 return;
             }
 
-            try
-            {
-                App.WorldScreen = new World();
-
-            }
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show(ex.Message);
-                MessageBox.Show("Input data have errors.Try again");
-                return;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-
-                App.StartScreen.Show();
-                this.Close();
-                return;
-            }
-
-
-            App.WorldScreen.Show();
-            App.StartScreen.Hide();
             this.Close();
         }
     }

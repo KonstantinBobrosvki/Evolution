@@ -18,28 +18,32 @@ namespace Genetic_Algorith_View
             InitializeComponent();
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
-            if (App.StartScreen != null)
-                throw new Exception("WTF");
-            App.StartScreen = this;
-            App.UsingWindows.Add(this);
-            App.CurrentMain = this;
+         
         }
 
         private void NewWorld()
         {
-            WorldOptions worldOptions = new WorldOptions();
-            App.UsingWindows.Add(worldOptions);
 
-            worldOptions.ShowDialog();
+
+            WorldOptions worldOptions = new WorldOptions();
             
-          
+            worldOptions.ShowDialog();
+            var worldcontroller = worldOptions.Result;
+            if (worldcontroller is null)
+                return;
+            var worldWindow = new Windows.World(worldcontroller);
+            
+            worldWindow.Show();
+            this.Hide();
+           
+
         }
 
         private void LoadWorld()
         {
             
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            dialog.SelectedPath = App.PathToFolder;
+            dialog.SelectedPath = Directory.GetCurrentDirectory();
             
             System.Windows.Forms.DialogResult dialogresult = dialog.ShowDialog();
 
@@ -52,21 +56,14 @@ namespace Genetic_Algorith_View
 
 
                    
-                        App.WorldController = WorldController.Load(dialog.SelectedPath);
+                       WorldController controller= WorldController.Load(dialog.SelectedPath);
 
                         //It works .Some bugs from past
-                        App.WorldController.CurrentMap = App.WorldController.CurrentMap;
-                   
-                    App.WorldScreen = new Windows.World();
-
-                    App.UsingWindows.Add(App.WorldScreen);
-                    App.CurrentMain = App.WorldScreen;
-
-                   
-
-
-
+                        controller.CurrentMap =controller.CurrentMap;
                     this.Hide();
+                    var WorldScreen = new Windows.World(controller);
+
+                    
                 }
             }
             catch (FileNotFoundException ex)
@@ -80,10 +77,6 @@ namespace Genetic_Algorith_View
                 return;
 
             }
-            //catch(ArgumentNullException ex)
-            //{
-            //    throw ex;
-            //}
             catch (Exception ex)
             {
                 MessageBox.Show("This is strange error");
@@ -111,8 +104,7 @@ namespace Genetic_Algorith_View
         private void NewAIButton_Click(object sender, RoutedEventArgs e)
         {
             var tempo = new Windows.ChooseAIType();
-            App.UsingWindows.Add(tempo);
-            App.CurrentMain = tempo;
+            tempo.Show();
             this.ShowInTaskbar = false;
             this.Hide();
         }
@@ -124,7 +116,7 @@ namespace Genetic_Algorith_View
                 var result = MessageBox.Show("Are you sure?", "Exit", MessageBoxButton.YesNo);
                 if(result==MessageBoxResult.Yes)
                 {
-                    App.Close(null,null);
+                    this.Close();
                 }
                 else
                 {

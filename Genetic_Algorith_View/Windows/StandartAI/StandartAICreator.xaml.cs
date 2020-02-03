@@ -63,7 +63,7 @@ namespace Genetic_Algorith_View.Windows
 
             
             WorldController.RestartEvent += (o, e) => FullReDraw();
-            App.CurrentMain = this;
+           
             LogicBlocksGrid.Columns = 8;
             LogicBlocksGrid.Rows = 9;
             
@@ -90,6 +90,8 @@ namespace Genetic_Algorith_View.Windows
 
             synchronizationContext = SynchronizationContext.Current;
 
+            WindowState = WindowState.Maximized;
+            WindowStyle = WindowStyle.None;
 
         }
 

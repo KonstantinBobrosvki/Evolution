@@ -8,7 +8,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.IO;
 using System.Linq;
-
+using System.Windows.Media.Imaging;
 
 namespace Genetic_Algorith_View.Windows
 {
@@ -16,76 +16,61 @@ namespace Genetic_Algorith_View.Windows
     /// Логика взаимодействия для World.xaml
     /// </summary>
     ///
-    [Serializable]
     public partial class World : Window
     {
 
 
         #region
-        List<CreatureController> Creatures { get => App.WorldController.Creatures; }
+        List<CreatureController> Creatures { get => WorldController.Creatures; }
 
-        public static MapController Map { get => App.WorldController.CurrentMap; }
+        public  MapController Map { get => WorldController.CurrentMap; }
 
-        
-
+        private readonly WorldController WorldController;
 
         DispatcherTimer Timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 100) };
 
         public DateTime StartTime = DateTime.Now;
 
-        //It can be only one window
-        public static bool AlreadyOpened { get; private set; } = false;
-
-        
           #endregion
 
         /// <summary>
         /// Standart constructor gettin map from app property and creating creatures
         /// </summary>
-        public World()
+        public World(WorldController worldController)
         {
-            if (AlreadyOpened)
-            {
-                throw new Exception("You can open only one window");
-            }
 
+            WorldController = worldController;
             this.Closed += ClosedEvent;
+            this.Closing += (e, a) =>
+            {
+                try
+                {
+                    App.Current.Shutdown();
+                }
+                catch (Exception)
+                {
 
-            AlreadyOpened = true;
-
-            App.StartScreen.Hide();
-
+                    
+                }
+            };
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
 
             InitializeComponent();
 
-            //Close all app when closes this
-            this.Closed += (sender, e) => App.StartScreen?.Close();
-
             Timer.Tick += Timer_Tick;
 
-            
-           
-
-
-
             StartDraw();
-
-           
 
             Best8.Columns = 8;
 
             for (int i = 0; i <8; i++)
             {
-
                 Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 3, 3, 0.5), ToolTip = "Health of creature in moment of creating childs", FontSize = 20 });
-
             }
             for (int i = 0; i < 8; i++)
             {
                 Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 0.5, 3, 3), ToolTip = "Generations without evolution of creature", FontSize = 20 });
-
             }
 
             
@@ -99,10 +84,10 @@ namespace Genetic_Algorith_View.Windows
             this.KeyDown+= (o, e) => { if (e.Key == System.Windows.Input.Key.Escape) Exit(); };
 
 
-            App.WorldController.RestartEvent += RestartInfoUpdate;
+            WorldController.RestartEvent += RestartInfoUpdate;
 
-            if(App.WorldController.LastRestart!=null)
-            RestartInfoUpdate(null, App.WorldController.LastRestart);
+            if(WorldController.LastRestart!=null)
+            RestartInfoUpdate(null, WorldController.LastRestart);
 
             
         }
@@ -134,10 +119,62 @@ namespace Genetic_Algorith_View.Windows
                             MessageBox.Show("Free");
                         else if (Map[x1, y1] is CreatureBody)
                         {
-                           // MessageBox.Show(Map[x1, y1].GetType().ToString().Split('.')[1] + " " + ((CreatureBody)Map[x1, y1]).Health);
-                            Timer.Stop();
-                            var temp = new Windows.StandartAICreator(Creatures.Where((c)=>c.Body.Equals( Map[x1, y1])).First());
                            
+                            Timer.Stop();
+                            var window = new Window();
+                            System.Windows.Controls.Primitives.UniformGrid grid = new System.Windows.Controls.Primitives.UniformGrid();
+                            grid.Rows = grid.Columns = 8 ;
+
+                            Brush brush = new ImageBrush();
+                            var BrainArray = Creatures.Where((c) => c.Body.Equals(Map[x1, y1])).First().GetBrain();
+
+
+                            for (int i = 0; i < 64; i++)
+                            {
+                                var code = BrainArray[i];
+                                grid.Children.Add(new Grid());
+                                var uiel =grid.Children[i] as Grid;     
+                                if (code < 8)
+                                {
+                                    brush = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/StandartAI/Rotate" + code + ".png")));
+                                }
+                                else if (code < 16)
+                                {
+                                    brush = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/StandartAI/See" + (code - 8) + ".png")));
+
+                                }
+                                else if (code < 24)
+                                {
+                                    brush = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/StandartAI/Move" + (code - 16) + ".png")));
+
+                                }
+                                else if (code < 32)
+                                {
+                                    brush = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/StandartAI/Catch" + (code - 24) + ".png")));
+                                }
+                                else
+                                {
+                                    brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                                    uiel.Children.Add(new Label()
+                                    {
+                                        Content = code,
+                                        HorizontalContentAlignment = HorizontalAlignment.Center,
+                                        VerticalContentAlignment = VerticalAlignment.Center,
+                                        FontSize = FontSize * 1.5
+                                    });
+                                }
+                                
+                                uiel.Background = brush;
+                               
+                            }
+
+                            window.Content = grid;
+                            window.ShowDialog();
+
+
+
+                            
+
                         }
                         else
                             MessageBox.Show(Map[x1, y1].GetType().ToString().Split('.')[1]);
@@ -179,7 +216,7 @@ namespace Genetic_Algorith_View.Windows
             }
         }
 
-        public static int GetOneRankIndex(int x, int y)
+        private static int GetOneRankIndex(int x, int y)
         {
             return CreatureController.Map.Width * y + x;
         }
@@ -223,11 +260,11 @@ namespace Genetic_Algorith_View.Windows
 
         private void WorldInfoUpdate()
         {
-            CurrentLive.Content = "Current turns: "+ App.WorldController.CurrentTurns;
-            MaxLive.Content = "Max turns: "+ App.WorldController.MaxTurns;
-            LiveCreaturesCountLabel.Content ="Live creatures: "+ App.WorldController.Creatures.Count;
-            Genretaions.Content = "Generations Count: " + App.WorldController.GenerationsCount;
-            AvarangeLiveLabel.Content = "Avarange turns: "+ App.WorldController.AvarangeTurns;
+            CurrentLive.Content = "Current turns: "+ WorldController.CurrentTurns;
+            MaxLive.Content = "Max turns: "+ WorldController.MaxTurns;
+            LiveCreaturesCountLabel.Content ="Live creatures: "+ WorldController.Creatures.Count;
+            Genretaions.Content = "Generations Count: " +WorldController.GenerationsCount;
+            AvarangeLiveLabel.Content = "Avarange turns: "+ WorldController.AvarangeTurns;
             FoodOnMapLabel.Content = Map.FoodOnMap;
             PosionOnMapLabel.Content = Map.PoisonOnMap;
         }
@@ -240,7 +277,7 @@ namespace Genetic_Algorith_View.Windows
         {
 
 
-            App.WorldController.WorldLive(ReDraw);
+            WorldController.WorldLive(ReDraw);
             
             ElapsedTimeLabel.Content = "Elapsed real time: " + (DateTime.Now - StartTime).ToString();
             WorldInfoUpdate();
@@ -250,7 +287,7 @@ namespace Genetic_Algorith_View.Windows
         private void NextMoveButton_Click(object sender, RoutedEventArgs e)
         {
 
-            App.WorldController.WorldLive(ReDraw);
+            WorldController.WorldLive(ReDraw);
             WorldInfoUpdate();
         }
 
@@ -323,17 +360,17 @@ namespace Genetic_Algorith_View.Windows
                 Timer.Stop();
                 
 
-                if (!Directory.Exists(App.PathToFolder + @"\Saves"))
+                if (!Directory.Exists(Directory.GetCurrentDirectory() + @"\Saves"))
                 {
-                    Directory.CreateDirectory(App.PathToFolder + @"\Saves");
+                    Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\Saves");
                 }
                 
-                string  path = App.PathToFolder + @"\Saves\" + DateTime.Now.ToString().Replace(':','-');
+                string  path = Directory.GetCurrentDirectory() + @"\Saves\" + DateTime.Now.ToString().Replace(':','-');
             Directory.CreateDirectory(path);
-            var temp = App.WorldController;
+            var temp = WorldController;
 
 
-            WorldController.Save(path, App.WorldController);
+            WorldController.Save(path, WorldController);
 
                 
 
@@ -360,9 +397,10 @@ namespace Genetic_Algorith_View.Windows
                 if (answer2 == MessageBoxResult.Yes)
                     SaveButton_Click(null, null);
 
-                AlreadyOpened = false;
+              
                 Closed -= ClosedEvent;
                   this.Close();
+                App.Current.Shutdown();
             }
             else if(answer==MessageBoxResult.No)
             {

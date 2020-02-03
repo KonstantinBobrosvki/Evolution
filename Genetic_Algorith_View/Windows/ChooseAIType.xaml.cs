@@ -24,7 +24,7 @@ namespace Genetic_Algorith_View.Windows
             InitializeComponent();
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
-            App.UsingWindows.Add(this);
+            
             StandartImages.Rows = 4;
             StandartImages.Columns = 8;
 
