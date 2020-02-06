@@ -123,10 +123,12 @@ namespace Genetic_Algorith_View.Windows
                             Timer.Stop();
                             var window = new Window();
                             System.Windows.Controls.Primitives.UniformGrid grid = new System.Windows.Controls.Primitives.UniformGrid();
-                            grid.Rows = grid.Columns = 8 ;
+                            grid.Rows = 9;
+                            grid.Columns = 8 ;
 
                             Brush brush = new ImageBrush();
-                            var BrainArray = Creatures.Where((c) => c.Body.Equals(Map[x1, y1])).First().GetBrain();
+                            var controller = Creatures.Where((c) => c.Body.Equals(Map[x1, y1])).First();
+                            var BrainArray = controller.GetBrain();
 
 
                             for (int i = 0; i < 64; i++)
@@ -167,6 +169,32 @@ namespace Genetic_Algorith_View.Windows
                                 uiel.Background = brush;
                                
                             }
+                            grid.Children.Add(new Label());
+                            
+                            grid.Children.Add(new Label());
+                            grid.Children.Add(new Label() {
+                                Content = "Health: " + controller.Health,
+                                FontSize = FontSize * 1.5,
+                                HorizontalContentAlignment = HorizontalAlignment.Center,
+                                VerticalContentAlignment = VerticalAlignment.Center
+                            });
+
+                            grid.Children.Add(new Label() {
+                                
+                                Content = "Generations \n without \n evolution: \n " + controller.GenerationsWithoutEvolution,
+                              //  FontSize = FontSize * 1.5,
+                                HorizontalContentAlignment = HorizontalAlignment.Center,
+                                VerticalContentAlignment = VerticalAlignment.Center,
+                                
+                            });
+                            grid.Children.Add(new Label() {
+                                Content = "Name: " + controller.Name,
+                                FontSize = FontSize * 1.5,
+                                HorizontalContentAlignment = HorizontalAlignment.Center,
+                                VerticalContentAlignment = VerticalAlignment.Center
+                            });
+                            grid.Children.Add(new Label() );
+                            grid.Children.Add(new Label() );
 
                             window.Content = grid;
                             window.ShowDialog();

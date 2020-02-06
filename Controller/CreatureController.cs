@@ -45,6 +45,8 @@ namespace Controller
 
         public bool MustEvolve { get; set; } = true;
 
+        public string Name { get; set; }
+
         #endregion
 
 
@@ -372,7 +374,7 @@ namespace Controller
                 }
                 writer.WriteLine(builder.ToString());
 
-
+                writer.WriteLine(Name);
             }
         }
 
@@ -401,7 +403,7 @@ namespace Controller
                 this.LogicBlocks = brain;
                 this.NotUseCurrent = currentindex;
                 this.GenerationsWithoutEvolution = generations;
-                
+                this.Name = reader.ReadLine();
             }
         }
 

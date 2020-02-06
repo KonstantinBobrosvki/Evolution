@@ -59,10 +59,10 @@ namespace Genetic_Algorith_View
                        WorldController controller= WorldController.Load(dialog.SelectedPath);
 
                         //It works .Some bugs from past
-                        controller.CurrentMap =controller.CurrentMap;
+                    controller.CurrentMap =controller.CurrentMap;
                     this.Hide();
                     var WorldScreen = new Windows.World(controller);
-
+                    WorldScreen.Show();
                     
                 }
             }
