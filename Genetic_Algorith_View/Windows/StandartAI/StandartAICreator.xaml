@@ -69,11 +69,19 @@
         </Border>
 
         <Grid x:Name="EntartaimentGrid" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="12*"/>
+                <RowDefinition Height="37*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="217*"/>
-                <ColumnDefinition Width="346*"/>
+                <ColumnDefinition Width="237*"/>
+                <ColumnDefinition Width="228*"/>
+                <ColumnDefinition Width="98*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Label" />
+            <Border BorderThickness="1" BorderBrush="Black" >
+                <TextBox x:Name="NameInputTextBox" ToolTip="Name of the creature" PreviewTextInput="NameInputTextBox_PreviewTextInput"    Text="Name is" TextWrapping="Wrap" />
+            </Border>    
+
         </Grid>
 
     </Grid>

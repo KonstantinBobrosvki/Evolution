@@ -21,7 +21,7 @@ namespace Genetic_Algorith_View.Windows
         //For real time testing
         System.Timers.Timer timer;
         //In ms
-        const double SpeedOfTesting = 1000;
+        const double SpeedOfTesting = 250;
 
         private int[] BrainArray = new int[64];
         SpecialWorldController WorldController;
@@ -88,29 +88,36 @@ namespace Genetic_Algorith_View.Windows
 
             FullReDraw();
 
+            
+
             synchronizationContext = SynchronizationContext.Current;
 
             WindowState = WindowState.Maximized;
             WindowStyle = WindowStyle.None;
-
+            
+          
         }
 
-        public StandartAICreator(CreatureController c) : this()
-        {
-            var temp = c.GetBrain();
-            WorldController.ChangeSubject(temp);
-            for (int i = 0; i < temp.Length; i++)
-            {
-                SetCode(i, temp[i]);
-            }
-        }
+        //public StandartAICreator(CreatureController c) : this()
+        //{
+        //    var temp = c.GetBrain();
+        //    WorldController.ChangeSubject(temp);
+        //    for (int i = 0; i < temp.Length; i++)
+        //    {
+        //        SetCode(i, temp[i]);
+        //    }
+        //}
+
 
         private void RealTimeTesting(object o, object f)
         {
-            synchronizationContext.Post(new SendOrPostCallback(o1 =>
+
+           synchronizationContext.Post(new SendOrPostCallback(o1 =>
             {
                 WorldController.WorldLive(ReDrawMap);
-            }), null);
+                CurrentLiveTimeLabel.Content = WorldController.CurrentTurns;
+                MaxLiveTimeLabel.Content = WorldController.MaxTurns;
+           }), null);
 
 
         } 
@@ -121,7 +128,7 @@ namespace Genetic_Algorith_View.Windows
                         (ThreadStart)delegate ()
                         {
                            EatsAllFoodLabel.Content= WorldController.EatsAllAvinableFood;
-                            FindInfinityLoopsLabel.Content = WorldController.HaveLoops;
+                            FindInfinityLoopsLabel.Content = WorldController.HaveLoops;                          
                         });
         }
 
@@ -319,9 +326,20 @@ namespace Genetic_Algorith_View.Windows
             }
             timer.Enabled = !timer.Enabled;
         }
+  
+        private void NameInputTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            string value = NameInputTextBox.Text;
+            if (String.IsNullOrWhiteSpace(value))
+                value = "Name is";
+            if (value.StartsWith("Name is"))
+                value = "";
+            NameInputTextBox.Text = value;
+
+        }
 
 
-      
+
         /// <summary>
         /// For drawing of arrows for next operation in logic blocks (on poison,food and etc)
         /// </summary>
