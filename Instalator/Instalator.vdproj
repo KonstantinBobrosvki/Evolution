@@ -34,7 +34,7 @@
         "Entry"
         {
         "MsmKey" = "8:_6BBB72B23594813456807B3C49C71D4B"
-        "OwnerKey" = "8:_537E43C6BCBA45249649EA9B9B129A59"
+        "OwnerKey" = "8:_599AA5F55E5BC669EE86BA37A8024C6B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -46,7 +46,7 @@
         "Entry"
         {
         "MsmKey" = "8:_6BBB72B23594813456807B3C49C71D4B"
-        "OwnerKey" = "8:_599AA5F55E5BC669EE86BA37A8024C6B"
+        "OwnerKey" = "8:_537E43C6BCBA45249649EA9B9B129A59"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -76,7 +76,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_599AA5F55E5BC669EE86BA37A8024C6B"
+        "OwnerKey" = "8:_537E43C6BCBA45249649EA9B9B129A59"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,13 +88,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_537E43C6BCBA45249649EA9B9B129A59"
+        "OwnerKey" = "8:_B5642BACE8C3FE7227FF18EA4C204E27"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B5642BACE8C3FE7227FF18EA4C204E27"
+        "OwnerKey" = "8:_599AA5F55E5BC669EE86BA37A8024C6B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -121,6 +121,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -137,6 +153,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -336,7 +360,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Instalator"
         "ProductCode" = "8:{00EA62CF-83AB-4A37-B42C-89C980FD00A2}"
-        "PackageCode" = "8:{DA214CC3-612A-4F29-BDF3-1BBF5C1DD146}"
+        "PackageCode" = "8:{29607A40-0732-452C-BCBC-CA1FA6564C9F}"
         "UpgradeCode" = "8:{D220F49A-4258-47FF-BAF4-92998DF12DA0}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
