@@ -11,6 +11,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Threading.Tasks;
+using System.IO;
+
 namespace Genetic_Algorith_View.Windows
 {
     /// <summary>
@@ -24,7 +26,7 @@ namespace Genetic_Algorith_View.Windows
         const double SpeedOfTesting = 250;
 
         private int[] BrainArray = new int[64];
-        SpecialWorldController WorldController;
+        SpecialWorldController Enviroment;
         const int WidthMap = 30, HeightMap = 30;
 
         private readonly SynchronizationContext synchronizationContext;
@@ -32,6 +34,8 @@ namespace Genetic_Algorith_View.Windows
         public StandartAICreator()
         {
             InitializeComponent();
+
+            this.KeyDown += (o, e) => { if (e.Key == System.Windows.Input.Key.Escape) Exit(); };
 
             for (int i = 0; i < 64; i++)
             {
@@ -56,13 +60,13 @@ namespace Genetic_Algorith_View.Windows
                 image.Tag = i;
             }
             RandomizeBlocks();
-            WorldController = new SpecialWorldController(new CreatureController(BrainArray), new MapController(WidthMap, HeightMap, Guid.NewGuid().GetHashCode()));
+            Enviroment = new SpecialWorldController(new CreatureController(BrainArray), new MapController(WidthMap, HeightMap, Guid.NewGuid().GetHashCode()));
             
-            WorldController.GetType().GetProperty("MinFood").SetValue(WorldController, 20, null);
-            WorldController.GetType().GetProperty("MinPoison").SetValue(WorldController, 20, null);
+            Enviroment.GetType().GetProperty("MinFood").SetValue(Enviroment, 20, null);
+            Enviroment.GetType().GetProperty("MinPoison").SetValue(Enviroment, 20, null);
 
             
-            WorldController.RestartEvent += (o, e) => FullReDraw();
+            Enviroment.RestartEvent += (o, e) => FullReDraw();
            
             LogicBlocksGrid.Columns = 8;
             LogicBlocksGrid.Rows = 9;
@@ -75,7 +79,7 @@ namespace Genetic_Algorith_View.Windows
             timer = new System.Timers.Timer(SpeedOfTesting);
             timer.Elapsed += RealTimeTesting;
 
-            WorldController.SpecialInfoChanged += (o, a) => new Thread(() => ChangeInfos()).Start(); 
+            Enviroment.SpecialInfoChanged += (o, a) => new Thread(() => ChangeInfos()).Start(); 
 
             for (int i = 0; i < WidthMap*HeightMap; i++)
             {
@@ -114,9 +118,9 @@ namespace Genetic_Algorith_View.Windows
 
            synchronizationContext.Post(new SendOrPostCallback(o1 =>
             {
-                WorldController.WorldLive(ReDrawMap);
-                CurrentLiveTimeLabel.Content = WorldController.CurrentTurns;
-                MaxLiveTimeLabel.Content = WorldController.MaxTurns;
+                Enviroment.WorldLive(ReDrawMap);
+                CurrentLiveTimeLabel.Content = Enviroment.CurrentTurns;
+                MaxLiveTimeLabel.Content = Enviroment.MaxTurns;
            }), null);
 
 
@@ -127,8 +131,8 @@ namespace Genetic_Algorith_View.Windows
             this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                         (ThreadStart)delegate ()
                         {
-                           EatsAllFoodLabel.Content= WorldController.EatsAllAvinableFood;
-                            FindInfinityLoopsLabel.Content = WorldController.HaveLoops;                          
+                           EatsAllFoodLabel.Content= Enviroment.EatsAllAvinableFood;
+                            FindInfinityLoopsLabel.Content = Enviroment.HaveLoops;                          
                         });
         }
 
@@ -137,7 +141,7 @@ namespace Genetic_Algorith_View.Windows
           
                             var rect = VisualRealTimeTestingGrid.Children[x + y * WidthMap] as Rectangle;
 
-                            WorldObject element = WorldController.CurrentMap[x, y];
+                            WorldObject element = Enviroment.CurrentMap[x, y];
 
 
 
@@ -290,7 +294,7 @@ namespace Genetic_Algorith_View.Windows
 
             BrainArray[index] = code;
             element.Background = brush;
-            WorldController.ChangeSubject(BrainArray);
+            Enviroment.ChangeSubject(BrainArray);
           
 
         
@@ -335,7 +339,36 @@ namespace Genetic_Algorith_View.Windows
             if (value.StartsWith("Name is"))
                 value = "";
             NameInputTextBox.Text = value;
+            Enviroment.Subject.Name = value;
 
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + @"\Saves"))
+            {
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\Saves");
+            }
+
+            string path = Directory.GetCurrentDirectory() + @"\Saves\" + DateTime.Now.ToString().Replace(':', '-');
+            Directory.CreateDirectory(path);
+            
+
+
+            WorldController.Save(path, Enviroment.ConvertTo());
+
+
+
+
+
+
+
+            MessageBox.Show("The save is in folder ''" + path + "'' .You can rename it if you want ");
         }
 
 
@@ -464,6 +497,26 @@ namespace Genetic_Algorith_View.Windows
                 ar.BringIntoView();
             }
             
+        }
+
+        private void Exit()
+        {
+            
+            var answer = MessageBox.Show("Are you sure?", "Exit Window", MessageBoxButton.YesNo);
+            if (answer == MessageBoxResult.Yes)
+            {
+                var answer2 = MessageBox.Show("Do you want to save?", "Save Window", MessageBoxButton.YesNo);
+
+                if (answer2 == MessageBoxResult.Yes)
+                    SaveButton_Click(null, null);
+                
+                this.Close();
+                App.Current.Shutdown();
+            }
+            else if (answer == MessageBoxResult.No)
+            {
+                MessageBox.Show("Good choice");
+            }
         }
     }
 }

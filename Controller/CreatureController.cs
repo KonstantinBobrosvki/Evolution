@@ -226,7 +226,7 @@ namespace Controller
                     mutatescount--;
                 }
                 c.Current = 0;
-
+                c.Name = "Son of " + Name;
                 result.Add(c);
             }
             return result;
@@ -397,9 +397,12 @@ namespace Controller
                         brain[i] = int.Parse(temp[i].Replace(" ",""));
                     
                 }
-               
-              
+
+                if (Map[int.Parse(xy[0]), int.Parse(xy[1])] is CreatureBody == false)
+                    Map[int.Parse(xy[0]), int.Parse(xy[1])] = new CreatureBody();
                 this.body = Map[int.Parse(xy[0]), int.Parse(xy[1])] as CreatureBody;
+               
+                   
                 this.LogicBlocks = brain;
                 this.NotUseCurrent = currentindex;
                 this.GenerationsWithoutEvolution = generations;

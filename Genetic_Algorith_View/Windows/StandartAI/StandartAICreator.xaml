@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Genetic_Algorith_View.Windows"
         mc:Ignorable="d"
         Title="StandartAICreator" Height="450" Width="800">
-    <Grid x:Name="AllGrid">
+    <Grid x:Name="AllGrid" >
         <Grid.RowDefinitions>
             <RowDefinition Height="321*"/>
             <RowDefinition Height="98*"/>
@@ -70,17 +70,21 @@
 
         <Grid x:Name="EntartaimentGrid" Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="12*"/>
-                <RowDefinition Height="37*"/>
+                <RowDefinition Height="24*"/>
+                <RowDefinition Height="23*"/>
+                <RowDefinition Height="51*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="237*"/>
-                <ColumnDefinition Width="228*"/>
+                <ColumnDefinition Width="217*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="217*"/>
                 <ColumnDefinition Width="98*"/>
             </Grid.ColumnDefinitions>
-            <Border BorderThickness="1" BorderBrush="Black" >
+            <Border BorderThickness="1" BorderBrush="Black" Grid.ColumnSpan="2" >
                 <TextBox x:Name="NameInputTextBox" ToolTip="Name of the creature" PreviewTextInput="NameInputTextBox_PreviewTextInput"    Text="Name is" TextWrapping="Wrap" />
-            </Border>    
+            </Border>
+            <Button x:Name="SaveButton" Click="SaveButton_Click" Content="Save" Grid.Row="2" />
+            <Button x:Name="LoadButton" Click="LoadButton_Click" Content="Load" Grid.Column="2" Grid.Row="2"/>
 
         </Grid>
 

@@ -192,5 +192,32 @@ namespace Controller
             HaveLoops = false;
             Restart();
         }
+
+        public WorldController ConvertTo()
+        {
+            var creatures = new List<CreatureController>(64);
+            creatures.AddRange(Subject.GetChildrens(32, 0));
+            for (int i = 0; i < 32; i++)
+            {
+                creatures.Add(new CreatureController());
+            }
+            HashSet<(int, int)> fuck = new HashSet<(int, int)>();
+            for (int i = 0; i < 64; i++)
+            {
+                var item = creatures[i];
+                var te = StartMap.FreePosition().ToValueTuple();
+                if (!fuck.Contains(te))
+                {
+                    item.Body = new CreatureBody(te.Item1, te.Item2);
+                    fuck.Add(te);
+                    continue;
+                }
+                i--;
+            }
+           
+
+            var result = new WorldController(this.StartMap, creatures);
+            return result;
+        }
     }
 }

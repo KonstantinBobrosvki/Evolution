@@ -154,7 +154,7 @@ namespace Controller
             for (int i = 0; i < worldController.Creatures.Count; i++)
             {
                 var item = worldController.Creatures[i];
-                item.Save(path + "\\creature" + i + ".evol");
+                item.Save(path + "\\creature " + i + item.Name  + ".evol");
             }
 
           
@@ -201,7 +201,7 @@ namespace Controller
 
 
                 var temp = new CreatureController();
-                temp.Load(path + "\\creature" + i + ".evol");
+                temp.Load(creatures_paths[i]);
                 result.Creatures.Add(temp);
             }
 
