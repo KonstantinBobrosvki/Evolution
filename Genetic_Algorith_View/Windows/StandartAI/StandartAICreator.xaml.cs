@@ -499,6 +499,16 @@ namespace Genetic_Algorith_View.Windows
             
         }
 
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+
+           
+
+            var temp = AppDomain.CurrentDomain.BaseDirectory + "Инструкция.docx";
+           System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory+"\\Инструкция.docx");
+
+        }
+
         private void Exit()
         {
             
