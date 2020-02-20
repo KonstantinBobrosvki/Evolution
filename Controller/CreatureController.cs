@@ -296,8 +296,7 @@ namespace Controller
                 throw new ArgumentOutOfRangeException();
 
             int temp =(int) Body.Sight + times;
-            while (temp  >= 8)
-                temp -= 8;
+                temp %= 8;
             Body.Sight = (CreatureBody.SeeDirection)temp;
         }
 
