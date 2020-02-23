@@ -61,17 +61,25 @@ namespace TimeWarp
             workBook = excelApp.Workbooks.Add();
             workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.Worksheets.get_Item(1);
             worldController.RestartEvent += ExcelFunc;
-           
-            for (long i = 0; i <= epochs; i++)
+            long i = 0;
+            worldController.RestartEvent += (t,t1) => i++;
+            new System.Threading.Thread(() =>
             {
-                worldController.WorldLive(null);
-                Console.CursorLeft = 0;
-                Console.Write(i);
+                for (; i <= epochs;)
+                {
+                    worldController.WorldLive(null);
+                    Console.CursorLeft = 0;
+                    Console.Write(i);
 
-               
 
 
-            }
+
+                }
+            }).Start();
+            Console.WriteLine("Enter some-text for stop");
+
+            Console.ReadKey();
+           
             WriteLine();
             WriteLine("Ready");
 

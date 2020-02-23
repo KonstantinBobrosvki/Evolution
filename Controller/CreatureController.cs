@@ -226,7 +226,10 @@ namespace Controller
                     mutatescount--;
                 }
                 c.Current = 0;
-                c.Name = "Son of " + Name;
+                if (!String.IsNullOrWhiteSpace(Name) && !Name.StartsWith("Son of"))
+                {
+                    c.Name = "Son of " + Name;
+                }
                 result.Add(c);
             }
             return result;
