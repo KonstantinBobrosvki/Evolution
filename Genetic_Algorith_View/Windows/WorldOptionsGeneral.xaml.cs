@@ -60,7 +60,7 @@ namespace Genetic_Algorith_View
                     {
                         if (temp < 3)
                         {
-                            MessageBox.Show("Try bigger value");
+                            MessageBox.Show("Пробвай по-голямо число");
                             return;
                         }
                           
@@ -94,7 +94,7 @@ namespace Genetic_Algorith_View
                     {
                         if (temp < 3)
                         {
-                            MessageBox.Show("Try bigger value");
+                            MessageBox.Show("Пробвай по-голямо число");
                             return;
                         }
                     }
@@ -120,7 +120,7 @@ namespace Genetic_Algorith_View
                 if (int.TryParse(me.Text, out int temp))
                     Seed = temp;
                 else
-                    MessageBox.Show("Try other numbers");
+                    MessageBox.Show("Пробвай други числа");
             }
             me.CaretIndex = me.Text.Length;
 
@@ -133,7 +133,7 @@ namespace Genetic_Algorith_View
             var Map = new Controller.MapController(MapWidth, MapHeight, Seed ?? new Random().Next(-100, 100), 0, 0, square / 80);
             if (square< 64)
             {
-                MessageBox.Show("Area of the world is too small. Try bigger numbers.");
+                MessageBox.Show("Полщта е твърде малка.Пробвайте по-големи числа.");
                
                 return;
 
@@ -145,7 +145,7 @@ namespace Genetic_Algorith_View
             }
             catch(ArgumentException)
             {
-                MessageBox.Show("Try bigger numbers");
+                MessageBox.Show("Пробвай по-голямо число");
                 return;
             }
 

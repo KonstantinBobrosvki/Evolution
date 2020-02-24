@@ -131,8 +131,8 @@ namespace Genetic_Algorith_View.Windows
             this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                         (ThreadStart)delegate ()
                         {
-                           EatsAllFoodLabel.Content= Enviroment.EatsAllAvinableFood;
-                            FindInfinityLoopsLabel.Content = Enviroment.HaveLoops;                          
+                           EatsAllFoodLabel.Content= Enviroment.EatsAllAvinableFood ? "ДА" : "НЕ";
+                            FindInfinityLoopsLabel.Content = Enviroment.HaveLoops ? "ДА" : "НЕ";                          
                         });
         }
 
@@ -320,13 +320,13 @@ namespace Genetic_Algorith_View.Windows
             if (timer.Enabled)
             {
                 rect.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-                CheckBoxStateLabel.Content = "OFF";
+                CheckBoxStateLabel.Content = "Изключено";
 
             }
             else
             {
                 rect.Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0));
-                CheckBoxStateLabel.Content = "ON";
+                CheckBoxStateLabel.Content = "Включено";
             }
             timer.Enabled = !timer.Enabled;
         }
@@ -334,9 +334,9 @@ namespace Genetic_Algorith_View.Windows
         private void NameInputTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             string value = NameInputTextBox.Text;
-            if (String.IsNullOrWhiteSpace(value))
-                value = "Name is";
-            if (value.StartsWith("Name is"))
+            if (String.IsNullOrWhiteSpace(NameInputTextBox.Text))
+                value = "Името е";
+            if (NameInputTextBox.Text.StartsWith("Името е"))
                 value = "";
             NameInputTextBox.Text = value;
             Enviroment.Subject.Name = value;
@@ -368,7 +368,7 @@ namespace Genetic_Algorith_View.Windows
 
 
 
-            MessageBox.Show("The save is in folder ''" + path + "'' .You can rename it if you want ");
+            MessageBox.Show("Запазено в  ''" + path + "'' .");
         }
 
 
@@ -382,8 +382,54 @@ namespace Genetic_Algorith_View.Windows
 
             index++;
             if (index >= 64)
+                index -= 64; 
+
+            var el = LogicBlocksGrid.Children[index++] as Grid;
+            {
+                //For empty
+
+                var ar = new ArrowLine();
+                ar.Stroke = Brushes.AntiqueWhite;
+                ar.StrokeThickness = 20;
+
+                ar.X1 = el.PointToScreen(new Point(0, 0)).X + el.ActualWidth / 2 - 20;
+                ar.Y1 = el.PointToScreen(new Point(0, 0)).Y + 70 + el.ActualHeight;
+
+                ar.Y2 = ar.Y1 - 40;
+
+
+                ar.X2 = ar.X1;
+
+
+
+                AllGrid.Children.Add(ar);
+                ar.BringIntoView();
+            }
+
+            if (index >= 64)
                 index -= 64;
-            var el= LogicBlocksGrid.Children[index++] as Grid;       
+            el = LogicBlocksGrid.Children[index++] as Grid;
+            {
+                //For creature
+                var ar = new ArrowLine();
+                ar.Stroke = Brushes.Blue;
+                ar.StrokeThickness = 20;
+
+                ar.X1 = el.PointToScreen(new Point(0, 0)).X + el.ActualWidth / 2 - 20;
+                ar.Y1 = el.PointToScreen(new Point(0, 0)).Y + 70 + el.ActualHeight;
+
+                ar.Y2 = ar.Y1 - 40;
+
+
+                ar.X2 = ar.X1;
+
+
+
+                AllGrid.Children.Add(ar);
+                ar.BringIntoView();
+            }
+            if (index >= 64)
+                index -= 64;
             {
                 //For food
                 var ar = new ArrowLine();
@@ -427,51 +473,9 @@ namespace Genetic_Algorith_View.Windows
                 AllGrid.Children.Add(ar);
                 ar.BringIntoView();
             }
-            if (index >= 64)
-                index -= 64;
-            el = LogicBlocksGrid.Children[index++] as Grid;
-            {
-                //For creature
-                var ar = new ArrowLine();
-                ar.Stroke = Brushes.Blue;
-                ar.StrokeThickness = 20;
-
-                ar.X1 = el.PointToScreen(new Point(0, 0)).X + el.ActualWidth / 2 - 20;
-                ar.Y1 = el.PointToScreen(new Point(0, 0)).Y + 70 + el.ActualHeight;
-
-                ar.Y2 = ar.Y1 - 40;
-
-
-                ar.X2 = ar.X1;
-
-
-
-                AllGrid.Children.Add(ar);
-                ar.BringIntoView();
-            }
-            if (index >= 64)
-                index -= 64;
-            el = LogicBlocksGrid.Children[index++] as Grid;
-            {
-                //For empty
-
-                var ar = new ArrowLine();
-                ar.Stroke = Brushes.AntiqueWhite;
-                ar.StrokeThickness = 20;
-
-                ar.X1 = el.PointToScreen(new Point(0, 0)).X + el.ActualWidth / 2 - 20;
-                ar.Y1 = el.PointToScreen(new Point(0, 0)).Y + 70 + el.ActualHeight;
-
-                ar.Y2 = ar.Y1 - 40;
-
-
-                ar.X2 = ar.X1;
-
-
-
-                AllGrid.Children.Add(ar);
-                ar.BringIntoView();
-            }
+            
+           
+            
             if (index >= 64)
                 index -= 64;
             el = LogicBlocksGrid.Children[index++] as Grid;
@@ -512,10 +516,10 @@ namespace Genetic_Algorith_View.Windows
         private void Exit()
         {
             
-            var answer = MessageBox.Show("Are you sure?", "Exit Window", MessageBoxButton.YesNo);
+            var answer = MessageBox.Show("Сигурни ли сте?", "Изход", MessageBoxButton.YesNo);
             if (answer == MessageBoxResult.Yes)
             {
-                var answer2 = MessageBox.Show("Do you want to save?", "Save Window", MessageBoxButton.YesNo);
+                var answer2 = MessageBox.Show("Да се запази ли?", "Запазване", MessageBoxButton.YesNo);
 
                 if (answer2 == MessageBoxResult.Yes)
                     SaveButton_Click(null, null);
@@ -525,7 +529,7 @@ namespace Genetic_Algorith_View.Windows
             }
             else if (answer == MessageBoxResult.No)
             {
-                MessageBox.Show("Good choice");
+                MessageBox.Show("Добър избор.");
             }
         }
     }

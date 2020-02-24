@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="599*"/>
             </Grid.ColumnDefinitions>
             <TextBox x:Name="WidthInput" Grid.Column="1" FontSize="60"  TextWrapping="Wrap"  Grid.Row="1"/>
-            <Label Content="Width" VerticalContentAlignment="Center" FontSize="60" Grid.Row="0" Grid.RowSpan="3"/>
+            <Label Content="Широчина" VerticalContentAlignment="Center" FontSize="60" Grid.Row="0" Grid.RowSpan="3"/>
 
         </Grid>
 
@@ -43,7 +43,7 @@
                 <ColumnDefinition Width="599*"/>
             </Grid.ColumnDefinitions>
             <TextBox x:Name="HeightInput" Grid.Column="1" FontSize="60"  TextWrapping="Wrap"  Grid.Row="1"/>
-            <Label Content="Height" VerticalContentAlignment="Center" FontSize="60" Grid.Row="0" Grid.RowSpan="3"/>
+            <Label Content="Височина" VerticalContentAlignment="Center" FontSize="60" Grid.Row="0" Grid.RowSpan="3"/>
 
         </Grid>
 
@@ -59,11 +59,11 @@
                 <ColumnDefinition Width="599*"/>
             </Grid.ColumnDefinitions>
             <TextBox x:Name="SeedInput" Grid.Column="1" FontSize="60"  TextWrapping="Wrap"  Grid.Row="1"
-                     ToolTip="Special number for randomazing.Do not change it for random result/"/>
+                     ToolTip="Специално число за случаен резултат/"/>
 
 
 
-            <Label Content="Seed" VerticalContentAlignment="Center" FontSize="60" Grid.Row="0" Grid.RowSpan="3"/>
+            <Label Content="Семе" VerticalContentAlignment="Center" FontSize="60" Grid.Row="0" Grid.RowSpan="3"/>
 
         </Grid>
 
@@ -74,7 +74,7 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="Start"  FontSize="40" Background="LawnGreen"  Click="NewWorld_Click" Grid.Column="1" />
+            <Button Content="Започни"  FontSize="40" Background="LawnGreen"  Click="NewWorld_Click" Grid.Column="1" />
         </Grid>
 
 

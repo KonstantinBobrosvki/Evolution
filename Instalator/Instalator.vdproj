@@ -4,9 +4,9 @@
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
 "ProjectName" = "8:Instalator"
-"LanguageId" = "3:1049"
-"CodePage" = "3:1251"
-"UILanguageId" = "3:1049"
+"LanguageId" = "3:0"
+"CodePage" = "3:1252"
+"UILanguageId" = "3:0"
 "SccProjectName" = "8:"
 "SccLocalPath" = "8:"
 "SccAuxPath" = "8:"
@@ -15,7 +15,19 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_51E6E6EB2F00417E84F4D81607AC5852"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_537E43C6BCBA45249649EA9B9B129A59"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_543C5051627840DFBBFFB759BD8699B2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -75,7 +87,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CCD6587ED42E46F79E57357CE76FB6DF"
+        "MsmKey" = "8:_C6CA045B910444868B165F1A49016C40"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -83,6 +95,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_537E43C6BCBA45249649EA9B9B129A59"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C6CA045B910444868B165F1A49016C40"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -204,6 +222,46 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_51E6E6EB2F00417E84F4D81607AC5852"
+            {
+            "SourcePath" = "8:C:\\Users\\USER\\Desktop\\Инструкция-БГ.docx"
+            "TargetName" = "8:Инструкция.docx"
+            "Tag" = "8:"
+            "Folder" = "8:_3B3DF8260CA44D2E816108ABA6F7333B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_543C5051627840DFBBFFB759BD8699B2"
+            {
+            "SourcePath" = "8:C:\\Users\\USER\\Desktop\\Инструкция-БГ.docx"
+            "TargetName" = "8:Инструкция-БГ.docx"
+            "Tag" = "8:"
+            "Folder" = "8:_3B3DF8260CA44D2E816108ABA6F7333B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_599AA5F55E5BC669EE86BA37A8024C6B"
             {
             "AssemblyRegister" = "3:1"
@@ -317,10 +375,21 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CCD6587ED42E46F79E57357CE76FB6DF"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C6CA045B910444868B165F1A49016C40"
             {
-            "SourcePath" = "8:C:\\Users\\USER\\Desktop\\Инструкция.docx"
-            "TargetName" = "8:Инструкция.docx"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Open file, Version=1.0.7359.42269, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_C6CA045B910444868B165F1A49016C40"
+                    {
+                    "Name" = "8:Open file.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\..\\VERY TEMPO\\Open file\\bin\\Debug\\Open file.exe"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3B3DF8260CA44D2E816108ABA6F7333B"
             "Condition" = "8:"
@@ -386,7 +455,7 @@
         }
         "MsiBootstrapper"
         {
-        "LangId" = "3:1049"
+        "LangId" = "3:0"
         "RequiresElevation" = "11:FALSE"
         }
         "Product"
@@ -394,7 +463,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Instalator"
         "ProductCode" = "8:{00EA62CF-83AB-4A37-B42C-89C980FD00A2}"
-        "PackageCode" = "8:{29607A40-0732-452C-BCBC-CA1FA6564C9F}"
+        "PackageCode" = "8:{92609565-B9D8-431D-8C16-69B6A16C2425}"
         "UpgradeCode" = "8:{D220F49A-4258-47FF-BAF4-92998DF12DA0}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -929,7 +998,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_537E43C6BCBA45249649EA9B9B129A59"
             {
-            "SourcePath" = "8:..\\TimeWarp\\obj\\Release\\TimeWarp.exe"
+            "SourcePath" = "8:..\\TimeWarp\\obj\\Debug\\TimeWarp.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3B3DF8260CA44D2E816108ABA6F7333B"
@@ -957,7 +1026,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_AA0EB5AB580740469CF9F6A4FE3D12BF"
             {
-            "SourcePath" = "8:..\\Genetic_Algorith_View\\obj\\Release\\Genetic_Algorith_View.exe"
+            "SourcePath" = "8:..\\Genetic_Algorith_View\\obj\\Debug\\Genetic_Algorith_View.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3B3DF8260CA44D2E816108ABA6F7333B"

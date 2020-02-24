@@ -51,24 +51,24 @@
             <Image Source="pack://application:,,,/Resources/StandartAI/Rotate5.png" Tag="29"></Image>
             <Image Source="pack://application:,,,/Resources/StandartAI/Rotate6.png" Tag="30"></Image>
             <Image Source="pack://application:,,,/Resources/StandartAI/Rotate7.png" Tag="31"></Image>
-       
+
         </UniformGrid>
         <Image Source="/Resources/ComingSoon.png" Grid.Column="1" Grid.Row="1"/>
-        <Button Content="Choose" Click="Standart_Choose_Click" Background="Green" Margin="10,0" Grid.Row="3"/>
-        <Label Content="Standart" VerticalAlignment="Center" HorizontalAlignment="Center" Height="26" Margin="171,10,171,14" Width="54" />
-        <Label Content="Pseudo code" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Height="26" Margin="159,10,159,14" Width="78"/>
-        <Button Content="COMING SOON" Background="Red" Margin="10,0" Grid.Row="3" Grid.Column="1"/>
+        <Button Content="Избери" Click="Standart_Choose_Click" Background="Green" Margin="10,0" Grid.Row="3"/>
+        <Label Content="Обикновен" Margin="155,10,161,14" />
+        <Label Content="Псевдо код" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Height="26" Margin="159,10,159,14" Width="78"/>
+        <Button Content="Очаквайте скоро" Background="Red" Margin="10,0" Grid.Row="3" Grid.Column="1"/>
         <Label 
                
                VerticalContentAlignment="Center"
                Grid.Row="2">
             <Label.FontSize>16</Label.FontSize>
             <Label.Content>
-                
-                <AccessText TextWrapping="Wrap" Text="This is standart way to control creature.It is easy to learn.Here you have images to visualize the process. Recommended for beginners and childrens"/>
+
+                <AccessText TextWrapping="Wrap" Text="Това е стандартен начин за управление на съществото. Лесно за разбиране . Тук имате изображения, които да визуализират процеса. Препоръчва се за начинаещи и деца"/>
             </Label.Content>
         </Label>
-        
+
         <Label 
                
                VerticalContentAlignment="Center"
@@ -78,7 +78,7 @@
             <Label.FontSize>16</Label.FontSize>
             <Label.Content>
 
-                <AccessText TextWrapping="Wrap" Text="This is special program languange. Coming soon :)
+                <AccessText TextWrapping="Wrap" Text="Специален програмен език. Очаквайте скоро :)
                             "/>
             </Label.Content>
         </Label>

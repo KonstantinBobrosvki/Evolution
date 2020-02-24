@@ -49,8 +49,8 @@
                 <ColumnDefinition Width="250*"/>
                 <ColumnDefinition Width="277*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="NewAIButton"  Content="Create your own AI" Click="NewAIButton_Click" Grid.Column="1" Grid.Row="3"/>
-            <Button x:Name="EnviromentButton" Click="EnviromentButton_Click" Content="Enivroments" Grid.Column="1" Grid.Row="1" />
+            <Button x:Name="NewAIButton"  Content="Създай свой ИИ" Click="NewAIButton_Click" Grid.Column="1" Grid.Row="3"/>
+            <Button x:Name="EnviromentButton" Click="EnviromentButton_Click" Content="Светове" Grid.Column="1" Grid.Row="1" />
         </Grid>
 
     </Grid>

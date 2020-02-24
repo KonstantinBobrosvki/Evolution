@@ -66,15 +66,15 @@ namespace Genetic_Algorith_View.Windows
 
             for (int i = 0; i <8; i++)
             {
-                Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 3, 3, 0.5), ToolTip = "Health of creature in moment of creating childs", FontSize = 20 });
+                Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 3, 3, 0.5), ToolTip = "Количество здраве в момента на създаване на потомство", FontSize = 20 });
             }
             for (int i = 0; i < 8; i++)
             {
-                Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 0.5, 3, 3), ToolTip = "Generations without evolution of creature", FontSize = 20 });
+                Best8.Children.Add(new Label() { BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)), BorderThickness = new Thickness(3, 0.5, 3, 3), ToolTip = "Поколения без еволюция", FontSize = 20 });
             }
 
             
-            LiveCreaturesCountLabel.Content = "Live creatures count: " + Creatures.Count;
+            LiveCreaturesCountLabel.Content = "Количесвто живи същества: " + Creatures.Count;
 
             PosionOnMapLabel.Content = Map.PoisonOnMap;
 
@@ -116,15 +116,15 @@ namespace Genetic_Algorith_View.Windows
                         var x1 = one - y1 * width;
 
                         if (Map[x1, y1] is null)
-                            MessageBox.Show("Free");
+                            MessageBox.Show("Празно");
                         else if (Map[x1, y1] is CreatureBody)
                         {
-                           
+
                             Timer.Stop();
                             var window = new Window();
                             System.Windows.Controls.Primitives.UniformGrid grid = new System.Windows.Controls.Primitives.UniformGrid();
                             grid.Rows = 9;
-                            grid.Columns = 8 ;
+                            grid.Columns = 8;
 
                             Brush brush = new ImageBrush();
                             var controller = Creatures.Where((c) => c.Body.Equals(Map[x1, y1])).First();
@@ -135,7 +135,7 @@ namespace Genetic_Algorith_View.Windows
                             {
                                 var code = BrainArray[i];
                                 grid.Children.Add(new Grid());
-                                var uiel =grid.Children[i] as Grid;     
+                                var uiel = grid.Children[i] as Grid;
                                 if (code < 8)
                                 {
                                     brush = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/StandartAI/Rotate" + code + ".png")));
@@ -165,27 +165,27 @@ namespace Genetic_Algorith_View.Windows
                                         FontSize = FontSize * 1.5
                                     });
                                 }
-                                
+
                                 uiel.Background = brush;
-                               
+
                             }
                             grid.Children.Add(new Label());
-                            
+
                             grid.Children.Add(new Label());
                             grid.Children.Add(new Label() {
-                                Content = "Health: " + controller.Health,
+                                Content = "Здраве: " + controller.Health,
                                 FontSize = FontSize * 1.5,
                                 HorizontalContentAlignment = HorizontalAlignment.Center,
                                 VerticalContentAlignment = VerticalAlignment.Center
                             });
 
                             grid.Children.Add(new Label() {
-                                
+
                                 Content = "Generations \n without \n evolution: \n " + controller.GenerationsWithoutEvolution,
-                              //  FontSize = FontSize * 1.5,
+                                //  FontSize = FontSize * 1.5,
                                 HorizontalContentAlignment = HorizontalAlignment.Center,
                                 VerticalContentAlignment = VerticalAlignment.Center,
-                                
+
                             });
                             grid.Children.Add(new Label() {
                                 Content = "Name: " + controller.Name,
@@ -193,19 +193,28 @@ namespace Genetic_Algorith_View.Windows
                                 HorizontalContentAlignment = HorizontalAlignment.Center,
                                 VerticalContentAlignment = VerticalAlignment.Center
                             });
-                            grid.Children.Add(new Label() );
-                            grid.Children.Add(new Label() );
+                            grid.Children.Add(new Label());
+                            grid.Children.Add(new Label());
 
                             window.Content = grid;
                             window.ShowDialog();
 
 
 
-                            
+
 
                         }
-                        else
-                            MessageBox.Show(Map[x1, y1].GetType().ToString().Split('.')[1]);
+                        else if (Map[x1, y1] is Food)
+                            MessageBox.Show("Храна");
+                        else if (Map[x1, y1] is Poison)
+                            MessageBox.Show("Отрова");
+                        else if (Map[x1, y1] is Wall)
+                            MessageBox.Show("Стена");
+                        else if (Map[x1, y1] is CreatureBody)
+                            MessageBox.Show("Друго животно");
+
+
+                        //MessageBox.Show(Map[x1, y1].GetType().ToString().Split('.')[1]);
 
                     };
 
@@ -288,11 +297,11 @@ namespace Genetic_Algorith_View.Windows
 
         private void WorldInfoUpdate()
         {
-            CurrentLive.Content = "Current turns: "+ WorldController.CurrentTurns;
-            MaxLive.Content = "Max turns: "+ WorldController.MaxTurns;
-            LiveCreaturesCountLabel.Content ="Live creatures: "+ WorldController.Creatures.Count;
-            Genretaions.Content = "Generations Count: " +WorldController.GenerationsCount;
-            AvarangeLiveLabel.Content = "Avarange turns: "+ WorldController.AvarangeTurns;
+            CurrentLive.Content = "Текущо оцеляно време : " + WorldController.CurrentTurns;
+            MaxLive.Content = "Максимално количесвто оцеляно време : " + WorldController.MaxTurns;
+            LiveCreaturesCountLabel.Content = "Количесвто живи същества: " + WorldController.Creatures.Count;
+            Genretaions.Content = "Количество поколения " + WorldController.GenerationsCount;
+            AvarangeLiveLabel.Content = "Средно време: " + WorldController.AvarangeTurns;
             FoodOnMapLabel.Content = Map.FoodOnMap;
             PosionOnMapLabel.Content = Map.PoisonOnMap;
         }
@@ -307,7 +316,7 @@ namespace Genetic_Algorith_View.Windows
 
             WorldController.WorldLive(ReDraw);
             
-            ElapsedTimeLabel.Content = "Elapsed real time: " + (DateTime.Now - StartTime).ToString();
+            ElapsedTimeLabel.Content = "Изминало реално време: " + (DateTime.Now - StartTime).ToString();
             WorldInfoUpdate();
 
         }
@@ -326,12 +335,12 @@ namespace Genetic_Algorith_View.Windows
             Timer.IsEnabled = !Timer.IsEnabled;
             if (Timer.IsEnabled)
             {
-                TimerButton.Content = "Stop";
+                TimerButton.Content = "Стоп";
               
             }
             else
             {
-                TimerButton.Content = "Start";
+                TimerButton.Content = "Започни";
 
             }
 
@@ -341,7 +350,7 @@ namespace Genetic_Algorith_View.Windows
         {
             if (!int.TryParse(TimerInput.Text, out int c))
             {
-                MessageBox.Show("This field contains only numbers");
+                MessageBox.Show("Тука се въвеждат само числа");
                 if(TimerInput.Text.Length>1)
                 TimerInput.Text.Remove(TimerInput.Text.Length - 1);
                 return;
@@ -361,7 +370,7 @@ namespace Genetic_Algorith_View.Windows
             catch (NullReferenceException)
             {
 
-                MessageBox.Show("Not enough space");
+                MessageBox.Show("Няма място");
             }
             FoodOnMapLabel.Content = Map.FoodOnMap;
         }
@@ -377,7 +386,7 @@ namespace Genetic_Algorith_View.Windows
             catch (NullReferenceException)
             {
 
-                MessageBox.Show("Not enough space");
+                MessageBox.Show("Няма място");
             }
            PosionOnMapLabel.Content= Map.PoisonOnMap;
         }
@@ -406,7 +415,7 @@ namespace Genetic_Algorith_View.Windows
 
 
              
-                MessageBox.Show("The save is in folder ''"+path+"'' .You can rename it if you want ");
+                MessageBox.Show("Съхранението е в ''"+path+"'' .Може да го преименуват ,ако искате. ");
 
 
               
@@ -417,10 +426,10 @@ namespace Genetic_Algorith_View.Windows
         private void Exit()
         {
             Timer.Stop();
-           var answer= MessageBox.Show("Are you sure?", "Exit Window", MessageBoxButton.YesNo);
+           var answer= MessageBox.Show("Сигурни ли сте?", "Изход", MessageBoxButton.YesNo);
             if(answer==MessageBoxResult.Yes)
             {
-                var answer2 =  MessageBox.Show("Do you want to save?", "Save Window", MessageBoxButton.YesNo);
+                var answer2 =  MessageBox.Show("Искате ли да запазите?", "Запазване", MessageBoxButton.YesNo);
 
                 if (answer2 == MessageBoxResult.Yes)
                     SaveButton_Click(null, null);
@@ -432,7 +441,7 @@ namespace Genetic_Algorith_View.Windows
             }
             else if(answer==MessageBoxResult.No)
             {
-                MessageBox.Show("Good choice");
+                MessageBox.Show("Добър избор :) ");
             }
         }
 

@@ -35,17 +35,17 @@
                 <RowDefinition Height="24*"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="NextMoveButton"  Content="Next Move" Click="NextMoveButton_Click" Grid.Row="6" />
+            <Button x:Name="NextMoveButton"  Content="Следващ ход" Click="NextMoveButton_Click" Grid.Row="6" />
 
-            <Button x:Name="TimerButton" Content="Start" ToolTip="Start or stop automatic clicking of Next Move" Click="TimerButton_Click"   Grid.Row="4"/>
+            <Button x:Name="TimerButton" Content="Започни" ToolTip="Започва или спира натискането на &quot;следващ ход &quot; " Click="TimerButton_Click"   Grid.Row="4"/>
 
-            <TextBox x:Name="TimerInput" ToolTip="Time for automatic clicking of Next Move in MS " TextChanged="TimerInput_TextChanged"  TextWrapping="Wrap"  Grid.Row="3"/>
+            <TextBox x:Name="TimerInput" ToolTip="Време между натискането на &quot;следващ ход &quot; " TextChanged="TimerInput_TextChanged"  TextWrapping="Wrap"  Grid.Row="3"/>
 
             <UniformGrid Columns="2" Rows="2" Grid.Row="1">
-                <Label x:Name="FoodOnMapLabel"  Content="Food on map" AllowDrop="True" ToolTip="Food on map" ></Label>
-                <Button x:Name="AddFoodButton" Background="LightGreen" FontSize="40" Content="+" ToolTip="Add Food" Click="AddFoodButton_Click"></Button>
-                <Label x:Name="PosionOnMapLabel" ToolTip="Poison on map" Content="Poison on map" ></Label>
-                <Button x:Name="PosionFoodButton" Background="Red" FontSize="40"  ToolTip="Add Poison" Click="PosionFoodButton_Click" Content="+"></Button>
+                <Label x:Name="FoodOnMapLabel"  Content="Храна на полето" AllowDrop="True" ToolTip="Food on map" ></Label>
+                <Button x:Name="AddFoodButton" Background="LightGreen" FontSize="40" Content="+" ToolTip="Добави храна" Click="AddFoodButton_Click"></Button>
+                <Label x:Name="PosionOnMapLabel" ToolTip="Отрова на полето" Content="Отрова на полето" ></Label>
+                <Button x:Name="PosionFoodButton" Background="Red" FontSize="40"  ToolTip="Добави отрова" Click="PosionFoodButton_Click" Content="+"></Button>
             </UniformGrid>
 
         </Grid>
@@ -64,9 +64,9 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Label x:Name="MaxLive" Content="Max turns  time" BorderThickness="4" BorderBrush="Black" Grid.Row="1"/>
-                <Label x:Name="CurrentLive"  Content="Current turns " BorderThickness="4" BorderBrush="Black"/>
-                <Label x:Name="Genretaions" Content="Generations Count"  BorderThickness="4" BorderBrush="Black" Grid.Row="2"/>
+                <Label x:Name="MaxLive" Content="Максимално количесвто оцеляно време " BorderThickness="4" BorderBrush="Black" Grid.Row="1"/>
+                <Label x:Name="CurrentLive"  Content="Текущо време " BorderThickness="4" BorderBrush="Black"/>
+                <Label x:Name="Genretaions" Content="Количество поколения "  BorderThickness="4" BorderBrush="Black" Grid.Row="2"/>
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -75,12 +75,12 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <Label x:Name="ElapsedTimeLabel" Content="Elapsed real time" ToolTip="Elapsed real time including pauses." BorderThickness="4" BorderBrush="Black" Grid.Row="1"/>
-                <Label x:Name="AvarangeLiveLabel"  Content="Avarange turns" BorderThickness="4" BorderBrush="Black"/>
-                <Label x:Name="LiveCreaturesCountLabel" Content="Live creatures count"  BorderThickness="4" BorderBrush="Black" Grid.Row="2"/>
+                <Label x:Name="ElapsedTimeLabel" Content="Изминало реално време " ToolTip="Elapsed real time including pauses." BorderThickness="4" BorderBrush="Black" Grid.Row="1"/>
+                <Label x:Name="AvarangeLiveLabel"  Content="Средно ходове " BorderThickness="4" BorderBrush="Black"/>
+                <Label x:Name="LiveCreaturesCountLabel" Content="Количесвто живи същества "  BorderThickness="4" BorderBrush="Black" Grid.Row="2"/>
 
             </Grid>
-            <UniformGrid x:Name="Best8" Grid.Column="3" Columns="8" Rows="2" ToolTip="Information about best 8 creatures from previous generation">
+            <UniformGrid x:Name="Best8" Grid.Column="3" Columns="8" Rows="2" ToolTip="Информация за най-добрите 8 животни от минало поколение">
                
 
             </UniformGrid>

@@ -68,18 +68,12 @@ namespace Genetic_Algorith_View
             }
             catch (FileNotFoundException ex)
             {
-                MessageBox.Show("File "+ex.FileName +" not found.Maybe you deleted it");
+                MessageBox.Show("Файл "+ex.FileName +" не е намерен.");
                 return;
-            }
-            catch(System.Runtime.Serialization.SerializationException)
-            {
-                MessageBox.Show("Some files were changed.You musn't do it.");
-                return;
-
-            }
+            }          
             catch (Exception ex)
             {
-                MessageBox.Show("This is strange error");
+                MessageBox.Show("Това е странна грешка");
                 MessageBox.Show(ex.Message);
              
                 return;
@@ -91,7 +85,7 @@ namespace Genetic_Algorith_View
 
         private void EnviromentButton_Click(object sender, RoutedEventArgs e)
         {
-           var choise= MessageBox.Show("Do you want to create new world? \n (Yes for new/No for load)", "Eviroment", MessageBoxButton.YesNo);
+           var choise= MessageBox.Show("Искате ли да създадете нов свят? \n (Да за нов/Не за зареждане)", "Светове", MessageBoxButton.YesNo);
 
             if (choise == MessageBoxResult.Yes)
                 NewWorld();  
@@ -113,7 +107,7 @@ namespace Genetic_Algorith_View
         {
             if(e.Key==System.Windows.Input.Key.Escape)
             {
-                var result = MessageBox.Show("Are you sure?", "Exit", MessageBoxButton.YesNo);
+                var result = MessageBox.Show("Сигурни ли сте?", "Изход", MessageBoxButton.YesNo);
                 if(result==MessageBoxResult.Yes)
                 {
                     this.Close();
