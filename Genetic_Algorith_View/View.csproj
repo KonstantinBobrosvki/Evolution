@@ -154,6 +154,7 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\ComingSoon.png" />
     <Resource Include="Resources\StandartAI\Rotate0.png" />
     <Resource Include="Resources\StandartAI\Catch0.png" />
     <Resource Include="Resources\StandartAI\Catch1.png" />
