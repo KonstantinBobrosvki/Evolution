@@ -509,7 +509,7 @@ namespace Genetic_Algorith_View.Windows
            
 
             var temp = AppDomain.CurrentDomain.BaseDirectory + "Инструкция.docx";
-           System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory+"\\Инструкция.docx");
+           System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory+ "\\Instruct.docx");
 
         }
 
