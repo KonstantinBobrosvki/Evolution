@@ -117,6 +117,10 @@ namespace Genetic_Algorith_View
 
                 }
             }
+            else if(e.Key==System.Windows.Input.Key.H)
+            {
+                System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + "\\Инструкция.docx");
+            }
         }
     }
 }
